@@ -285,7 +285,7 @@ h1,h2,h3{font-family:var(--display)}
       <details>
         <summary>Les tables</summary>
         <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, dans ta rue) et JY’S à Colmar (samedi soir, deux étoiles, dans ton hôtel). Le déjeuner de vendredi se fait à Sélestat. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
-        <p>Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
+        <p>Chaque soir a une alternative nettement moins chère (€€), au cas où : le Winstub du Manoir à Barr (jeudi), Au Tire Bouchon à Riquewihr (vendredi) et le Winstub au Cygne à Colmar (samedi). Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
       </details>
       <details>
         <summary>Hébergement</summary>
@@ -397,11 +397,11 @@ var STOPS = [
   hours:["Fermé","Fermé","19h15–22h30","19h15–22h30","12h–14h30 · 19h15–22h30","12h–14h30 · 19h15–22h30","12h–14h30"],
   story:"Cuisine régionale et créative, très végétale selon les avis, avec des vins nature et un accord sans alcool inventif. Les avis saluent le cadre, le service et les détails.",
   tip:"Le jeudi, service du soir seulement (19 h 15 à 22 h 30). Un peu à l’écart du centre de Barr (chemin du Château d’Andlau) : à faire à vélo. Réserve dès maintenant."},
- {id:"tablecinq",type:"table",day:1,name:"La Table du 5",place:"Place de l’Hôtel de Ville, Barr",village:"Barr",ll:[48.4090,7.4500],mll:[48.4094,7.4508],rating:4.5,reviews:202,price:"€€€€",book:true,
-  phone:"+33 3 90 57 10 10",tags:["Plan B du jeudi"],
-  hours:["Fermé","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","19h–21h","Fermé"],
-  story:"Table gastronomique sur la place de l’Hôtel de Ville, en plein centre de Barr. Les avis sont partagés, certains très enthousiastes sur la cuisine et le service, d’autres moins.",
-  tip:"À garder en plan B si ENFIN est complet. Ouvert le jeudi à midi et le soir."},
+ {id:"manoir",type:"table",day:1,name:"Winstub du Manoir",place:"6 rue Saint-Marc, Barr",village:"Barr",ll:[48.4065541,7.4491834],rating:4.5,reviews:638,price:"€€",book:true,
+  phone:"+33 3 88 08 07 36",tags:["Alternative moins chère","Winstub","Tartes flambées"],
+  hours:["12h–13h30 · 19h–21h","12h–13h","Fermé","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","19h–21h","12h–13h30 · 19h–21h"],
+  story:"Winstub du vieux Barr, tenue par une toute petite équipe selon un avis. Les avis vantent une cuisine locale soignée, des tartes flambées à la pâte maison et des vins du village à prix doux.",
+  tip:"L’alternative du jeudi, nettement moins chère qu’ENFIN. Service de 19 h à 21 h : un avis note une certaine lenteur quand la salle est pleine, donc réserve."},
 
  /* Vendredi 30 */
  {id:"seltz",type:"domaine",day:2,name:"Domaine Albert Seltz",place:"Mittelbergheim",ll:[48.395573,7.443666],rating:5.0,reviews:456,
@@ -465,11 +465,11 @@ var STOPS = [
   hours:["18h45–20h30","18h45–20h30","18h45–20h30","Fermé","18h45–20h45","12h–13h30 · 18h45–20h45","12h–13h30 · 18h45–20h30"],
   story:"Restaurant semi-gastronomique et hôtel de sept chambres, repris par une jeune équipe après plusieurs années de fermeture selon un avis. Carte de saison avec des producteurs locaux et de bons conseils sur les vins d’Alsace.",
   tip:"À deux numéros de ton gîte (4 rue du Cerf contre le 2) : dîner en quelques pas après la journée. Service jusqu’à 20 h 45 le vendredi."},
- {id:"tablegourmet",type:"table",day:2,name:"La Table du Gourmet",place:"5 rue de la 1re Armée, Riquewihr",village:"Riquewihr",ll:[48.1663,7.2973],mll:[48.1659,7.2980],rating:4.5,reviews:473,price:"€€€€",book:true,
-  phone:"+33 3 89 49 09 09",tags:["Plan B du vendredi","Menus longs"],
-  hours:["12h15–13h30 · 19h15–20h45","Fermé","Fermé","19h15–20h45","12h15–13h30 · 19h15–20h45","12h15–13h30 · 19h15–20h45","12h15–13h30 · 19h15–20h45"],
-  story:"Table de Jean-Luc Brendel dans une salle rouge, à deux pas de Hugel. Les avis parlent de menus longs, jusqu’à cinq heures, et d’un menu autour de 100 € au déjeuner.",
-  tip:"Plan B gastronomique si tu veux un vrai repas de fête le vendredi. Compte trois à cinq heures et réserve."},
+ {id:"tirebouchon",type:"table",day:2,name:"Au Tire Bouchon",place:"29 rue du Général de Gaulle, Riquewihr",village:"Riquewihr",ll:[48.1670072,7.2971334],mll:[48.1675,7.2967],rating:4.4,reviews:1511,price:"€€",book:true,
+  phone:"+33 3 89 47 91 61",tags:["Alternative moins chère","Winstub","Cave voûtée voisine"],
+  hours:["11h45–18h","11h45–18h","11h45–18h","11h45–18h","11h45–14h30 · 18h30–21h","11h45–14h30 · 18h30–21h","11h45–14h30 · 18h30–21h"],
+  story:"Winstub de la grand-rue de Riquewihr, dans la maison bleue que tout le monde photographie. Les avis citent une cuisine alsacienne traditionnelle à prix raisonnable et une cave voûtée du XVe siècle à côté. Les avis sont partagés sur la tarte flambée.",
+  tip:"L’alternative du vendredi : service du soir de 18 h 30 à 21 h. Arrive avant 20 h 30 et réserve, la maison est très fréquentée."},
 
  /* Samedi 31 */
  {id:"weinbach",type:"domaine",day:3,name:"Domaine Weinbach",place:"Kaysersberg Vignoble",ll:[48.1362394,7.273184],rating:4.6,reviews:190,core:true,book:true,
@@ -511,11 +511,11 @@ var STOPS = [
   hours:["Fermé","19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","Fermé"],
   story:"Deux étoiles au Guide Michelin. Jean-Yves Schillinger, élève de Joël Robuchon, a été élu cuisinier de l’année par le Pudlo Alsace 2026 : une cuisine savante et végétale qui passe de l’Alsace au Japon, dans une salle vitrée au rez-de-chaussée de ton hôtel.",
   tip:"Service du soir de 19 h à 21 h 30 le samedi. C’est le point d’orgue du week-end : réserve dès maintenant. Les avis citent un service parfois inégal et un menu en français seulement."},
- {id:"brenner",type:"table",day:3,name:"Wistub Brenner",place:"1 rue Turenne, Colmar",village:"Colmar",ll:[48.0739,7.3578],rating:4.3,reviews:2462,price:"€€€",book:true,
-  phone:"+33 3 89 41 42 33",tags:["Plan B du samedi","Winstub"],
-  hours:WEEK_FULL("12h–16h · 19h–22h"),
-  story:"Winstub historique au bord de la Petite Venise, ouverte tous les jours à midi et le soir. Les avis décrivent une cuisine alsacienne copieuse, un beau foie gras et une bonne carte de vins locaux.",
-  tip:"Plan B si JY’S est complet. Plus décontracté, mais les portions sont généreuses : prévois de l’appétit."},
+ {id:"cygne",type:"table",day:3,name:"Winstub au Cygne",place:"15 rue Édouard Richard, Colmar",village:"Colmar",ll:[48.0800997,7.3506344],rating:4.5,reviews:647,price:"€€",book:true,
+  phone:"+33 3 89 23 76 26",tags:["Alternative moins chère","Winstub","Sert jusqu’à 23 h"],
+  hours:["12h–14h","12h–14h · 19h–23h","12h–14h · 19h–23h","12h–14h · 19h–23h","12h–14h · 19h–23h","19h–23h","Fermé"],
+  story:"Winstub à l’écart de l’hyper-centre touristique, selon les avis, avec une cuisine locale : escargots, tarte flambée, jambon braisé à l’ancienne, tête de veau vinaigrette. Les avis vantent l’ambiance et la carte, mais sont partagés sur le service.",
+  tip:"L’alternative du samedi, à environ 500 m de ton hôtel. Elle sert de 19 h à 23 h : pratique si tu rentres tard de la montée."},
 
  /* Dimanche 1er novembre */
  {id:"colmar",type:"ville",day:4,name:"Colmar",place:"Dimanche matin, train de midi",ll:[48.0794,7.3585],
@@ -523,11 +523,11 @@ var STOPS = [
   tip:"Rends les vélos si tu les loues et rejoins la gare, à environ 600 m de l’hôtel, avant le train de midi. Le 1er novembre est férié : vérifie les ouvertures avant de t’y rendre."}
 ];
 
-var WIKI = {strasbourg:"Strasbourg",molsheim:"Molsheim",obernai:"Obernai",hering:"Barr (Bas-Rhin)",hotelbarr:"Barr (Bas-Rhin)",enfin:"Barr (Bas-Rhin)",tablecinq:"Barr (Bas-Rhin)",
+var WIKI = {strasbourg:"Strasbourg",molsheim:"Molsheim",obernai:"Obernai",hering:"Barr (Bas-Rhin)",hotelbarr:"Barr (Bas-Rhin)",enfin:"Barr (Bas-Rhin)",
   seltz:"Mittelbergheim",kreydenweiss:"Andlau",ostertag:"Epfig",selestat:"Sélestat",bonpichet:"Sélestat",hk:"Château du Haut-Kœnigsbourg",deiss:"Bergheim (Haut-Rhin)",rollygassmann:"Rorschwihr",
-  trimbach:"Ribeauvillé",ribeauville:"Ribeauvillé",stulrich:"Château de Saint-Ulrich",hugel:"Riquewihr",giteriquewihr:"Riquewihr",sarment:"Riquewihr",tablegourmet:"Riquewihr",
+  trimbach:"Ribeauvillé",ribeauville:"Ribeauvillé",stulrich:"Château de Saint-Ulrich",hugel:"Riquewihr",giteriquewihr:"Riquewihr",sarment:"Riquewihr",
   weinbach:"Kaysersberg Vignoble",nasti:"Kaysersberg Vignoble",kaysersberg:"Kaysersberg Vignoble",boxler:"Niedermorschwihr",hohland:"Château du Hohlandsbourg",troischateaux:"Châteaux d'Eguisheim",beyer:"Eguisheim",
-  hotelcolmar:"Colmar",jys:"Colmar",brenner:"Colmar",colmar:"Colmar"};
+  hotelcolmar:"Colmar",jys:"Colmar",cygne:"Colmar",manoir:"Barr (Bas-Rhin)",tirebouchon:"Riquewihr",colmar:"Colmar"};
 STOPS.forEach(function(s){ s.wiki = WIKI[s.id] || null; });
 
 var FACTS = [

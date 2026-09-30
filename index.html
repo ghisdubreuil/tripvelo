@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1D1320">
+<title>Alsace à vélo, du nord au sud</title>
+<meta name="description" content="Trois jours à vélo le long de la Route des Vins d’Alsace, de Molsheim à Guebwiller.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --cave:#1D1320;
+  --panel:#251829;
+  --panel-2:#2F2034;
+  --line:#43324A;
+  --text:#F0E9E2;
+  --muted:#B5A6BA;
+  --d1:#C8D464;
+  --d2:#EFA93B;
+  --d3:#E0708F;
+  --serif:"Young Serif",Georgia,"Times New Roman",serif;
+  --sans:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--cave);color:var(--text);font:400 16px/1.5 var(--sans);-webkit-text-size-adjust:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--d2);outline-offset:2px}
+
+.app{display:grid;grid-template-columns:minmax(360px,440px) 1fr;height:100vh;height:100dvh}
+.side{overflow-y:auto;background:var(--panel);border-right:1px solid var(--line);scroll-behavior:smooth;overscroll-behavior:contain}
+.map-wrap{position:relative;min-height:0}
+#map{position:absolute;inset:0;background:#150F19}
+.map-fallback{position:absolute;inset:0;display:grid;place-items:center;padding:2rem;text-align:center;color:var(--muted)}
+
+/* En-tête */
+.head{padding:1.4rem 1.25rem .9rem;padding-top:max(1.4rem,env(safe-area-inset-top))}
+h1{font:400 1.75rem/1.15 var(--serif);margin:0 0 .5rem;letter-spacing:-.01em}
+.lede{margin:0 0 .9rem;color:var(--muted);max-width:38ch}
+.fact{margin:0;padding:.7rem .85rem;background:var(--panel-2);border-left:3px solid var(--d2);border-radius:0 8px 8px 0;font-size:.92rem;min-height:4.2rem}
+.linkbtn{background:none;border:0;padding:.35rem 0;margin-top:.25rem;color:var(--d2);text-decoration:underline;text-underline-offset:3px;font-size:.9rem}
+
+/* Barre des jours : largeur proportionnelle aux kilomètres */
+.daybar{position:sticky;top:0;z-index:5;display:flex;gap:4px;padding:.6rem 1.25rem;background:var(--panel);border-bottom:1px solid var(--line)}
+.daybar button{border:0;border-radius:8px;padding:.5rem .6rem;min-height:52px;text-align:left;display:flex;flex-direction:column;justify-content:center;
+  background:color-mix(in srgb,var(--c) 20%,var(--panel));transition:background .2s,color .2s}
+.daybar button b{font-weight:600;font-size:.95rem;line-height:1.2}
+.daybar button small{font-size:.78rem;opacity:.85}
+.daybar button:hover{background:color-mix(in srgb,var(--c) 34%,var(--panel))}
+.daybar button[aria-selected="true"]{background:var(--c);color:var(--cave)}
+.daybar .all{--c:#B5A6BA;flex:0 0 auto}
+
+/* Résumé du jour */
+.dayinfo{padding:1rem 1.25rem .4rem}
+.dayinfo h2{font:400 1.3rem/1.2 var(--serif);margin:0 0 .35rem}
+.dayinfo p{margin:.2rem 0;color:var(--muted);max-width:52ch}
+.dayinfo .km{color:var(--text);font-weight:500}
+
+/* Filtres */
+.filters{display:flex;flex-wrap:wrap;gap:.45rem;padding:.6rem 1.25rem .9rem}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:.35rem .8rem;font-size:.86rem;color:var(--muted);transition:background .15s,color .15s,border-color .15s}
+.chip:hover{border-color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--text);color:var(--cave);border-color:var(--text)}
+
+/* Liste */
+.stops{list-style:none;margin:0;padding:0 .75rem 1rem}
+.stop{position:relative;border-radius:12px;margin-bottom:4px;border:1px solid transparent}
+.stop.open{background:var(--panel-2);border-color:var(--line)}
+.stop-row{display:grid;grid-template-columns:1fr auto;align-items:center}
+.stop-head{display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:center;text-align:left;background:none;border:0;padding:.65rem .5rem .65rem .6rem;min-height:56px;border-radius:12px;width:100%}
+.stop:not(.open) .stop-head:hover{background:var(--panel-2)}
+.pin{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:.85rem;background:var(--c);color:var(--cave);border:2px solid var(--cave)}
+.stop.ville .pin{background:var(--cave);color:var(--c);border-color:var(--c)}
+.stop-title b{display:block;font-weight:600;line-height:1.25}
+.stop-title small{color:var(--muted);font-size:.84rem}
+.star{background:none;border:0;padding:.6rem .7rem;color:var(--muted);border-radius:10px;display:grid;place-items:center}
+.star svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round}
+.star[aria-pressed="true"]{color:var(--d2)}
+.star[aria-pressed="true"] svg{fill:currentColor}
+.stop-body{padding:.2rem 1rem 1rem 3.4rem}
+.tags{display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 .6rem}
+.tag{font-size:.78rem;padding:.12rem .55rem;border-radius:999px;background:color-mix(in srgb,var(--c) 22%,transparent);border:1px solid color-mix(in srgb,var(--c) 55%,transparent)}
+.tag.off{background:transparent;border-color:var(--line);color:var(--muted)}
+.anec{margin:0 0 .6rem}
+.tip{margin:0 0 .8rem;padding:.55rem .7rem;background:var(--cave);border-radius:8px;font-size:.9rem;color:var(--muted)}
+.hours{display:grid;grid-template-columns:auto 1fr;gap:.1rem .9rem;margin:0 0 .9rem;font-size:.86rem}
+.hours dt{color:var(--muted)}
+.hours dd{margin:0}
+.hours .closed{color:var(--muted)}
+.hours .today-flag{color:var(--d3)}
+.links{display:flex;flex-wrap:wrap;gap:.45rem}
+.btn{display:inline-flex;align-items:center;min-height:40px;padding:.4rem .85rem;border-radius:8px;background:var(--text);color:var(--cave);text-decoration:none;font-weight:500;font-size:.9rem}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn:hover{filter:brightness(1.08)}
+.empty{padding:1rem 1.25rem;color:var(--muted)}
+
+
+/* Visuels */
+.hero{position:relative;margin:0 0 .8rem;border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:color-mix(in srgb,var(--c) 14%,var(--cave))}
+.hero .art{position:absolute;inset:0;color:color-mix(in srgb,var(--c) 60%,transparent)}
+.hero .art svg{width:100%;height:100%;display:block}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:fadein .5s ease forwards}
+@keyframes fadein{to{opacity:1}}
+.hero figcaption{position:absolute;left:0;right:0;bottom:0;padding:1rem .65rem .35rem;font-size:.72rem;line-height:1.3;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.7));opacity:0;transition:opacity .3s}
+.hero.loaded figcaption{opacity:1}
+.hero figcaption a{color:#fff;text-underline-offset:2px}
+.weekbar{display:flex;gap:5px;margin:0 0 .75rem}
+.weekbar .d{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:.78rem;font-weight:600}
+.weekbar .on{background:var(--c);color:var(--cave)}
+.weekbar .off{border:1.5px dashed var(--line);color:var(--muted);font-weight:400}
+.weekbar .sun{margin-left:6px}
+.stop.chateau .pin{background:var(--text);color:var(--cave)}
+.stop.chateau .pin svg{width:16px;height:16px}
+.mk.chateau .mk-in{background:var(--text);color:var(--cave);border-radius:8px}
+.mk.chateau .mk-in svg{width:16px;height:16px}
+
+/* Infos pratiques */
+.practical{padding:.5rem 1.25rem 1rem;border-top:1px solid var(--line)}
+.practical h3{font:400 1.15rem/1.2 var(--serif);margin:1rem 0 .4rem}
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:.8rem 0;font-weight:500;display:flex;justify-content:space-between;gap:1rem;min-height:44px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.2rem;color:var(--muted);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 .9rem;color:var(--muted);font-size:.93rem;max-width:56ch}
+.foot{padding:1rem 1.25rem calc(2rem + env(safe-area-inset-bottom));color:var(--muted);font-size:.8rem}
+.foot p{margin:.3rem 0}
+
+/* Carte */
+.mapbtns{position:absolute;z-index:500;top:12px;left:12px;display:flex;gap:8px}
+.tiles-dark{filter:invert(1) hue-rotate(180deg) brightness(.82) contrast(.95) saturate(.55)}
+.reset{background:var(--cave);border:1px solid var(--line);border-radius:8px;padding:.45rem .8rem;font-size:.88rem;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.reset:hover{border-color:var(--muted)}
+.leaflet-container{font-family:var(--sans);background:#150F19}
+.leaflet-control-zoom a{background:var(--cave)!important;color:var(--text)!important;border-color:var(--line)!important}
+.leaflet-control-attribution{background:rgba(29,19,32,.8)!important;color:var(--muted)!important}
+.leaflet-control-attribution a{color:var(--muted)!important}
+.leaflet-tooltip{background:var(--cave);color:var(--text);border:1px solid var(--line);border-radius:6px;box-shadow:none;font-size:.85rem;padding:.25rem .5rem}
+.leaflet-tooltip-top:before{border-top-color:var(--line)}
+.town-label{background:transparent;border:0;box-shadow:none;color:var(--text);font-weight:600;font-size:.82rem;padding:0;text-shadow:0 0 3px #1D1320,0 0 3px #1D1320,0 0 6px #1D1320}
+.town-label:before{display:none}
+.mk{background:none;border:0}
+.mk-in{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;font:600 .8rem/1 var(--sans);background:var(--c);color:var(--cave);border:2px solid var(--cave);box-shadow:0 1px 6px rgba(0,0,0,.5);transition:transform .18s ease}
+.mk.ville .mk-in{background:var(--cave);color:var(--c);border-color:var(--c);width:22px;height:22px;margin:3px;font-size:.7rem}
+.mk.sel .mk-in{transform:scale(1.4);box-shadow:0 0 0 3px var(--text)}
+.mk.fav .mk-in::after{content:"";position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--d2);border:2px solid var(--cave)}
+.mk-in{position:relative}
+
+.toast{position:fixed;left:50%;bottom:calc(1.2rem + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--text);color:var(--cave);padding:.6rem 1rem;border-radius:8px;font-weight:500;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:2000}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:860px){
+  .app{grid-template-columns:1fr;grid-template-rows:42vh 1fr;grid-template-rows:42dvh 1fr}
+  .map-wrap{order:-1}
+  .side{border-right:0;border-top:1px solid var(--line)}
+  .head{padding-top:1rem}
+  h1{font-size:1.5rem}
+  .stop-body{padding-left:1rem}
+  .mapbtns{top:max(12px,env(safe-area-inset-top))}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+<noscript><p style="padding:2rem">Cette page a besoin de JavaScript pour afficher la carte.</p></noscript>
+
+<div class="app">
+  <main class="side" id="side">
+    <header class="head">
+      <h1>Alsace à vélo, du nord au sud</h1>
+      <p class="lede">Trois jours entre Molsheim et Guebwiller, une cave à la fois. Touche un domaine pour le voir sur la carte.</p>
+      <p class="fact" id="fact" aria-live="polite"></p>
+      <button class="linkbtn" id="nextFact" type="button">Une autre anecdote</button>
+    </header>
+
+    <nav class="daybar" id="daybar" aria-label="Choix de la journée" role="tablist"></nav>
+    <section class="dayinfo" id="dayinfo"></section>
+    <div class="filters" id="filters"></div>
+    <ul class="stops" id="stops"></ul>
+
+    <section class="practical" aria-labelledby="prat">
+      <h3 id="prat">Avant de partir</h3>
+      <details>
+        <summary>Trains et vélos</summary>
+        <p>Sur TER, les vélos sont en général acceptés sans réservation, dans la limite des places. Sur TGV, il faut une place vélo réservée, en nombre limité. Un vélo à assistance électrique loué à Strasbourg et rendu à Colmar ou Mulhouse est souvent plus simple, mais la location en aller simple n’est pas toujours proposée : à demander aux loueurs.</p>
+        <p>Retour : Colmar ou Mulhouse vers Paris en TGV. Pour Rémi, retour par Strasbourg avec le TGV direct Strasbourg–Reims.</p>
+      </details>
+      <details>
+        <summary>Réservations de dégustations</summary>
+        <p>Hors saison, beaucoup de domaines reçoivent surtout sur rendez-vous, en particulier le dimanche. Appelle quelques jours avant. Compte une à deux heures par domaine : choisis deux ou trois caves par jour, pas toutes.</p>
+      </details>
+      <details>
+        <summary>Hébergement</summary>
+        <p>Certains petits hôtels ferment dès la fin octobre : réserve tôt à Sélestat (nuit 1) et à Colmar (nuit 2). Le domaine Bachert à Barr et le domaine Meyer-Krumb à Kaysersberg affichent aussi de l’hébergement sur place, à confirmer par téléphone.</p>
+      </details>
+      <details>
+        <summary>Les châteaux : à pied, pas à vélo</summary>
+        <p>Les quatre châteaux de la carte sont des détours en montée. Saint-Ulrich (au-dessus de Ribeauvillé) et les Trois Châteaux d’Eguisheim sont des ruines en accès libre. Le Hohlandsbourg est annoncé ouvert de Pâques au 11 novembre. Le Haut-Kœnigsbourg est le plus spectaculaire mais aussi le plus éloigné : vérifie ses jours d’ouverture avant d’y penser. Dans tous les cas, compte une heure ou plus par château, montée comprise.</p>
+      </details>
+      <details>
+        <summary>Fin octobre : lumière et affluence</summary>
+        <p>Le passage à l’heure d’hiver a lieu le dimanche 25 octobre 2026, avec un coucher de soleil vers 17 h. Prévois d’arriver à l’étape avant la nuit, et des feux sur les vélos. Le week-end du 31 octobre tombe sur la Toussaint : plus cher et plus chargé.</p>
+      </details>
+      <div class="links" style="margin-top:1rem">
+        <button class="btn ghost" id="copyFavs" type="button" hidden>Copier ma sélection</button>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p>Horaires, notes et numéros : données Google Maps relevées à la conception, à vérifier avant de partir. Le tracé est indicatif (lignes droites entre les villages), ce n’est pas un fichier GPS.</p>
+      <p>Photos : Wikipédia et Wikimedia Commons, sous licences libres (lien vers chaque fichier sous la photo).</p>
+      <p>Fonds de carte : Esri, HERE, Garmin, contributeurs OpenStreetMap ; carte vélo © CyclOSM.</p>
+    </footer>
+  </main>
+
+  <section class="map-wrap" aria-label="Carte du parcours">
+    <div id="map"></div>
+    <div class="mapbtns"><button class="reset" id="reset" type="button">Tout le parcours</button><button class="reset" id="layer" type="button">Relief</button></div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+"use strict";
+
+var RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var COL = {1:"#C8D464", 2:"#EFA93B", 3:"#E0708F"};
+var JOURS = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+
+/* ---------- Données ---------- */
+var DAYS = {
+  1:{title:"Molsheim à Sélestat", km:50,
+     intro:"Train de Strasbourg à Molsheim, puis le pied des Vosges par Obernai, Barr et Mittelbergheim. C’est le secteur où les domaines sont les plus proches les uns des autres. Nuit à Sélestat.",
+     fact:"Barr et Mittelbergheim sont à moins de trois kilomètres l’un de l’autre : deux dégustations sans remonter sur le vélo plus d’un quart d’heure."},
+  2:{title:"Sélestat à Colmar", km:45,
+     intro:"Le cœur de la Route des Vins : Ribeauvillé, Hunawihr, Riquewihr, Kaysersberg. Beaucoup de villages, peu de kilomètres. Choisis deux domaines, pas six. Nuit à Colmar.",
+     fact:"Le dimanche, presque tout est fermé sauf quelques maisons. Dopff à Riquewihr ouvre tous les jours."},
+  3:{title:"Colmar à Guebwiller", km:35,
+     intro:"Eguisheim, Rouffach, puis Guebwiller avec un TER vers Mulhouse. Variante plus simple : finir à Eguisheim et reprendre le train à Colmar.",
+     fact:"Eguisheim concentre trois domaines à quelques rues d’écart : parfait pour comparer sans pédaler."}
+};
+
+var ROUTES = {
+  1:[[48.5403,7.4940],[48.4600,7.4810],[48.4140,7.4529],[48.3956,7.4418],[48.3745,7.4094],[48.3167,7.4167],[48.2594,7.4542]],
+  2:[[48.2594,7.4542],[48.2077,7.3611],[48.1953,7.3197],[48.1806,7.3153],[48.1660,7.3036],[48.1325,7.3037],[48.1373,7.2865],[48.1362,7.2732],[48.1386,7.2637],[48.1252,7.2814],[48.0858,7.2761],[48.0794,7.3585]],
+  3:[[48.0794,7.3585],[48.0433,7.3076],[47.9860,7.2970],[47.9575,7.3000],[47.9320,7.2540],[47.9084,7.2117]]
+};
+
+var WEEK_FULL = function(t){ return [t,t,t,t,t,t,t]; };
+
+var STOPS = [
+ /* Jour 1 */
+ {id:"molsheim",type:"ville",day:1,name:"Molsheim",place:"Départ en TER depuis Strasbourg",ll:[48.5403,7.4940],
+  story:"Ettore Bugatti y a installé sa manufacture en 1909, et la marque y a toujours son siège au château Saint-Jean.",
+  tip:"Point de départ : sors de la gare avec les vélos et prends la Véloroute du Vignoble vers le sud."},
+ {id:"obernai",type:"ville",day:1,name:"Obernai",place:"Ville-étape",ll:[48.4600,7.4810],
+  story:"Le puits aux six seaux trône sur la place du Marché. Au-dessus de la ville, le mont Sainte-Odile abrite le sanctuaire de la patronne de l’Alsace.",
+  tip:"Bon endroit pour un café avant de rouler vers Barr."},
+ {id:"bachert",type:"domaine",day:1,name:"Domaine Bachert",place:"Barr",ll:[48.4140239,7.4529223],rating:4.8,reviews:101,
+  phone:"+33 3 88 08 95 89",web:"http://www.bachert.fr/",hours:null,tags:["Hébergement sur place"],
+  story:"Un avis raconte l’arrêt de cyclistes après une longue journée au soleil : dégustation généreuse, accueil familial. Le domaine propose aussi des chambres d’hôtes.",
+  tip:"Aucun horaire n’est affiché : appelle avant de passer."},
+ {id:"hering",type:"domaine",day:1,name:"Domaine Hering",place:"Barr",ll:[48.409473,7.450185],rating:5.0,reviews:48,
+  phone:"+33 3 88 08 90 07",web:"http://www.vins-hering.com/",
+  hours:["9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h","Fermé"],tags:[],
+  story:"Plusieurs visiteurs y sont entrés sans rendez-vous et ont eu une vraie dégustation. Au-dessus de Barr s’étend le Grand Cru Kirchberg de Barr."},
+ {id:"gilg",type:"domaine",day:1,name:"Domaine Armand Gilg",place:"Mittelbergheim",ll:[48.396541,7.441782],rating:4.9,reviews:130,
+  phone:"+33 3 88 08 92 76",web:"https://www.domaine-gilg.com/",
+  hours:["8h–12h · 13h30–18h","8h–12h · 13h30–18h","8h–12h · 13h30–18h","8h–12h · 13h30–18h","8h–12h · 13h30–18h","9h–12h · 13h30–17h","Fermé"],tags:["Grand Cru"],
+  story:"On goûte cépage par cépage, à l’alsacienne. À essayer : le Grand Cru Sylvaner. Le Zotzenberg, à Mittelbergheim, est le seul Grand Cru d’Alsace où le sylvaner a droit de cité.",
+  tip:"Un avis mentionne des caves ouvertes à la fin octobre : à confirmer par téléphone."},
+ {id:"seltz",type:"domaine",day:1,name:"Domaine Albert Seltz",place:"Mittelbergheim",ll:[48.395573,7.443666],rating:5.0,reviews:456,
+  phone:"+33 3 88 08 91 77",web:"http://albert-seltz.fr/",
+  hours:["9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h30 · 14h–18h","9h–12h30 · 14h–18h","10h–12h","Fermé"],tags:["Bio"],fav:true,
+  story:"Quinze générations de vignerons dans la famille, selon les visiteurs. Les dégustations s’étirent : un avis parle de cinq heures sur place. Prévois large, ou réserve ce domaine pour la fin de journée.",
+  tip:"Note de 5/5 sur plus de 450 avis : le coup de cœur de l’étape."},
+ {id:"andlau",type:"ville",day:1,name:"Andlau",place:"Village-étape",ll:[48.3745,7.4094],
+  story:"Son abbatiale romane, fondée au IXe siècle, a un portail sculpté qui vaut cinq minutes d’arrêt.",
+  tip:"Pause facultative avant d’attaquer la plaine vers Sélestat."},
+ {id:"selestat",type:"ville",day:1,name:"Sélestat",place:"Nuit 1",ll:[48.2594,7.4542],
+  story:"La Bibliothèque humaniste conserve la Cosmographiae Introductio (1507), l’un des premiers textes à nommer l’Amérique.",
+  tip:"Vérifie les horaires de la bibliothèque avant d’arriver, ils varient selon la saison."},
+
+ /* Jour 2 */
+ {id:"hk",type:"chateau",day:2,name:"Château du Haut-Kœnigsbourg",place:"Orschwiller, détour depuis Sélestat",ll:[48.2494,7.3442],tags:["Détour facultatif"],
+  story:"Incendié en 1462 par les troupes réunies de Colmar, Strasbourg et Bâle pour en chasser des chevaliers pillards, abandonné pendant la guerre de Trente Ans, puis reconstruit de 1900 à 1908 sur ordre de l’empereur allemand Guillaume II. Il reçoit plus de 500 000 visiteurs par an.",
+  tip:"À environ 8 km à l’ouest de Sélestat et perché à plus de 700 m : une montée soutenue. Plutôt pour un vélo à assistance électrique ou un taxi, sinon à sauter. Vérifie les jours et horaires d’ouverture."},
+ {id:"ribeauville",type:"ville",day:2,name:"Ribeauvillé",place:"Ville-étape",ll:[48.1953,7.3197],
+  story:"Trois châteaux en ruine s’étagent sur la colline au-dessus de la ville.",
+  tip:"Premier vrai village de carte postale de la journée."},
+ {id:"stulrich",type:"chateau",day:2,name:"Château de Saint-Ulrich",place:"Au-dessus de Ribeauvillé",ll:[48.2028,7.3053],tags:["Accès libre","À pied"],
+  story:"Résidence principale des puissants seigneurs de Ribeaupierre du XIe au XVIe siècle. Un dicton alsacien de plus de trois siècles résume la région : « Trois châteaux sur une montagne (Ribeauvillé), trois églises dans un enclos (Riquewihr), trois villes dans une vallée (Ammerschwihr, Kaysersberg, Kientzheim) : c’est là toute l’Alsace. »",
+  tip:"Ruine toujours accessible et gratuite. Compte 30 à 60 minutes de marche depuis Ribeauvillé par des sentiers assez raides : laisse les vélos en bas."},
+ {id:"mittnacht",type:"domaine",day:2,name:"Domaine Mittnacht Frères",place:"Hunawihr",ll:[48.1806705,7.3152297],rating:5.0,reviews:67,
+  phone:"+33 3 89 73 62 01",web:"http://mittnachtfreres.fr/",
+  hours:["10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–17h30","Fermé"],tags:["Bio et biodynamie"],
+  story:"Toute la gamme est en bio et biodynamie, avec un pied dans les vins nature. À Hunawihr, le Grand Cru Rosacker est réputé pour ses rieslings. Le village a aussi une église fortifiée et un centre de réintroduction des cigognes."},
+ {id:"ermel",type:"domaine",day:2,name:"Domaine David Ermel & Fils",place:"Hunawihr",ll:[48.1811275,7.3161024],rating:4.9,reviews:89,
+  phone:"+33 3 89 73 61 71",web:"http://davidermel.com/",
+  hours:["9h–12h · 14h–17h30","9h–12h · 14h–17h30","9h–12h · 14h–17h30","9h–12h · 14h–17h30","9h–12h · 14h–17h30","10h–12h · 14h–17h30","Fermé"],tags:[],
+  story:"Des visiteurs y sont passés sur un coup de tête et en ont gardé un très bon souvenir : riesling, sylvaner, pinot noir, vendanges tardives et crémant au menu."},
+ {id:"dopff",type:"domaine",day:2,name:"Dopff au Moulin",place:"Riquewihr",ll:[48.166095,7.3036253],rating:4.8,reviews:1194,
+  phone:"+33 3 89 49 09 69",web:"http://www.dopff-au-moulin.fr/",
+  hours:WEEK_FULL("10h–19h"),tags:["Ouvert 7 jours sur 7"],fav:true,
+  story:"Maison historique de Riquewihr, connue pour ses crémants. Le crémant d’Alsace n’a son appellation que depuis 1976. Les avis vantent la visite de cave et les Grands Crus en dégustation.",
+  tip:"La valeur sûre du dimanche : ouvert tous les jours de 10 h à 19 h."},
+ {id:"meyerkrumb",type:"domaine",day:2,name:"Domaine Meyer-Krumb",place:"Kaysersberg Vignoble",ll:[48.132497,7.3036905],rating:4.9,reviews:229,
+  phone:"+33 3 89 47 13 20",web:"http://meyer-krumb.com/",
+  hours:["10h–18h30","10h–18h30","10h–18h30","10h–18h30","10h–18h30","10h–18h30","10h–12h30"],tags:["Hébergement sur place"],
+  story:"Ouvert tous les jours, dimanche matin compris. Des visiteurs ont fait le tour des vignes et de la cave avant la dégustation."},
+ {id:"weinbach",type:"domaine",day:2,name:"Domaine Weinbach",place:"Kaysersberg Vignoble",ll:[48.1362394,7.273184],rating:4.6,reviews:190,
+  phone:"+33 3 89 47 13 21",web:"http://www.domaineweinbach.com/",
+  hours:["9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h","Fermé"],tags:["Grand Cru"],fav:true,
+  story:"Le domaine occupe le Clos des Capucins, où des moines capucins cultivaient la vigne dès 1612. La famille Faller l’exploite depuis 1898. Le Schlossberg, juste au-dessus, a été en 1975 le premier Grand Cru délimité d’Alsace.",
+  tip:"Une référence de la région. Les avis parlent d’une dégustation dans la cuisine, et d’un droit de dégustation remboursé à l’achat. Réserve."},
+ {id:"kaysersberg",type:"ville",day:2,name:"Kaysersberg",place:"Ville-étape",ll:[48.1386,7.2637],
+  story:"Albert Schweitzer y est né en 1875. Son pont fortifié sur la Weiss est l’image de la ville.",
+  tip:"Bonne pause déjeuner avant la dernière partie vers Colmar."},
+ {id:"freyburger",type:"domaine",day:2,name:"Marcel Freyburger",place:"Ammerschwihr",ll:[48.1252459,7.2814059],rating:5.0,reviews:100,
+  phone:"+33 3 89 78 25 72",web:"https://www.freyburger.fr/",
+  hours:["14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","Fermé"],tags:["Bio"],
+  story:"Dégustation guidée, vins goûtés par paires de cépages, dans une cave aux grands fûts. Les pinots noirs sont très cités. Le village a été presque entièrement détruit en 1944-1945 puis reconstruit. Son Grand Cru Kaefferkopf est le seul d’Alsace à autoriser les assemblages."},
+ {id:"colmar",type:"ville",day:2,name:"Colmar",place:"Nuit 2",ll:[48.0794,7.3585],
+  story:"Ville natale de Bartholdi, le sculpteur de la statue de la Liberté. Le musée Unterlinden abrite le retable d’Issenheim.",
+  tip:"Fin de l’étape et point de départ du jour 3."},
+
+ /* Jour 3 */
+ {id:"hohland",type:"chateau",day:3,name:"Château du Hohlandsbourg",place:"Wintzenheim, à l’ouest de Colmar",ll:[48.0600,7.2692],tags:["Détour facultatif","Ouvert de Pâques au 11 novembre"],
+  story:"Bâti en 1279 sur ordre du prévôt de Colmar, à 620 m d’altitude, pour surveiller la ville et sa région. Il a été renforcé plusieurs fois, notamment au XVIe siècle par Lazare de Schwendi, conseiller des Habsbourg.",
+  tip:"À environ 7 km à vol d’oiseau à l’ouest de Colmar, en montée. Fin octobre, il devrait encore être ouvert (saison jusqu’au 11 novembre) : à confirmer."},
+ {id:"stoffel",type:"domaine",day:3,name:"Domaine Antoine Stoffel",place:"Eguisheim",ll:[48.0469869,7.3069685],rating:4.9,reviews:160,
+  phone:"+33 3 89 41 32 03",web:"http://www.antoinestoffel.com/",
+  hours:["9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","Fermé"],tags:[],
+  story:"Maison familiale, dégustations généreuses. Un visiteur voulait acheter une bouteille et en est reparti avec quatre.",
+  tip:"Premier domaine en arrivant de Colmar par le nord."},
+ {id:"beyer",type:"domaine",day:3,name:"Domaine Emile Beyer",place:"Eguisheim",ll:[48.0427865,7.3068295],rating:4.7,reviews:184,
+  phone:"+33 3 89 41 40 45",web:"https://www.emile-beyer.fr/",
+  hours:["14h–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","10h–12h · 13h30–18h","Fermé"],tags:[],fav:true,
+  story:"Une dégustation comparative : un même riesling en trois niveaux (tradition, lieu-dit, grand cru), précédé d’un crémant. Eguisheim est bâtie en cercles concentriques autour de son château, et le pape Léon IX y serait né vers l’an 1000.",
+  tip:"Un tarif par personne est affiché dans les avis : demande-le à la réservation."},
+ {id:"baur",type:"domaine",day:3,name:"Domaine Charles Baur",place:"Eguisheim",ll:[48.0420953,7.3079521],rating:4.8,reviews:206,
+  phone:"+33 3 89 41 32 49",web:"http://www.vinscharlesbaur.fr/",
+  hours:["10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h"],tags:["Ouvert dimanche matin"],
+  story:"Un visiteur raconte être venu à vélo depuis Colmar, exactement comme toi. Un Grand Cru Brand est cité dans les avis.",
+  tip:"Ouvert le dimanche matin : utile si ton jour 3 tombe un dimanche."},
+ {id:"troischateaux",type:"chateau",day:3,name:"Les Trois Châteaux d’Eguisheim",place:"Husseren-les-Châteaux",ll:[48.0390,7.2730],q:"Trois Châteaux d'Eguisheim Husseren-les-Châteaux",tags:["Accès libre","Détour facultatif"],
+  story:"Trois donjons dressés à une soixantaine de mètres l’un de l’autre sur le même éperon. Le plus ancien, le Wahlenbourg, date de 1006 : c’est là que serait né le pape Léon IX. Les trois châteaux ont été détruits en 1466.",
+  tip:"Toujours accessible et gratuit, avec environ cinq minutes de marche depuis le parking. La route depuis Eguisheim monte : à tenter surtout en vélo électrique."},
+ {id:"rouffach",type:"ville",day:3,name:"Rouffach",place:"Ville-étape",ll:[47.9575,7.3000],
+  story:"Sa tour des Sorcières se voit de loin au-dessus des toits.",
+  tip:"Pause déjeuner possible avant la dernière portion."},
+ {id:"guebwiller",type:"ville",day:3,name:"Guebwiller",place:"Arrivée, TER vers Mulhouse",ll:[47.9084,7.2117],
+  story:"Quatre Grands Crus entourent la ville : Kessler, Kitterlé, Saering et Spiegel.",
+  tip:"Fin du trajet à vélo. De là, TER vers Mulhouse puis TGV vers Paris."}
+];
+
+var WIKI = {molsheim:"Molsheim",obernai:"Obernai",bachert:"Barr (Bas-Rhin)",hering:"Barr (Bas-Rhin)",gilg:"Mittelbergheim",seltz:"Mittelbergheim",
+  andlau:"Andlau",selestat:"Sélestat",ribeauville:"Ribeauvillé",mittnacht:"Hunawihr",ermel:"Hunawihr",dopff:"Riquewihr",
+  meyerkrumb:"Kaysersberg Vignoble",weinbach:"Kaysersberg Vignoble",kaysersberg:"Kaysersberg Vignoble",freyburger:"Ammerschwihr",colmar:"Colmar",
+  stoffel:"Eguisheim",beyer:"Eguisheim",baur:"Eguisheim",rouffach:"Rouffach",guebwiller:"Guebwiller",
+  hk:"Château du Haut-Kœnigsbourg",stulrich:"Château de Saint-Ulrich",hohland:"Château du Hohlandsbourg",troischateaux:"Châteaux d'Eguisheim"};
+STOPS.forEach(function(s){ s.wiki = WIKI[s.id] || null; });
+
+var FACTS = [
+  "La Route des Vins d’Alsace date de 1953 : c’est la plus ancienne route des vins de France.",
+  "L’Alsace compte 51 Grands Crus, chacun lié à une colline et à un sol précis.",
+  "Sept cépages dominent : sylvaner, pinot blanc, riesling, muscat, pinot gris, gewurztraminer et pinot noir.",
+  "« Gewürz » veut dire « épicé » en allemand, d’où le nom du gewurztraminer.",
+  "Le Zotzenberg, à Mittelbergheim, est le seul Grand Cru d’Alsace où l’on peut planter du sylvaner.",
+  "Le Kaefferkopf, à Ammerschwihr, est le seul Grand Cru alsacien qui autorise les assemblages de cépages.",
+  "Le crémant d’Alsace n’a son appellation que depuis 1976.",
+  "Les vins d’Alsace se vendent dans une bouteille élancée, la flûte d’Alsace, différente de celles de Bourgogne ou de Bordeaux.",
+  "Le pape Léon IX, né à Eguisheim vers l’an 1000, y est célébré comme l’enfant du village.",
+  "Bartholdi, qui a dessiné la statue de la Liberté, est né à Colmar."
+];
+
+/* ---------- État ---------- */
+var state = {day:0, sel:null, sun:false, favOnly:false, towns:true, chateaux:true, favs:{}, fact:-1};
+try {
+  var saved = JSON.parse(localStorage.getItem("alsace-velo-favs") || "null");
+  if (saved && typeof saved === "object") state.favs = saved;
+  else STOPS.forEach(function(s){ if (s.fav) state.favs[s.id] = true; });
+} catch(e) {
+  STOPS.forEach(function(s){ if (s.fav) state.favs[s.id] = true; });
+}
+function saveFavs(){ try { localStorage.setItem("alsace-velo-favs", JSON.stringify(state.favs)); } catch(e){} }
+
+/* Numéros par jour */
+(function(){
+  var count = {1:0,2:0,3:0};
+  STOPS.forEach(function(s){ if (s.type !== "chateau") { count[s.day]++; s.n = count[s.day]; } else s.n = null; s.sunday = !!(s.hours && s.hours[6] !== "Fermé"); });
+})();
+
+var $ = function(id){ return document.getElementById(id); };
+function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function byId(id){ for (var i=0;i<STOPS.length;i++) if (STOPS[i].id===id) return STOPS[i]; return null; }
+function favCount(){ return Object.keys(state.favs).filter(function(k){ return state.favs[k]; }).length; }
+
+function toast(msg){
+  var t = $("toast"); t.textContent = msg; t.classList.add("on");
+  clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove("on"); }, 2200);
+}
+
+
+/* ---------- Éléments visuels ---------- */
+var TOWER = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M4 21V9h3V6h2v3h2V6h2v3h2V6h2v3h3v12h-6v-5a3 3 0 0 0-6 0v5z"/></svg>';
+var ART = {
+  ville:'<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="currentColor"><path d="M0 180V120l30-30 30 30v60zM70 180V100l40-40 40 40v80zM160 180V130l26-26 26 26v50zM222 180V90l38-38 38 38v90zM296 180V125l12-12 12 12v55z"/></g><g stroke="#1D1320" stroke-width="3" opacity=".45"><path d="M70 130h80M100 100v80M222 120h76M260 90v90"/></g></svg>',
+  domaine:'<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="currentColor"><path d="M0 180V110Q80 60 170 100T320 80V180z" opacity=".6"/><path d="M0 180V140Q90 100 180 130T320 120V180z"/></g><g stroke="#1D1320" stroke-width="2" opacity=".45"><path d="M20 150l60-30M50 165l80-38M100 172l90-38M170 170l80-40M230 170l70-32"/></g><path d="M250 30h10v24l6 10v60h-22V64l6-10z" fill="#1D1320" opacity=".55"/></svg>',
+  chateau:'<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="currentColor"><path d="M0 180V140Q100 110 160 130T320 120V180z" opacity=".6"/><path d="M100 150V70h16V58h14v12h12V58h14v12h16v80zM200 150V95h22V85h10v10h22v55z"/></g><path d="M146 150v-22a12 12 0 0 1 24 0v22z" fill="#1D1320" opacity=".6"/></svg>'
+};
+
+function heroHTML(s){
+  if (!s.wiki) return "";
+  return '<figure class="hero" id="hero-'+s.id+'"><div class="art">'+(ART[s.type]||ART.ville)+'</div><figcaption></figcaption></figure>';
+}
+
+function weekBar(s){
+  if (!s.hours) return "";
+  var L = ["L","M","M","J","V","S","D"];
+  return '<div class="weekbar" role="img" aria-label="Jours d’ouverture, du lundi au dimanche">'+
+    s.hours.map(function(h,i){
+      var off = h === "Fermé";
+      return '<span class="d '+(off?"off":"on")+(i===6?" sun":"")+'" title="'+JOURS[i]+" : "+esc(h)+'">'+L[i]+'</span>';
+    }).join("")+'</div>';
+}
+
+/* Photos : Wikipédia / Wikimedia Commons (licences libres), chargées à l’ouverture de la fiche */
+var PHOTOS = {};
+var BAD_FILE = /blason|armoiries|arms|coat|logo|carte|map|plan[_ .]|flag|drapeau|locator|situation|panneau|sign|icon|commons-logo|wikidata|edit-/i;
+function wikiApi(query){ return fetch("https://fr.wikipedia.org/w/api.php?format=json&origin=*&redirects=1&"+query).then(function(r){ if(!r.ok) throw new Error("http"); return r.json(); }); }
+
+function viaImages(title){
+  return wikiApi("action=query&generator=images&gimlimit=50&prop=imageinfo&iiprop=url|size|mime&iiurlwidth=900&titles="+encodeURIComponent(title)).then(function(j){
+    var pages = (j.query && j.query.pages) || {}, best = null;
+    Object.keys(pages).forEach(function(k){
+      var pg = pages[k], ii = pg.imageinfo && pg.imageinfo[0];
+      if (!ii || ii.mime !== "image/jpeg" || BAD_FILE.test(pg.title)) return;
+      if (ii.width < 1000 || ii.width < ii.height*1.2) return;
+      if (!best || ii.width > best.w) best = {w:ii.width, src:ii.thumburl || ii.url, file:pg.title.replace(/^(Fichier|File):/,""), page:title};
+    });
+    return best;
+  });
+}
+
+function photoFor(s){
+  var key = s.wiki;
+  if (PHOTOS[key]) return PHOTOS[key];
+  PHOTOS[key] = wikiApi("action=query&prop=pageimages&piprop=thumbnail|name&pithumbsize=900&titles="+encodeURIComponent(key)).then(function(j){
+    var pages = (j.query && j.query.pages) || {}, pg = pages[Object.keys(pages)[0]] || {};
+    if (pg.missing !== undefined && s.q) {
+      return wikiApi("action=query&list=search&srlimit=1&srsearch="+encodeURIComponent(s.q)).then(function(r){
+        var hit = r.query && r.query.search && r.query.search[0];
+        return hit ? viaImages(hit.title) : null;
+      });
+    }
+    if (pg.thumbnail && pg.pageimage && /\.jpe?g$/i.test(pg.pageimage) && !BAD_FILE.test(pg.pageimage))
+      return {src:pg.thumbnail.source, file:pg.pageimage, page:pg.title};
+    return viaImages(key);
+  }).catch(function(){ return null; });
+  return PHOTOS[key];
+}
+
+function loadPhoto(s){
+  if (!s || !s.wiki || !document.getElementById("hero-"+s.id)) return;
+  photoFor(s).then(function(ph){
+    var fig = document.getElementById("hero-"+s.id);
+    if (!ph || !fig || fig.classList.contains("loaded")) return;
+    var img = new Image();
+    img.decoding = "async";
+    img.alt = s.type === "domaine" ? "Le village de "+s.place : s.name;
+    img.onload = function(){
+      var f = document.getElementById("hero-"+s.id); if (!f) return;
+      img.className = "on"; f.insertBefore(img, f.firstChild); f.classList.add("loaded");
+      var subject = s.type === "domaine" ? "Le village ("+s.place+")" : s.name;
+      f.querySelector("figcaption").innerHTML = esc(subject)+' · <a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(ph.file.replace(/ /g,"_"))+'">Photo Wikimedia Commons</a>';
+    };
+    img.src = ph.src;
+  });
+}
+
+/* ---------- Carte ---------- */
+var map = null, group = null, lines = {}, casings = {}, markers = {};
+if (window.L) {
+  map = L.map("map", {zoomControl:false, scrollWheelZoom:true}).setView([48.2,7.4], 9);
+  L.control.zoom({position:"bottomright"}).addTo(map);
+  var ESRI = "Tuiles &copy; Esri, HERE, Garmin, OpenStreetMap contributors";
+  var BASES = [
+    {name:"Fond sombre", layers:[
+      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", {attribution:ESRI, maxZoom:16, zIndex:1}),
+      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", {maxZoom:16, zIndex:2})
+    ]},
+    {name:"Relief", layers:[
+      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}", {attribution:ESRI, maxZoom:17})
+    ]},
+    {name:"Carte vélo", layers:[
+      L.tileLayer("https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png", {
+        attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://www.cyclosm.org">CyclOSM</a>',
+        subdomains:"abc", maxZoom:20})
+    ]}
+  ];
+  var baseIdx = 0;
+  function showBase(i){
+    BASES.forEach(function(b){ b.layers.forEach(function(l){ if (map.hasLayer(l)) map.removeLayer(l); }); });
+    BASES[i].layers.forEach(function(l){ l.addTo(map); });
+    $("layer").textContent = BASES[(i+1) % BASES.length].name;
+  }
+  showBase(0);
+  $("layer").addEventListener("click", function(){ baseIdx = (baseIdx+1) % BASES.length; showBase(baseIdx); });
+  group = L.layerGroup().addTo(map);
+  [1,2,3].forEach(function(d){
+    casings[d] = L.polyline(ROUTES[d], {color:"#1D1320", weight:9, opacity:.75, lineCap:"round", lineJoin:"round", interactive:false}).addTo(map);
+    lines[d]   = L.polyline(ROUTES[d], {color:COL[d], weight:5, opacity:1, lineCap:"round", lineJoin:"round", interactive:false}).addTo(map);
+  });
+} else {
+  $("map").innerHTML = '<div class="map-fallback"><p>La carte n’a pas pu se charger. Vérifie ta connexion : la liste des étapes reste utilisable.</p></div>';
+  $("reset").hidden = true; $("layer").hidden = true;
+}
+
+function bounds(day){
+  var pts = [];
+  [1,2,3].forEach(function(d){ if (!day || day===d) pts = pts.concat(ROUTES[d]); });
+  return L.latLngBounds(pts);
+}
+function fit(day){
+  if (!map) return;
+  var narrow = window.innerWidth <= 860;
+  var opts = {padding: narrow ? [24,24] : [60,60], animate: !RM, duration:.8};
+  map.fitBounds(bounds(day), opts);
+}
+
+function makeIcon(s, selected){
+  var cls = "mk " + s.type + (selected ? " sel" : "") + (state.favs[s.id] ? " fav" : "");
+  return L.divIcon({className:cls, html:'<span class="mk-in" style="--c:'+COL[s.day]+'">'+(s.type==="chateau"?TOWER:s.n)+'</span>', iconSize:[34,34], iconAnchor:[17,17]});
+}
+
+function visible(){
+  return STOPS.filter(function(s){
+    if (state.day && s.day !== state.day) return false;
+    if (!state.towns && s.type === "ville") return false;
+    if (!state.chateaux && s.type === "chateau") return false;
+    if (state.sun && s.type === "domaine" && !s.sunday) return false;
+    if (state.favOnly && !state.favs[s.id]) return false;
+    return true;
+  });
+}
+
+function drawMarkers(list){
+  if (!map) return;
+  group.clearLayers(); markers = {};
+  list.forEach(function(s){
+    var m = L.marker(s.ll, {icon:makeIcon(s, state.sel===s.id), keyboard:true, title:s.name, riseOnHover:true});
+    if (s.type === "ville") m.bindTooltip(s.name, {permanent:true, direction:"right", offset:[12,0], className:"town-label"});
+    else m.bindTooltip(s.name, {direction:"top", offset:[0,-14]});
+    m.on("click", function(){ select(s.id, true); });
+    m.addTo(group); markers[s.id] = m;
+  });
+  [1,2,3].forEach(function(d){
+    var on = !state.day || state.day === d;
+    lines[d].setStyle({opacity:on?1:.15, weight:on?5:3});
+    casings[d].setStyle({opacity:on?.75:.2});
+  });
+}
+
+/* ---------- Rendu du panneau ---------- */
+function renderDayBar(){
+  var h = '<button class="all" role="tab" type="button" data-day="0" aria-selected="'+(state.day===0)+'"><b>Tout</b><small>130 km</small></button>';
+  [1,2,3].forEach(function(d){
+    h += '<button role="tab" type="button" data-day="'+d+'" style="--c:'+COL[d]+';flex:'+DAYS[d].km+' 1 0" aria-selected="'+(state.day===d)+'"><b>Jour '+d+'</b><small>'+DAYS[d].km+' km</small></button>';
+  });
+  $("daybar").innerHTML = h;
+}
+
+function renderDayInfo(){
+  var nDom = STOPS.filter(function(s){ return s.type==="domaine" && (!state.day || s.day===state.day); }).length;
+  if (!state.day) {
+    $("dayinfo").innerHTML = '<h2>Le parcours en entier</h2><p><span class="km">Environ 130 km</span> sur trois jours, '+nDom+' domaines à choisir. Une dégustation prend une à deux heures : deux ou trois par jour suffisent.</p>';
+  } else {
+    var d = DAYS[state.day];
+    $("dayinfo").innerHTML = '<h2>Jour '+state.day+' : '+esc(d.title)+'</h2><p><span class="km">Environ '+d.km+' km</span> · '+nDom+' domaines sur la route.</p><p>'+esc(d.intro)+'</p><p>'+esc(d.fact)+'</p>';
+  }
+}
+
+function renderFilters(){
+  $("filters").innerHTML =
+    '<button class="chip" type="button" data-f="sun" aria-pressed="'+state.sun+'">Ouvert le dimanche</button>'+
+    '<button class="chip" type="button" data-f="fav" aria-pressed="'+state.favOnly+'">Ma sélection ('+favCount()+')</button>'+
+    '<button class="chip" type="button" data-f="towns" aria-pressed="'+state.towns+'">Villes-étapes</button>'+
+    '<button class="chip" type="button" data-f="chateaux" aria-pressed="'+state.chateaux+'">Châteaux</button>';
+  $("copyFavs").hidden = favCount() === 0;
+}
+
+var STAR = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8z"/></svg>';
+
+function stopHTML(s){
+  var open = state.sel === s.id;
+  var sub = esc(s.place) + (s.rating ? " · " + String(s.rating).replace(".",",") + " sur 5 (" + s.reviews + " avis)" : "");
+  var body = "";
+  if (open) {
+    var tags = "";
+    if (s.type === "domaine") {
+      if (s.hours) tags += '<span class="tag'+(s.sunday?"":" off")+'" style="--c:'+COL[s.day]+'">'+(s.sunday?"Ouvert le dimanche":"Fermé le dimanche")+'</span>';
+      else tags += '<span class="tag off">Horaires à demander</span>';
+    }
+    (s.tags||[]).forEach(function(t){ tags += '<span class="tag" style="--c:'+COL[s.day]+'">'+esc(t)+'</span>'; });
+    var hrs = "";
+    if (s.hours) {
+      hrs = '<dl class="hours">';
+      for (var i=0;i<7;i++){
+        var closed = s.hours[i] === "Fermé";
+        hrs += '<dt>'+JOURS[i]+'</dt><dd class="'+(closed?"closed":"")+'">'+esc(s.hours[i])+'</dd>';
+      }
+      hrs += '</dl>';
+    }
+    var links = '<a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+s.ll[0]+','+s.ll[1]+'&travelmode=bicycling">Itinéraire à vélo</a>';
+    if (s.phone) links += '<a class="btn ghost" href="tel:'+s.phone.replace(/\s/g,"")+'">Appeler</a>';
+    if (s.web) links += '<a class="btn ghost" target="_blank" rel="noopener" href="'+esc(s.web)+'">Site du domaine</a>';
+    body = '<div class="stop-body" id="body-'+s.id+'">'+
+      heroHTML(s)+
+      (tags ? '<div class="tags">'+tags+'</div>' : '')+
+      weekBar(s)+
+      '<p class="anec">'+esc(s.story)+'</p>'+
+      (s.tip ? '<p class="tip">'+esc(s.tip)+'</p>' : '')+
+      hrs+'<div class="links">'+links+'</div></div>';
+  }
+  var isFav = !!state.favs[s.id];
+  return '<li class="stop '+s.type+(open?" open":"")+'" data-id="'+s.id+'" style="--c:'+COL[s.day]+'">'+
+    '<div class="stop-row">'+
+      '<button class="stop-head" type="button" data-act="open" aria-expanded="'+open+'" aria-controls="body-'+s.id+'">'+
+        '<span class="pin">'+(s.type==="chateau"?TOWER:s.n)+'</span>'+
+        '<span class="stop-title"><b>'+esc(s.name)+'</b><small>'+sub+'</small></span>'+
+      '</button>'+
+      (s.type !== "ville" ? '<button class="star" type="button" data-act="fav" aria-pressed="'+isFav+'" aria-label="'+(isFav?"Retirer de":"Ajouter à")+' ma sélection : '+esc(s.name)+'">'+STAR+'</button>' : '')+
+    '</div>'+body+'</li>';
+}
+
+function render(){
+  renderDayBar(); renderDayInfo(); renderFilters();
+  var list = visible();
+  $("stops").innerHTML = list.length ? list.map(stopHTML).join("") :
+    '<li class="empty">Aucune étape ne correspond. Retire un filtre ou choisis un autre jour.</li>';
+  drawMarkers(list);
+  if (state.sel) loadPhoto(byId(state.sel));
+}
+
+/* ---------- Actions ---------- */
+function select(id, fromMap){
+  var s = byId(id); if (!s) return;
+  if (state.sel === id && !fromMap) {
+    state.sel = null; render(); fit(state.day); return;
+  }
+  state.sel = id;
+  if (state.day && state.day !== s.day) state.day = s.day;
+  render();
+  var li = document.querySelector('.stop[data-id="'+id+'"]');
+  if (li) li.scrollIntoView({block:"nearest", behavior:RM?"auto":"smooth"});
+  if (map) {
+    var z = Math.max(map.getZoom(), 14);
+    if (RM) map.setView(s.ll, z); else map.flyTo(s.ll, z, {duration:.9});
+  }
+}
+
+function setDay(d){
+  state.day = d; state.sel = null; render(); fit(d);
+  $("side").scrollTo({top:0, behavior:RM?"auto":"smooth"});
+}
+
+$("daybar").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-day]"); if (!b) return;
+  setDay(parseInt(b.getAttribute("data-day"), 10));
+});
+
+$("filters").addEventListener("click", function(e){
+  var b = e.target.closest("button[data-f]"); if (!b) return;
+  var f = b.getAttribute("data-f");
+  if (f === "sun") state.sun = !state.sun;
+  if (f === "fav") state.favOnly = !state.favOnly;
+  if (f === "towns") state.towns = !state.towns;
+  if (f === "chateaux") state.chateaux = !state.chateaux;
+  if (state.sel && !visible().some(function(s){ return s.id === state.sel; })) state.sel = null;
+  render();
+});
+
+$("stops").addEventListener("click", function(e){
+  var li = e.target.closest(".stop"); if (!li) return;
+  var id = li.getAttribute("data-id");
+  var act = e.target.closest("[data-act]");
+  if (!act) return;
+  if (act.getAttribute("data-act") === "fav") {
+    state.favs[id] = !state.favs[id];
+    if (!state.favs[id]) delete state.favs[id];
+    saveFavs();
+    if (state.favOnly && !state.favs[id]) { if (state.sel===id) state.sel = null; }
+    render();
+    return;
+  }
+  select(id, false);
+});
+
+$("reset").addEventListener("click", function(){ state.sel = null; state.day = 0; render(); fit(0); });
+
+$("copyFavs").addEventListener("click", function(){
+  var list = STOPS.filter(function(s){ return state.favs[s.id]; });
+  var txt = "Ma sélection de domaines en Alsace :\n" + list.map(function(s){
+    return "- " + s.name + " (" + s.place + ", jour " + s.day + ")" + (s.phone ? " - " + s.phone : "") + " - dimanche : " + (s.hours ? (s.sunday ? "ouvert" : "fermé") : "à demander");
+  }).join("\n");
+  function done(){ toast("Sélection copiée"); }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done, function(){ fallback(); });
+  } else fallback();
+  function fallback(){
+    var ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); done(); } catch(e) { toast("Copie impossible sur ce navigateur"); }
+    document.body.removeChild(ta);
+  }
+});
+
+function nextFact(){
+  var i; do { i = Math.floor(Math.random()*FACTS.length); } while (i === state.fact && FACTS.length > 1);
+  state.fact = i; $("fact").textContent = FACTS[i];
+}
+$("nextFact").addEventListener("click", nextFact);
+
+window.addEventListener("resize", function(){ if (map) map.invalidateSize(); });
+
+/* ---------- Démarrage ---------- */
+nextFact();
+render();
+if (map) {
+  map.invalidateSize();
+  fit(0);
+  /* Une seule animation : les trois jours se tracent l'un après l'autre */
+  if (!RM) {
+    setTimeout(function(){
+      [1,2,3].forEach(function(d){
+        var el = lines[d].getElement(); if (!el || !el.getTotalLength) return;
+        var len = el.getTotalLength();
+        el.style.transition = "none"; el.style.strokeDasharray = len; el.style.strokeDashoffset = len;
+        void el.getBoundingClientRect();
+        el.style.transition = "stroke-dashoffset 1s ease-out " + ((d-1)*.9) + "s";
+        el.style.strokeDashoffset = 0;
+        setTimeout(function(){ el.style.transition = ""; el.style.strokeDasharray = ""; el.style.strokeDashoffset = ""; }, 3200);
+      });
+    }, 350);
+  }
+}
+})();
+</script>
+</body>
+</html>

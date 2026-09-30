@@ -11,7 +11,7 @@
 <meta name="description" content="Quatre jours à vélo, du 29 octobre au 1er novembre 2026, le long de la Route des Vins d’Alsace, de Molsheim à Colmar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
 :root{
@@ -188,6 +188,58 @@ details p{margin:0 0 .9rem;color:var(--muted);font-size:.93rem;max-width:56ch}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;scroll-behavior:auto!important}
 }
+
+/* ===== Rafraîchissement : plus de peps ===== */
+:root{
+  --cave:#170C1A; --panel:#21122A; --panel-2:#2F1A3B; --line:#4A2C5E;
+  --text:#FBF1E8; --muted:#C2AFC9;
+  --d1:#B7EE4F; --d2:#FFB21E; --d3:#FF5C93; --d4:#4FC3FF; --hot:#FF5A36;
+  --display:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;
+}
+h1,h2,h3{font-family:var(--display)}
+.brand h1{font-size:2.7rem;font-weight:800;letter-spacing:-.03em;line-height:.95}
+.tagline{font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--hot);margin-top:.4rem}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:0 0 .9rem}
+.stat{background:var(--panel-2);border-radius:12px;padding:.55rem .65rem;border-top:3px solid var(--c)}
+.stat b{display:block;font:800 1.55rem/1 var(--display);color:var(--c);letter-spacing:-.02em}
+.stat span{display:block;font-size:.74rem;line-height:1.25;color:var(--muted);margin-top:.25rem}
+.dayinfo h2{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.dayinfo h2 .tl{display:block;font:600 .85rem/1.2 var(--sans);margin-bottom:.3rem}
+.dchips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0 .3rem}
+.dchip{font-size:.85rem;padding:.25rem .7rem;border-radius:999px;background:color-mix(in srgb,var(--c) 18%,var(--panel));border:1px solid color-mix(in srgb,var(--c) 55%,transparent);color:var(--text)}
+.dchip b{font-family:var(--display);font-weight:800}
+.profile{display:block;width:100%;height:auto;margin:.5rem 0 0}
+.profile text{font:600 9px var(--sans);fill:var(--muted)}
+.profile .pk{fill:var(--text);font-weight:700}
+.pnote{font-size:.72rem!important;margin:.1rem 0 .6rem!important;opacity:.8}
+.prog{list-style:none;margin:.3rem 0 .7rem;padding:0;border-left:2px solid color-mix(in srgb,var(--c) 50%,transparent)}
+.prog li{position:relative;display:grid;grid-template-columns:4.4rem 1fr;gap:.6rem;padding:.3rem 0 .3rem .9rem;font-size:.92rem}
+.prog li::before{content:"";position:absolute;left:-5px;top:.75rem;width:8px;height:8px;border-radius:50%;background:var(--c)}
+.prog time{font-family:var(--display);font-weight:800;color:var(--c);font-size:.9rem;white-space:nowrap}
+.prog span{color:var(--text)}
+.dfact{padding:.6rem .8rem;background:var(--panel-2);border-left:3px solid var(--hot);border-radius:0 10px 10px 0;color:var(--text)!important}
+.btn{background:var(--hot);color:var(--cave);transition:transform .12s,filter .15s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--text)}
+.chip[aria-pressed="true"]{background:var(--hot);border-color:var(--hot);color:var(--cave);font-weight:600}
+.daybar button b{font-family:var(--display);font-weight:800}
+.stop.table .pin{background:var(--hot);color:var(--cave);border-color:var(--cave)}
+.stop.table .pin svg{width:16px;height:16px}
+.mk.table .mk-in{background:var(--hot);color:var(--cave);border:2px solid var(--cave);width:30px;height:30px}
+.mk.table .mk-in svg{width:16px;height:16px}
+.fact{border-left-color:var(--hot)}
+.linkbtn{color:var(--hot)}
+/* liste de réservations */
+.bk-intro{margin:.2rem 0 .6rem;color:var(--muted);font-size:.9rem}
+.booklist{list-style:none;margin:0 0 .8rem;padding:0}
+.bk{display:grid;grid-template-columns:auto 1fr auto;gap:.65rem;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--line)}
+.chk{width:30px;height:30px;border-radius:9px;border:2px solid color-mix(in srgb,var(--c) 70%,transparent);background:transparent;color:transparent;display:grid;place-items:center;padding:0;transition:background .15s}
+.chk[aria-pressed="true"]{background:var(--c);color:var(--cave);border-color:var(--c)}
+.bk-t b{display:block;font-weight:600;line-height:1.25;font-size:.93rem}
+.bk-t small{color:var(--muted);font-size:.78rem}
+.bk.done .bk-t b{text-decoration:line-through;opacity:.55}
+.bk-tel{font-size:.85rem;font-weight:600;text-decoration:none;padding:.4rem .7rem;border-radius:8px;border:1px solid var(--line);min-height:36px;display:inline-flex;align-items:center}
+.bk-tel:hover{border-color:var(--hot);color:var(--hot)}
 </style>
 </head>
 <body>
@@ -202,7 +254,8 @@ details p{margin:0 0 .9rem;color:var(--muted);font-size:.93rem;max-width:56ch}
         </button>
         <div><h1>Vinlo 2026</h1><p class="tagline">À la découverte de l’Alsace</p></div>
       </div>
-      <p class="lede">Quatre jours, du jeudi 29 octobre à midi au dimanche 1er novembre à midi, entre Molsheim et Colmar, une cave à la fois. Touche un domaine pour le voir sur la carte.</p>
+      <div class="stats" id="stats"></div>
+      <p class="lede">Quatre jours pour des gourmands qui aiment transpirer : du jeudi 29 octobre à midi au dimanche 1er novembre à midi, des grandes caves, des montées, et de grandes tables. Touche un domaine pour le voir sur la carte.</p>
       <p class="fact" id="fact" aria-live="polite"></p>
       <button class="linkbtn" id="nextFact" type="button">Une autre anecdote</button>
     </header>
@@ -213,28 +266,39 @@ details p{margin:0 0 .9rem;color:var(--muted);font-size:.93rem;max-width:56ch}
     <ul class="stops" id="stops"></ul>
 
     <section class="practical" aria-labelledby="prat">
-      <h3 id="prat">Avant de partir</h3>
+      <h3 id="prat">À réserver cette semaine</h3>
+      <p class="bk-intro" id="bkIntro"></p>
+      <ul class="booklist" id="booklist"></ul>
+      <h3>Avant de partir</h3>
       <details>
-        <summary>Trains et vélos</summary>
-        <p>Sur TER, les vélos sont en général acceptés sans réservation, dans la limite des places. Sur TGV, il faut une place vélo réservée, en nombre limité. Un vélo à assistance électrique loué à Strasbourg et rendu à Colmar ou Mulhouse est souvent plus simple, mais la location en aller simple n’est pas toujours proposée : à demander aux loueurs.</p>
-        <p>Jeudi 29 octobre : arrivée en train vers midi, puis TER de Strasbourg à Molsheim. Dimanche 1er novembre : train de midi depuis Colmar, dont la gare est à environ 600 m de l’hôtel : vélos rendus et bagages prêts avant 11 h 30. Le retour du week-end de la Toussaint est très demandé : réserve tes billets tôt. Vers Paris, vérifie les horaires exacts des TGV au départ de Colmar. Pour Rémi, compte un TER de Colmar à Strasbourg puis le TGV direct Strasbourg–Reims : contrôle que la correspondance tient avec un départ à midi.</p>
+        <summary>Vélos, train et dénivelé</summary>
+        <p>Jeudi, le départ se fait à vélo depuis Strasbourg : il faut donc des vélos dès midi, par location ou en les emportant dans le train (en TGV, place vélo à réserver, en nombre limité). Variante tranquille : TER jusqu’à Molsheim, 25 km en moins.</p>
+        <p>Samedi, compte environ 750 m de dénivelé avec un sommet à 620 m : prévois des braquets légers, ou des vélos à assistance électrique si tu veux garder de l’énergie pour JY’S. Avant de t’engager sur la route forestière des Cinq Châteaux, vérifie qu’elle est ouverte et praticable.</p>
+        <p>Retour dimanche à midi depuis Colmar. Le train de la Toussaint est très demandé : réserve tôt. Vers Paris, vérifie les horaires exacts des TGV. Pour Rémi, compte un TER de Colmar à Strasbourg puis le TGV direct Strasbourg–Reims.</p>
       </details>
       <details>
-        <summary>Réservations de dégustations</summary>
-        <p>Hors saison, beaucoup de domaines reçoivent surtout sur rendez-vous, en particulier le dimanche. Appelle quelques jours avant. Compte une à deux heures par domaine : choisis deux ou trois caves par jour, pas toutes.</p>
+        <summary>Dégustations d’experts : mode d’emploi</summary>
+        <p>Les grandes maisons reçoivent sur rendez-vous, et la plupart facturent la dégustation, souvent déduite des achats (un avis cite environ 50 € par personne chez Deiss). Appelle en début de semaine, avec la date et le nombre de personnes.</p>
+        <p>Pour enchaîner trois ou quatre caves à vélo, recrache : les vins se goûtent, ils ne se boivent pas. Les caves expédient : ne charge pas les vélos, demande l’envoi.</p>
+        <p>Les cuvées les plus hautes de certaines maisons sont vendues sur allocation et ne se goûtent pas : demande plutôt un lieu-dit ou un Grand Cru accessible.</p>
+      </details>
+      <details>
+        <summary>Les tables</summary>
+        <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, dans ta rue) et JY’S à Colmar (samedi soir, deux étoiles, dans ton hôtel). Le déjeuner de vendredi se fait à Sélestat. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
+        <p>Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
       </details>
       <details>
         <summary>Hébergement</summary>
         <p>Les trois nuits sont réservées : Barr le jeudi, Riquewihr le vendredi et Colmar le samedi, chacune avec sa fiche détaillée dans la liste et un lien vers Booking. Demande à chaque hôte où ranger les vélos pour la nuit. Le week-end tombe pendant les vacances scolaires de la Toussaint : garde tes confirmations et les conditions d’annulation à portée de main.</p>
       </details>
       <details>
-        <summary>Les châteaux : à pied, pas à vélo</summary>
-        <p>Les quatre châteaux de la carte sont des détours en montée. Saint-Ulrich (au-dessus de Ribeauvillé) et les Trois Châteaux d’Eguisheim sont des ruines en accès libre. Le Hohlandsbourg est annoncé ouvert de Pâques au 11 novembre. Le Haut-Kœnigsbourg est le plus spectaculaire mais aussi le plus éloigné : vérifie ses jours d’ouverture avant d’y penser. Dans tous les cas, compte une heure ou plus par château, montée comprise.</p>
+        <summary>Les châteaux</summary>
+        <p>Deux châteaux sont sur ta route du samedi : le Hohlandsbourg (la grande montée, annoncé ouvert de Pâques au 11 novembre) et les Trois Châteaux d’Eguisheim (ruines en accès libre). Le Haut-Kœnigsbourg est un défi bonus du vendredi, à la place de Deiss et Trimbach. Saint-Ulrich se fait à pied depuis Ribeauvillé, environ une heure.</p>
       </details>
       <details>
         <summary>Dates, lumière et affluence</summary>
         <p>Du jeudi 29 octobre au dimanche 1er novembre 2026, tu tombes en plein dans les vacances scolaires de la Toussaint (du 17 octobre au 2 novembre, toutes zones) : plus de monde et des prix plus hauts. Le dimanche 1er novembre est férié : beaucoup de caves, de commerces et de restaurants seront fermés, donc appelle avant de te déplacer.</p>
-        <p>L’heure d’hiver est en place depuis le 25 octobre : le soleil se couche vers 17 h. Arrive à l’étape avant la nuit et prévois des feux sur les vélos.</p>
+        <p>L’heure d’hiver est en place depuis le 25 octobre : le soleil se couche vers 17 h. Les étapes du vendredi et du samedi se terminent de nuit : feux avant et arrière obligatoires.</p>
       </details>
       <div class="links" style="margin-top:1rem">
         <button class="btn ghost" id="copyFavs" type="button" hidden>Copier ma sélection</button>
@@ -243,6 +307,7 @@ details p{margin:0 0 .9rem;color:var(--muted);font-size:.93rem;max-width:56ch}
 
     <footer class="foot">
       <p>Horaires, notes et numéros : données Google Maps relevées à la conception, à vérifier avant de partir. Le tracé est indicatif (lignes droites entre les villages), ce n’est pas un fichier GPS.</p>
+      <p>Restaurants : horaires et notes Google Maps ; étoiles, Guide Michelin 2026.</p>
       <p>Photos : Wikipédia et Wikimedia Commons, sous licences libres (lien vers chaque fichier sous la photo).</p>
       <p>Fonds de carte : Esri, HERE, Garmin, contributeurs OpenStreetMap ; carte vélo © CyclOSM.</p>
     </footer>
@@ -274,151 +339,195 @@ var JOURS = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
 
 /* ---------- Données ---------- */
 var DAYS = {
-  1:{name:"Jeudi", label:"Jeudi 29 octobre", short:"Jeu", dow:3, title:"Molsheim à Barr", km:20,
-     intro:"Arrivée en train vers midi, puis TER jusqu’à Molsheim et départ à vélo vers 13 h 30 ou 14 h. Environ 20 km par Obernai jusqu’à Barr, avec une dégustation avant la nuit : le soleil se couche vers 17 h. Nuit à Barr.",
-     fact:"L’hébergement annonce l’arrivée à partir de 17 h, à peu près l’heure du coucher du soleil. Les domaines de Mittelbergheim, à 2 km, sont pour demain matin."},
-  2:{name:"Vendredi", label:"Vendredi 30 octobre", short:"Ven", dow:4, title:"Barr à Riquewihr", km:47,
-     intro:"Départ de Barr avec Mittelbergheim en premier (Gilg, Seltz), puis Andlau, déjeuner à Sélestat, et le pied des Vosges par Ribeauvillé et Hunawihr jusqu’à Riquewihr. Pars tôt : le soleil se couche vers 17 h. Nuit à Riquewihr.",
-     fact:"Gilg ouvre à 8 h et Seltz à 9 h le vendredi : c’est le bon moment pour y passer avant de filer vers le sud. Les châteaux s’ajoutent aux kilomètres : décide tôt si tu en fais un."},
-  3:{name:"Samedi", label:"Samedi 31 octobre", short:"Sam", dow:5, title:"Riquewihr à Colmar", km:34,
-     intro:"Kaysersberg et Ammerschwihr le matin, puis les domaines d’Eguisheim en fin d’après-midi, et Colmar pour la nuit. Les 7 km entre Eguisheim et Colmar se font à la tombée du jour : prévois des feux. Le samedi est le meilleur jour pour déguster : presque tous les domaines sont ouverts, avec une fermeture entre 17 h et 18 h 30 selon les maisons.",
-     fact:"Weinbach fait une pause de midi (11 h 30 à 13 h 30) et ferme à 17 h, vers l’heure du coucher de soleil : planifie-le en matinée."},
-  4:{name:"Dimanche", label:"Dimanche 1er novembre", short:"Dim", dow:6, holiday:true, title:"Colmar, dernière matinée", km:0,
-     intro:"Pas d’étape à vélo aujourd’hui, sauf pour rendre les vélos si tu les loues. Le 1er novembre est la Toussaint, jour férié : la plupart des caves sont fermées. Flâne dans Colmar, puis rejoins la gare, à environ 600 m de l’hôtel, pour le train de midi.",
-     fact:"Musées et commerces peuvent être fermés ou en horaires réduits le jour férié : vérifie avant de t’y rendre."}
+  1:{name:"Jeudi", label:"Jeudi 29 octobre", short:"Jeu", dow:3, title:"Strasbourg à Barr", tagline:"L’échauffement", km:45, dplus:100,
+     intro:"On arrive de Paris ou de Reims vers midi et on enfourche tout de suite : 25 km plats le long du canal de la Bruche, puis le pied des Vosges jusqu’à Barr. Une seule dégustation avant la nuit, et un vrai dîner.",
+     fact:"Variante tranquille : le TER jusqu’à Molsheim t’économise 25 km. Le soleil se couche vers 17 h : garde les feux à portée de main.",
+     program:[["11 h 30","Arrivée en train à Strasbourg, vélos en main"],["12 h 30","Départ par la piste du canal de la Bruche"],["14 h 15","Molsheim"],["15 h 00","Obernai"],["15 h 45","Dégustation chez Hering, à Barr"],["17 h 00","Arrivée au Love room"],["19 h 15","Dîner chez ENFIN"]],
+     profile:[[0,140,"Strasbourg"],[25,180,"Molsheim"],[36,185,"Obernai"],[45,200,"Barr"]]},
+  2:{name:"Vendredi", label:"Vendredi 30 octobre", short:"Ven", dow:4, title:"Barr à Riquewihr", tagline:"Le jour des grands noms", km:52, dplus:350,
+     intro:"Quatre maisons de premier plan : Kreydenweiss à Andlau, Marcel Deiss à Bergheim, Trimbach à Ribeauvillé et Hugel à Riquewihr. Entre les deux, 20 km de plaine pour aller déjeuner à Sélestat. C’est le jour pour lequel il faut réserver.",
+     fact:"Trimbach est fermé le week-end : c’est vendredi ou jamais. Le Haut-Kœnigsbourg est un défi bonus, mais il remplace Deiss et Trimbach.",
+     program:[["8 h 15","Départ de Barr (Seltz, à Mittelbergheim, ouvre à 9 h : option)"],["10 h 00","Kreydenweiss, à Andlau"],["12 h 15","Déjeuner à Sélestat, chez Au Bon Pichet"],["14 h 30","Marcel Deiss, à Bergheim"],["15 h 45","Trimbach, à Ribeauvillé"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)"],["19 h 00","Dîner au Sarment d’Or, à côté du gîte"]],
+     profile:[[0,200,"Barr"],[7,210,"Andlau"],[27,170,"Sélestat"],[41,215,"Bergheim"],[46,240,"Ribeauvillé"],[52,245,"Riquewihr"]]},
+  3:{name:"Samedi", label:"Samedi 31 octobre", short:"Sam", dow:5, title:"Riquewihr à Colmar", tagline:"Sommets et étoiles", km:47, dplus:750,
+     intro:"Le jour sportif : l’ascension du Hohlandsbourg, la route forestière des crêtes jusqu’aux Trois Châteaux, entre deux grandes caves. On finit à Colmar à la tombée de la nuit, pour un dîner deux étoiles dans ton propre hôtel.",
+     fact:"Les stars de Turckheim et de Wettolsheim (Zind-Humbrecht, Barmès-Buecher) sont fermées le samedi : elles ne rentrent pas dans ton week-end.",
+     program:[["9 h 00","Départ de Riquewihr"],["9 h 30","Weinbach, à Kaysersberg (ouvre à 9 h 30, pause dès 11 h 30)"],["11 h 30","Boxler, à Niedermorschwihr (sur rendez-vous)"],["12 h 30","Déjeuner léger à Turckheim"],["14 h 00","Montée au Hohlandsbourg, puis route forestière jusqu’à Husseren"],["15 h 30","Les Trois Châteaux d’Eguisheim"],["16 h 15","Emile Beyer, à Eguisheim"],["17 h 15","Dernière étape vers Colmar : 7 km, feux obligatoires"],["19 h 30","Dîner chez JY’S"]],
+     profile:[[0,245,"Riquewihr"],[9,240,"Kaysersberg"],[14,235,"Niedermorschwihr"],[20,230,"Wintzenheim"],[27,620,"Hohlandsbourg"],[35,330,"Husseren"],[39,220,"Eguisheim"],[47,190,"Colmar"]]},
+  4:{name:"Dimanche", label:"Dimanche 1er novembre", short:"Dim", dow:6, holiday:true, optional:true, title:"Colmar, le rappel", tagline:"La boucle du lendemain", km:18, dplus:60,
+     intro:"Le 1er novembre est la Toussaint : les caves seront fermées. On garde donc les jambes pour une boucle facultative de 18 km par Wettolsheim et Eguisheim avant le petit-déjeuner, puis Colmar à pied et le train de midi.",
+     fact:"Musées, boulangeries et restaurants peuvent être fermés ou en horaires réduits le jour férié : vérifie avant de t’y rendre.",
+     program:[["8 h 00","Boucle facultative Colmar, Wettolsheim, Eguisheim (18 km)"],["9 h 30","Petit-déjeuner à l’hôtel"],["10 h 30","Colmar à pied : Petite Venise et vieille ville"],["11 h 30","Vélos rendus, gare à environ 600 m"],["12 h 00","Train de midi"]],
+     profile:[[0,190,"Colmar"],[6,215,"Wettolsheim"],[10,220,"Eguisheim"],[18,190,"Colmar"]]}
 };
 
 var ROUTES = {
-  1:[[48.5403,7.4940],[48.4600,7.4810],[48.4140,7.4529],[48.4070,7.4510]],
-  2:[[48.4070,7.4510],[48.3956,7.4418],[48.3745,7.4094],[48.3167,7.4167],[48.2594,7.4542],[48.2077,7.3611],[48.1953,7.3197],[48.1806,7.3153],[48.1660,7.3036],[48.1670,7.3005]],
-  3:[[48.1670,7.3005],[48.1325,7.3037],[48.1373,7.2865],[48.1362,7.2732],[48.1386,7.2637],[48.1252,7.2814],[48.0858,7.2761],[48.0433,7.3076],[48.0755,7.3522]],
-  4:[]
+  1:[[48.5850,7.7340],[48.5600,7.6800],[48.5500,7.6000],[48.5450,7.5400],[48.5403,7.4940],[48.4600,7.4810],[48.4140,7.4529],[48.4087,7.4498]],
+  2:[[48.4087,7.4498],[48.3956,7.4418],[48.3883,7.4155],[48.3167,7.4167],[48.2594,7.4542],[48.2048,7.3563],[48.1944,7.3254],[48.1806,7.3153],[48.1669,7.2958]],
+  3:[[48.1669,7.2958],[48.1362,7.2732],[48.0997,7.2726],[48.0858,7.2761],[48.0739,7.2906],[48.0600,7.2692],[48.0390,7.2730],[48.0428,7.3068],[48.0757,7.3531]],
+  4:[[48.0757,7.3531],[48.0600,7.2985],[48.0433,7.3076],[48.0757,7.3531]]
 };
 
 var WEEK_FULL = function(t){ return [t,t,t,t,t,t,t]; };
 
 var STOPS = [
- /* Jour 1 */
- {id:"molsheim",type:"ville",day:1,name:"Molsheim",place:"Départ du jeudi, TER depuis Strasbourg",ll:[48.5403,7.4940],
+ /* Jeudi 29 */
+ {id:"strasbourg",type:"ville",day:1,name:"Strasbourg",place:"Arrivée en train vers midi",ll:[48.5850,7.7340],
+  story:"La flèche de sa cathédrale, haute de 142 m, a fait d’elle le plus haut édifice du monde de 1647 à 1874.",
+  tip:"Il te faut les vélos dès la gare : location ou vélos emportés dans le train (en TGV, place vélo à réserver). Départ par la piste du canal de la Bruche, 25 km plats jusqu’à Molsheim. Variante tranquille : TER jusqu’à Molsheim."},
+ {id:"molsheim",type:"ville",day:1,name:"Molsheim",place:"25 km dans les jambes",ll:[48.5403,7.4940],
   story:"Ettore Bugatti y a installé sa manufacture en 1909, et la marque y a toujours son siège au château Saint-Jean.",
-  tip:"Arrivée en train vers midi : TER de Strasbourg à Molsheim, puis départ à vélo en début d’après-midi sur la Véloroute du Vignoble, vers le sud."},
+  tip:"Premier ravitaillement : bois et mange avant de remonter vers le vignoble."},
  {id:"obernai",type:"ville",day:1,name:"Obernai",place:"Ville-étape",ll:[48.4600,7.4810],
   story:"Le puits aux six seaux trône sur la place du Marché. Au-dessus de la ville, le mont Sainte-Odile abrite le sanctuaire de la patronne de l’Alsace.",
-  tip:"Bon endroit pour un café avant de rouler vers Barr, première étape de dégustation."},
- {id:"bachert",type:"domaine",day:1,name:"Domaine Bachert",place:"Barr",ll:[48.4140239,7.4529223],rating:4.8,reviews:101,
-  phone:"+33 3 88 08 95 89",web:"http://www.bachert.fr/",hours:null,tags:["Hébergement sur place"],
-  story:"Un avis raconte l’arrêt de cyclistes après une longue journée au soleil : dégustation généreuse, accueil familial. Le domaine propose aussi des chambres d’hôtes.",
-  tip:"Aucun horaire n’est affiché : appelle avant de passer."},
- {id:"hering",type:"domaine",day:1,name:"Domaine Hering",place:"Barr",ll:[48.409473,7.450185],rating:5.0,reviews:48,
+  tip:"Il reste 7 km jusqu’à Barr et ta dégustation."},
+ {id:"hering",type:"domaine",day:1,name:"Domaine Hering",place:"Barr",ll:[48.4095,7.4502],mll:[48.4098,7.4494],rating:5.0,reviews:48,core:true,
   phone:"+33 3 88 08 90 07",web:"http://www.vins-hering.com/",
-  hours:["9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h","Fermé"],tags:[],
-  story:"Plusieurs visiteurs y sont entrés sans rendez-vous et ont eu une vraie dégustation. Au-dessus de Barr s’étend le Grand Cru Kirchberg de Barr."},
- {id:"hotelbarr",type:"hebergement",day:1,name:"Love room : Aux plaisirs des sens",place:"3 rue des Boulangers, Barr",village:"Barr",ll:[48.4070,7.4510],rating:9.0,reviews:1,scale:10,
+  hours:["9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h","Fermé"],tags:["Ta dégustation du jeudi"],
+  story:"Plusieurs visiteurs y sont entrés sans rendez-vous et ont eu une vraie dégustation. Au-dessus de Barr s’étend le Grand Cru Kirchberg de Barr.",
+  tip:"Ouvert jusqu’à 18 h 30 le jeudi : pas de course contre la nuit si tu arrives avant 17 h."},
+ {id:"hotelbarr",type:"hebergement",day:1,name:"Love room : Aux plaisirs des sens",place:"3 rue des Boulangers, Barr",village:"Barr",ll:[48.4087,7.4498],mll:[48.4082,7.4490],rating:9.0,reviews:1,scale:10,
   tags:["Nuit 1","Jacuzzi privé","Appartement entier"],
   booking:"https://www.booking.com/hotel/fr/love-room-aux-plaisirs-des-sens-jacuzzi-prive.fr.html?checkin=2026-10-29&checkout=2026-10-30&group_adults=4&no_rooms=1&group_children=0",
   facts:[["Séjour","Jeudi 29 octobre, 1 nuit, 4 adultes"],["Logement","Appartement entier, 1 chambre, environ 48 m²"],["Couchages","1 lit double et 1 canapé-lit"],["Équipements","Jacuzzi privé, cuisine, Wi-Fi gratuit"],["Arrivée","À partir de 17 h (à confirmer avec l’hôte)"],["Note Booking","9,0 sur 10, mais un seul avis"]],
-  story:"Appartement en plein centre de Barr, sur la Route des Vins, avec jacuzzi privé et cuisine. C’est ta première nuit, après environ 20 km depuis Molsheim.",
-  tip:"L’arrivée est annoncée à partir de 17 h, soit à peu près à la tombée de la nuit : cale une dégustation avant, ou demande à l’hôte si tu peux déposer les bagages plus tôt. Demande aussi où ranger les vélos. Emplacement sur la carte approximatif."},
- {id:"gilg",type:"domaine",day:2,name:"Domaine Armand Gilg",place:"Mittelbergheim",ll:[48.396541,7.441782],rating:4.9,reviews:130,
-  phone:"+33 3 88 08 92 76",web:"https://www.domaine-gilg.com/",
-  hours:["8h–12h · 13h30–18h","8h–12h · 13h30–18h","8h–12h · 13h30–18h","8h–12h · 13h30–18h","8h–12h · 13h30–18h","9h–12h · 13h30–17h","Fermé"],tags:["Grand Cru"],
-  story:"On goûte cépage par cépage, à l’alsacienne. À essayer : le Grand Cru Sylvaner. Le Zotzenberg, à Mittelbergheim, est le seul Grand Cru d’Alsace où le sylvaner a droit de cité.",
-  tip:"Un avis mentionne des caves ouvertes à la fin octobre : à confirmer par téléphone."},
+  story:"Appartement en plein centre de Barr, sur la Route des Vins, avec jacuzzi privé et cuisine. Le meilleur endroit pour relâcher les jambes après 45 km.",
+  tip:"L’arrivée est annoncée à partir de 17 h : cale ta dégustation avant, ou demande à l’hôte si tu peux déposer les bagages plus tôt. Demande où ranger les vélos. Emplacement sur la carte approximatif."},
+ {id:"enfin",type:"table",day:1,name:"ENFIN",place:"2 chemin du Château d’Andlau, Barr",village:"Barr",ll:[48.4049,7.4255],rating:4.8,reviews:339,price:"€€€€",book:true,core:true,
+  phone:"+33 3 69 61 37 30",tags:["Dîner du jeudi","Vins nature"],
+  hours:["Fermé","Fermé","19h15–22h30","19h15–22h30","12h–14h30 · 19h15–22h30","12h–14h30 · 19h15–22h30","12h–14h30"],
+  story:"Cuisine régionale et créative, très végétale selon les avis, avec des vins nature et un accord sans alcool inventif. Les avis saluent le cadre, le service et les détails.",
+  tip:"Le jeudi, service du soir seulement (19 h 15 à 22 h 30). Un peu à l’écart du centre : à environ 2 km de ton hébergement, à faire à vélo. Réserve dès maintenant."},
+ {id:"tablecinq",type:"table",day:1,name:"La Table du 5",place:"Place de l’Hôtel de Ville, Barr",village:"Barr",ll:[48.4090,7.4500],mll:[48.4094,7.4508],rating:4.5,reviews:202,price:"€€€€",book:true,
+  phone:"+33 3 90 57 10 10",tags:["Plan B du jeudi"],
+  hours:["Fermé","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","19h–21h","Fermé"],
+  story:"Table gastronomique sur la place de l’Hôtel de Ville, à deux pas de ton hébergement. Les avis sont partagés, certains très enthousiastes sur la cuisine et le service, d’autres moins.",
+  tip:"À garder en plan B si ENFIN est complet. Ouvert le jeudi à midi et le soir."},
+
+ /* Vendredi 30 */
  {id:"seltz",type:"domaine",day:2,name:"Domaine Albert Seltz",place:"Mittelbergheim",ll:[48.395573,7.443666],rating:5.0,reviews:456,
   phone:"+33 3 88 08 91 77",web:"http://albert-seltz.fr/",
-  hours:["9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h30 · 14h–18h","9h–12h30 · 14h–18h","10h–12h","Fermé"],tags:["Bio"],fav:true,
-  story:"Quinze générations de vignerons dans la famille, selon les visiteurs. Les dégustations s’étirent : un avis parle de cinq heures sur place. Prévois large et arrive à l’ouverture : la journée du vendredi est longue.",
-  tip:"Note de 5/5 sur plus de 450 avis : le coup de cœur de l’étape."},
- {id:"andlau",type:"ville",day:2,name:"Andlau",place:"Village-étape",ll:[48.3745,7.4094],
-  story:"Son abbatiale romane, fondée au IXe siècle, a un portail sculpté qui vaut cinq minutes d’arrêt.",
-  tip:"Pause facultative avant d’attaquer la plaine vers Sélestat."},
+  hours:["9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h30 · 14h–18h","9h–12h30 · 14h–18h","10h–12h","Fermé"],tags:["Option, sur ta route","Bio"],
+  story:"Quinze générations de vignerons dans la famille, selon les visiteurs. Les dégustations s’étirent : un avis parle de cinq heures sur place. Le Zotzenberg, à Mittelbergheim, est le seul Grand Cru d’Alsace où le sylvaner a droit de cité.",
+  tip:"Ouvre à 9 h le vendredi : à 2 km de Barr, c’est une option rapide si tu pars à 8 h 15. Sinon, garde ton énergie pour Andlau."},
+ {id:"kreydenweiss",type:"domaine",day:2,name:"Domaine Marc Kreydenweiss",place:"Andlau",ll:[48.3883515,7.4155198],rating:4.6,reviews:60,core:true,book:true,
+  phone:"+33 3 88 08 95 83",
+  hours:["8h–12h · 13h30–17h","8h–12h · 13h30–17h","8h–12h · 13h30–17h","8h–12h · 13h30–17h","8h–12h · 13h30–17h","10h–12h · 14h–17h","Fermé"],tags:["Incontournable","Biodynamie","Réserver"],
+  story:"Domaine en biodynamie, très apprécié des connaisseurs : les avis vantent la précision des vins et l’expression des terroirs, dans une salle décorée d’œuvres d’artistes. Andlau compte trois Grands Crus : Kastelberg, Moenchberg et Wiebelsberg.",
+  tip:"Appelle pour réserver : c’est le vrai départ de ta journée de vendredi, vers 10 h."},
+ {id:"ostertag",type:"domaine",day:2,name:"Domaine Ostertag",place:"Epfig",ll:[48.362586,7.452469],rating:4.8,reviews:28,book:true,
+  phone:"+33 3 88 85 51 34",
+  hours:["8h–12h · 13h–17h","8h–12h · 13h–17h","8h–12h · 13h–17h","8h–12h · 13h–17h","8h–12h · 13h–16h","Fermé","Fermé"],tags:["Option","Biodynamie","Sur rendez-vous"],
+  story:"Domaine d’Epfig en biodynamie, réputé pour ses vins issus de plusieurs Grands Crus d’Alsace selon les avis. Uniquement sur rendez-vous : un visiteur raconte un refus faute de réservation.",
+  tip:"Option à la place de Seltz, à 3 ou 4 km de ta route entre Andlau et Sélestat. Ferme à 16 h le vendredi."},
  {id:"selestat",type:"ville",day:2,name:"Sélestat",place:"Étape du déjeuner",ll:[48.2594,7.4542],
   story:"La Bibliothèque humaniste conserve la Cosmographiae Introductio (1507), l’un des premiers textes à nommer l’Amérique.",
-  tip:"Vérifie les horaires de la bibliothèque avant d’arriver, ils varient selon la saison."},
-
- /* Jour 2 */
- {id:"hk",type:"chateau",day:2,name:"Château du Haut-Kœnigsbourg",place:"Orschwiller, détour depuis Sélestat",ll:[48.2494,7.3442],tags:["Détour facultatif"],
+  tip:"Tu y arrives après 27 km. Les horaires de la bibliothèque varient selon la saison : vérifie avant."},
+ {id:"bonpichet",type:"table",day:2,name:"Au Bon Pichet",place:"10 marché aux Choux, Sélestat",village:"Sélestat",ll:[48.2586,7.4568],rating:4.4,reviews:326,price:"€€€",book:true,core:true,
+  phone:"+33 3 88 82 96 65",tags:["Déjeuner du vendredi"],
+  hours:["Fermé","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","12h–13h30","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","Fermé"],
+  story:"Restaurant simple et soigné au cœur de Sélestat. Les avis citent un menu du jour autour de 20 € d’une belle tenue et une carte de vins fournie.",
+  tip:"Service de 12 h à 13 h 30 : assieds-toi à 12 h 15 si tu veux être chez Deiss à 14 h 30."},
+ {id:"hk",type:"chateau",day:2,name:"Château du Haut-Kœnigsbourg",place:"Orschwiller, le défi bonus",ll:[48.2494,7.3442],tags:["Défi bonus"],
   story:"Incendié en 1462 par les troupes réunies de Colmar, Strasbourg et Bâle pour en chasser des chevaliers pillards, abandonné pendant la guerre de Trente Ans, puis reconstruit de 1900 à 1908 sur ordre de l’empereur allemand Guillaume II. Il reçoit plus de 500 000 visiteurs par an.",
-  tip:"À environ 8 km à l’ouest de Sélestat et perché à plus de 700 m : une montée soutenue. Plutôt pour un vélo à assistance électrique ou un taxi, sinon à sauter. Vérifie les jours et horaires d’ouverture."},
+  tip:"À environ 8 km à l’ouest de Sélestat et à plus de 700 m : une montée soutenue. Il prendrait la place de ton après-midi chez Deiss et Trimbach : c’est l’un ou l’autre, pas les deux. Vérifie les horaires d’ouverture."},
+ {id:"deiss",type:"domaine",day:2,name:"Domaine Marcel Deiss",place:"Bergheim",ll:[48.2048303,7.3563385],rating:4.6,reviews:125,core:true,book:true,
+  phone:"+33 3 89 73 63 37",
+  hours:["8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","10h–12h · 14h–18h","Fermé"],tags:["Incontournable","Complantation","Réserver"],
+  story:"La maison défend l’assemblage de cépages cultivés ensemble au vignoble : ici, le terroir prime sur le cépage, selon les avis. Les vignes de Bergheim donnent le Grand Cru Altenberg de Bergheim. Un visiteur cite une dégustation à environ 50 € par personne, déduite des achats.",
+  tip:"Plusieurs avis conseillent de réserver. Vendredi 14 h 30 est idéal : le samedi, il n’ouvre qu’à 10 h."},
+ {id:"rollygassmann",type:"domaine",day:2,name:"Rolly Gassmann",place:"Rorschwihr",ll:[48.2175637,7.3596671],rating:4.6,reviews:384,
+  phone:"+33 3 89 73 63 28",hours:WEEK_FULL("10h–12h · 14h–18h"),tags:["Option","Sans rendez-vous","Ouvert 7 jours sur 7"],
+  story:"Dégustation gratuite et sans réservation d’après un avis, avec une vue panoramique sur le vignoble et une salle couverte d’échantillons de roches et de fossiles. Les avis citent une belle place faite aux vins moelleux.",
+  tip:"À 2 km de Deiss, sur ta route : le plan B sans rendez-vous si une maison est complète."},
+ {id:"trimbach",type:"domaine",day:2,name:"Maison Trimbach",place:"Ribeauvillé",ll:[48.1944177,7.3254174],rating:4.7,reviews:112,core:true,book:true,
+  phone:"+33 3 89 73 60 30",
+  hours:["8h–12h · 14h–17h30","8h–12h · 14h–17h30","8h–12h · 14h–17h30","8h–12h · 14h–17h30","8h–12h · 14h–17h30","Fermé","Fermé"],tags:["Incontournable","Rieslings de référence","Réserver"],
+  story:"Maison familiale de Ribeauvillé, réputée pour ses rieslings secs et tendus. Sa cuvée emblématique, le Clos Sainte-Hune, vient de Hunawihr. Un avis précise que les cuvées les plus hautes sont vendues sur allocation et ne se goûtent pas.",
+  tip:"Fermé le samedi et le dimanche : c’est forcément vendredi, avant 17 h 30. Réserve, et demande un lieu-dit plutôt que de viser l’impossible."},
  {id:"ribeauville",type:"ville",day:2,name:"Ribeauvillé",place:"Ville-étape",ll:[48.1953,7.3197],
   story:"Trois châteaux en ruine s’étagent sur la colline au-dessus de la ville.",
   tip:"Premier vrai village de carte postale de la journée."},
- {id:"stulrich",type:"chateau",day:2,name:"Château de Saint-Ulrich",place:"Au-dessus de Ribeauvillé",ll:[48.2028,7.3053],tags:["Accès libre","À pied"],
+ {id:"stulrich",type:"chateau",day:2,name:"Château de Saint-Ulrich",place:"Au-dessus de Ribeauvillé",ll:[48.2028,7.3053],tags:["Option","À pied"],
   story:"Résidence principale des puissants seigneurs de Ribeaupierre du XIe au XVIe siècle. Un dicton alsacien de plus de trois siècles résume la région : « Trois châteaux sur une montagne (Ribeauvillé), trois églises dans un enclos (Riquewihr), trois villes dans une vallée (Ammerschwihr, Kaysersberg, Kientzheim) : c’est là toute l’Alsace. »",
-  tip:"Ruine toujours accessible et gratuite. Compte 30 à 60 minutes de marche depuis Ribeauvillé par des sentiers assez raides : laisse les vélos en bas."},
- {id:"mittnacht",type:"domaine",day:2,name:"Domaine Mittnacht Frères",place:"Hunawihr",ll:[48.1806705,7.3152297],rating:5.0,reviews:67,
-  phone:"+33 3 89 73 62 01",web:"http://mittnachtfreres.fr/",
-  hours:["10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–17h30","Fermé"],tags:["Bio et biodynamie"],
-  story:"Toute la gamme est en bio et biodynamie, avec un pied dans les vins nature. À Hunawihr, le Grand Cru Rosacker est réputé pour ses rieslings. Le village a aussi une église fortifiée et un centre de réintroduction des cigognes."},
- {id:"ermel",type:"domaine",day:2,name:"Domaine David Ermel & Fils",place:"Hunawihr",ll:[48.1811275,7.3161024],rating:4.9,reviews:89,
-  phone:"+33 3 89 73 61 71",web:"http://davidermel.com/",
-  hours:["9h–12h · 14h–17h30","9h–12h · 14h–17h30","9h–12h · 14h–17h30","9h–12h · 14h–17h30","9h–12h · 14h–17h30","10h–12h · 14h–17h30","Fermé"],tags:[],
-  story:"Des visiteurs y sont passés sur un coup de tête et en ont gardé un très bon souvenir : riesling, sylvaner, pinot noir, vendanges tardives et crémant au menu."},
- {id:"dopff",type:"domaine",day:2,name:"Dopff au Moulin",place:"Riquewihr",ll:[48.166095,7.3036253],rating:4.8,reviews:1194,
-  phone:"+33 3 89 49 09 69",web:"http://www.dopff-au-moulin.fr/",
-  hours:WEEK_FULL("10h–19h"),tags:["Ouvert 7 jours sur 7","Nuit possible à Riquewihr"],fav:true,
-  story:"Maison historique de Riquewihr, connue pour ses crémants. Le crémant d’Alsace n’a son appellation que depuis 1976. Les avis vantent la visite de cave et les Grands Crus en dégustation.",
-  tip:"La valeur sûre du dimanche : ouvert tous les jours de 10 h à 19 h."},
- {id:"giteriquewihr",type:"hebergement",day:2,name:"Gîte Le Chemin de Ronde",place:"2 rue du Cerf, Riquewihr",village:"Riquewihr",ll:[48.1670,7.3005],rating:8.7,reviews:46,scale:10,
+  tip:"Ruine toujours accessible et gratuite. Compte 30 à 60 minutes de marche depuis Ribeauvillé par des sentiers assez raides : laisse les vélos en bas. Tu n’as sans doute pas le temps vendredi."},
+ {id:"hugel",type:"domaine",day:2,name:"Famille Hugel",place:"Riquewihr",ll:[48.1668625,7.2974822],rating:4.5,reviews:255,core:true,
+  phone:"+33 3 89 47 92 15",hours:WEEK_FULL("9h30–12h · 13h–18h"),tags:["Incontournable","Vins moelleux","Ouvert 7 jours sur 7"],
+  story:"Maison familiale installée à Riquewihr depuis 1639. Les avis citent ses vins moelleux parmi les meilleurs, et une visite des « trois terroirs » dans le vignoble.",
+  tip:"Ouvert tous les jours de 9 h 30 à 18 h : à faire en arrivant à Riquewihr vendredi vers 17 h, à pied depuis le gîte. La visite des terroirs demande sans doute une réservation."},
+ {id:"giteriquewihr",type:"hebergement",day:2,name:"Gîte Le Chemin de Ronde",place:"2 rue du Cerf, Riquewihr",village:"Riquewihr",ll:[48.1669,7.2958],rating:8.7,reviews:46,scale:10,
   tags:["Nuit 2","Parking privé","Cuisine équipée"],
   booking:"https://www.booking.com/hotel/fr/ga-r-te-le-chemin-de-ronde.fr.html?checkin=2026-10-30&checkout=2026-10-31&group_adults=4&no_rooms=1&group_children=0",
   facts:[["Séjour","Vendredi 30 octobre, 1 nuit, 4 adultes"],["Logement","Gîte de deux appartements : 52 m² (1 chambre) et 100 m² (2 chambres)"],["Équipements","Cuisine équipée, baignoire, Wi-Fi gratuit, parking privé"],["Arrivée","De 15 h ou 16 h à 22 h selon les sources"],["Départ","Avant 10 h"],["Note Booking","8,7 sur 10 (46 avis)"]],
   story:"Gîte au cœur de Riquewihr, à quelques minutes à pied du centre. Les avis vantent l’emplacement et l’accueil des propriétaires, avec linge et serviettes fournis.",
-  tip:"Prévois d’arriver avant 22 h, ou préviens les propriétaires. Un avis mentionne des parkings en haut du village : demande où laisser les vélos pour la nuit. Emplacement sur la carte approximatif."},
- {id:"meyerkrumb",type:"domaine",day:3,name:"Domaine Meyer-Krumb",place:"Kaysersberg Vignoble",ll:[48.132497,7.3036905],rating:4.9,reviews:229,
-  phone:"+33 3 89 47 13 20",web:"http://meyer-krumb.com/",
-  hours:["10h–18h30","10h–18h30","10h–18h30","10h–18h30","10h–18h30","10h–18h30","10h–12h30"],tags:["Hébergement sur place"],
-  story:"Ouvert tous les jours, dimanche matin compris. Des visiteurs ont fait le tour des vignes et de la cave avant la dégustation."},
- {id:"weinbach",type:"domaine",day:3,name:"Domaine Weinbach",place:"Kaysersberg Vignoble",ll:[48.1362394,7.273184],rating:4.6,reviews:190,
+  tip:"Prévois d’arriver avant 22 h, ou préviens les propriétaires. Un avis mentionne des parkings en haut du village : demande où laisser les vélos pour la nuit."},
+ {id:"sarment",type:"table",day:2,name:"Le Sarment d’Or",place:"4 rue du Cerf, Riquewihr",village:"Riquewihr",ll:[48.1669,7.2957],mll:[48.1673,7.2950],rating:4.9,reviews:148,price:"€€€",book:true,core:true,
+  phone:"+33 3 10 06 51 06",tags:["Dîner du vendredi","Dans ta rue"],
+  hours:["18h45–20h30","18h45–20h30","18h45–20h30","Fermé","18h45–20h45","12h–13h30 · 18h45–20h45","12h–13h30 · 18h45–20h30"],
+  story:"Restaurant semi-gastronomique et hôtel de sept chambres, repris par une jeune équipe après plusieurs années de fermeture selon un avis. Carte de saison avec des producteurs locaux et de bons conseils sur les vins d’Alsace.",
+  tip:"À deux numéros de ton gîte (4 rue du Cerf contre le 2) : dîner en quelques pas après la journée. Service jusqu’à 20 h 45 le vendredi."},
+ {id:"tablegourmet",type:"table",day:2,name:"La Table du Gourmet",place:"5 rue de la 1re Armée, Riquewihr",village:"Riquewihr",ll:[48.1663,7.2973],mll:[48.1659,7.2980],rating:4.5,reviews:473,price:"€€€€",book:true,
+  phone:"+33 3 89 49 09 09",tags:["Plan B du vendredi","Menus longs"],
+  hours:["12h15–13h30 · 19h15–20h45","Fermé","Fermé","19h15–20h45","12h15–13h30 · 19h15–20h45","12h15–13h30 · 19h15–20h45","12h15–13h30 · 19h15–20h45"],
+  story:"Table de Jean-Luc Brendel dans une salle rouge, à deux pas de Hugel. Les avis parlent de menus longs, jusqu’à cinq heures, et d’un menu autour de 100 € au déjeuner.",
+  tip:"Plan B gastronomique si tu veux un vrai repas de fête le vendredi. Compte trois à cinq heures et réserve."},
+
+ /* Samedi 31 */
+ {id:"weinbach",type:"domaine",day:3,name:"Domaine Weinbach",place:"Kaysersberg Vignoble",ll:[48.1362394,7.273184],rating:4.6,reviews:190,core:true,book:true,
   phone:"+33 3 89 47 13 21",web:"http://www.domaineweinbach.com/",
-  hours:["9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h","Fermé"],tags:["Grand Cru"],fav:true,
+  hours:["9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h30","9h30–11h30 · 13h30–17h","Fermé"],tags:["Incontournable","Grand Cru","Réserver"],
   story:"Le domaine occupe le Clos des Capucins, où des moines capucins cultivaient la vigne dès 1612. La famille Faller l’exploite depuis 1898. Le Schlossberg, juste au-dessus, a été en 1975 le premier Grand Cru délimité d’Alsace.",
-  tip:"Une référence de la région. Les avis parlent d’une dégustation dans la cuisine, et d’un droit de dégustation remboursé à l’achat. Réserve."},
+  tip:"Une référence. Les avis parlent d’une dégustation dans la cuisine, et d’un droit de dégustation remboursé à l’achat. Samedi : 9 h 30 à 11 h 30, puis 13 h 30 à 17 h."},
+ {id:"nasti",type:"table",day:3,name:"La Table d’Olivier Nasti",place:"Le Chambard, Kaysersberg",village:"Kaysersberg",ll:[48.1387,7.2657],mll:[48.1392,7.2650],rating:4.7,reviews:383,price:"€€€€",book:true,
+  phone:"+33 3 89 47 10 17",tags:["2 étoiles Michelin","Option du samedi midi"],
+  hours:["Fermé","Fermé","19h–20h30","19h–20h30","12h–13h30 · 19h–20h30","12h–13h30 · 19h–20h30","12h–13h30 · 19h–20h30"],
+  story:"Deux étoiles au Guide Michelin 2026, dans le Relais & Châteaux Le Chambard, avec le chef Olivier Nasti, Meilleur Ouvrier de France. Les avis parlent d’une cuisine créative et d’un sommelier précis, mais aussi de services très longs.",
+  tip:"L’option qui change le programme : un déjeuner gastronomique dure trois à cinq heures et prend la place des châteaux de l’après-midi. Choix d’épicurien ou de sportif, pas les deux."},
  {id:"kaysersberg",type:"ville",day:3,name:"Kaysersberg",place:"Ville-étape",ll:[48.1386,7.2637],
   story:"Albert Schweitzer y est né en 1875. Son pont fortifié sur la Weiss est l’image de la ville.",
-  tip:"Bonne pause déjeuner avant de repartir vers Eguisheim."},
- {id:"freyburger",type:"domaine",day:3,name:"Marcel Freyburger",place:"Ammerschwihr",ll:[48.1252459,7.2814059],rating:5.0,reviews:100,
-  phone:"+33 3 89 78 25 72",web:"https://www.freyburger.fr/",
-  hours:["14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","Fermé"],tags:["Bio"],
-  story:"Dégustation guidée, vins goûtés par paires de cépages, dans une cave aux grands fûts. Les pinots noirs sont très cités. Le village a été presque entièrement détruit en 1944-1945 puis reconstruit. Son Grand Cru Kaefferkopf est le seul d’Alsace à autoriser les assemblages."},
- /* Jour 3 */
- {id:"hohland",type:"chateau",day:3,name:"Château du Hohlandsbourg",place:"Wintzenheim, à l’ouest de Colmar",ll:[48.0600,7.2692],tags:["Détour facultatif","Ouvert de Pâques au 11 novembre"],
+  tip:"Laisse les vélos et traverse le pont à pied entre Weinbach et Boxler."},
+ {id:"boxler",type:"domaine",day:3,name:"Domaine Albert Boxler",place:"Niedermorschwihr",ll:[48.0997391,7.2725513],rating:4.4,reviews:34,core:true,book:true,
+  phone:"+33 3 89 27 11 32",hours:null,tags:["Incontournable","Grand Cru Sommerberg","Sur rendez-vous"],
+  story:"Domaine de Niedermorschwihr, dominé par le Grand Cru Sommerberg. Les avis parlent d’une petite dégustation intime, de rieslings Grand Cru et de pinots gris très structurés, et d’un accueil passionné.",
+  tip:"Aucun horaire affiché : le rendez-vous est indispensable. Appelle cette semaine pour caler 11 h 30."},
+ {id:"hohland",type:"chateau",day:3,name:"Château du Hohlandsbourg",place:"Wintzenheim, la grande montée",ll:[48.0600,7.2692],tags:["Sur ta route","Ouvert jusqu’au 11 novembre"],
   story:"Bâti en 1279 sur ordre du prévôt de Colmar, à 620 m d’altitude, pour surveiller la ville et sa région. Il a été renforcé plusieurs fois, notamment au XVIe siècle par Lazare de Schwendi, conseiller des Habsbourg.",
-  tip:"Sur ta route entre Turckheim et Eguisheim, à quelques kilomètres en montée de Wintzenheim. Pendant ton week-end, il devrait être ouvert (saison jusqu’au 11 novembre) : à confirmer, surtout le 1er novembre."},
- {id:"stoffel",type:"domaine",day:3,name:"Domaine Antoine Stoffel",place:"Eguisheim",ll:[48.0469869,7.3069685],rating:4.9,reviews:160,
-  phone:"+33 3 89 41 32 03",web:"http://www.antoinestoffel.com/",
-  hours:["9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","9h–12h · 14h–18h","Fermé"],tags:[],
-  story:"Maison familiale, dégustations généreuses. Un visiteur voulait acheter une bouteille et en est reparti avec quatre.",
-  tip:"Premier domaine du village en arrivant par le nord."},
- {id:"beyer",type:"domaine",day:3,name:"Domaine Emile Beyer",place:"Eguisheim",ll:[48.0427865,7.3068295],rating:4.7,reviews:184,
-  phone:"+33 3 89 41 40 45",web:"https://www.emile-beyer.fr/",
-  hours:["14h–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","10h–12h · 13h30–18h","Fermé"],tags:[],fav:true,
-  story:"Une dégustation comparative : un même riesling en trois niveaux (tradition, lieu-dit, grand cru), précédé d’un crémant. Eguisheim est bâtie en cercles concentriques autour de son château, et le pape Léon IX y serait né vers l’an 1000.",
-  tip:"Un tarif par personne est affiché dans les avis : demande-le à la réservation."},
- {id:"baur",type:"domaine",day:3,name:"Domaine Charles Baur",place:"Eguisheim",ll:[48.0420953,7.3079521],rating:4.8,reviews:206,
-  phone:"+33 3 89 41 32 49",web:"http://www.vinscharlesbaur.fr/",
-  hours:["10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h · 14h–18h","10h–12h"],tags:[],
-  story:"Un visiteur raconte être venu à vélo depuis Colmar, exactement comme toi. Un Grand Cru Brand est cité dans les avis.",
-  tip:"Dernier domaine de la journée : il ferme à 18 h, vers l’heure où il fait nuit. Il reste 7 km jusqu’à Colmar, à faire avec des feux."},
- {id:"troischateaux",type:"chateau",day:3,name:"Les Trois Châteaux d’Eguisheim",place:"Husseren-les-Châteaux",ll:[48.0390,7.2730],q:"Trois Châteaux d'Eguisheim Husseren-les-Châteaux",tags:["Accès libre","Détour facultatif"],
+  tip:"La grande montée du samedi, environ 400 m de dénivelé depuis Wintzenheim. La route forestière des Cinq Châteaux le relie à Husseren-les-Châteaux : vérifie qu’elle est ouverte et praticable à vélo avant de t’y engager. Ouvert pendant ton week-end en principe : à confirmer."},
+ {id:"troischateaux",type:"chateau",day:3,name:"Les Trois Châteaux d’Eguisheim",place:"Husseren-les-Châteaux",ll:[48.0390,7.2730],q:"Trois Châteaux d'Eguisheim Husseren-les-Châteaux",tags:["Sur ta route","Accès libre"],
   story:"Trois donjons dressés à une soixantaine de mètres l’un de l’autre sur le même éperon. Le plus ancien, le Wahlenbourg, date de 1006 : c’est là que serait né le pape Léon IX. Les trois châteaux ont été détruits en 1466.",
-  tip:"Toujours accessible et gratuit, avec environ cinq minutes de marche depuis le parking. La route depuis Eguisheim monte : à tenter surtout en vélo électrique."},
- {id:"hotelcolmar",type:"hebergement",day:3,name:"L’Esquisse Hotel & Spa Colmar",place:"2 avenue de la Marne, Colmar",village:"Colmar",ll:[48.0755,7.3522],rating:9.2,reviews:1616,scale:10,
+  tip:"Toujours accessible et gratuit, avec environ cinq minutes de marche depuis le parking. Ensuite, 4 km de descente jusqu’à Eguisheim."},
+ {id:"beyer",type:"domaine",day:3,name:"Domaine Emile Beyer",place:"Eguisheim",ll:[48.0427865,7.3068295],rating:4.7,reviews:184,core:true,
+  phone:"+33 3 89 41 40 45",web:"https://www.emile-beyer.fr/",
+  hours:["14h–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","10h–12h · 13h30–18h","Fermé"],tags:["Incontournable","Riesling comparatif"],
+  story:"Une dégustation comparative : un même riesling en trois niveaux (tradition, lieu-dit, grand cru), précédé d’un crémant. Eguisheim est bâtie en cercles concentriques autour de son château, et le pape Léon IX y serait né vers l’an 1000.",
+  tip:"Ta dernière dégustation, vers 16 h 15 : il ferme à 18 h, mais le jour baisse vers 17 h. Un tarif par personne est cité dans les avis : demande-le."},
+ {id:"hotelcolmar",type:"hebergement",day:3,name:"L’Esquisse Hotel & Spa Colmar",place:"2 avenue de la Marne, Colmar",village:"Colmar",ll:[48.0757,7.3531],mll:[48.0761,7.3522],rating:9.2,reviews:1616,scale:10,
   phone:"+33 3 67 68 20 00",web:"https://www.lesquisse-colmar.com/",tags:["Nuit 3","5 étoiles","Spa et piscine","Parking privé"],
   booking:"https://www.booking.com/hotel/fr/colmar-champ-de-mars.fr.html?checkin=2026-10-31&checkout=2026-11-01&group_adults=4&no_rooms=1&group_children=0",
   facts:[["Séjour","Samedi 31 octobre, 1 nuit, 4 adultes"],["Hôtel","5 étoiles, 62 chambres et suites (MGallery)"],["Équipements","Spa, piscine intérieure, restaurant, parking privé"],["Gare","À environ 600 m à pied"],["Note Booking","9,2 sur 10 (plus de 1 500 avis)"]],
-  story:"Hôtel dans le parc du Champ de Mars, à dix minutes à pied du centre historique. La gare est à environ 600 m : pratique pour le train de dimanche midi.",
-  tip:"Tu y arrives de nuit après les 7 km depuis Eguisheim : prévois des feux sur les vélos. Demande à la réception où ranger les vélos. Emplacement sur la carte approximatif."},
+  story:"Hôtel dans le parc du Champ de Mars, à dix minutes à pied du centre historique. Le spa et la piscine sont faits pour récupérer d’une journée à 750 m de dénivelé. La gare est à environ 600 m : pratique pour le train de dimanche midi.",
+  tip:"Tu y arrives de nuit après 47 km : prévois des feux sur les vélos. Demande à la réception où ranger les vélos. Emplacement sur la carte approximatif."},
+ {id:"jys",type:"table",day:3,name:"JY’S",place:"3 allée du Champ de Mars, Colmar",village:"Colmar",ll:[48.0756,7.3535],mll:[48.0754,7.3546],rating:4.5,reviews:897,price:"€€€€",book:true,core:true,
+  phone:"+33 3 89 21 53 60",tags:["2 étoiles Michelin","Le point d’orgue"],
+  hours:["Fermé","19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","Fermé"],
+  story:"Deux étoiles au Guide Michelin. Jean-Yves Schillinger, élève de Joël Robuchon, a été élu cuisinier de l’année par le Pudlo Alsace 2026 : une cuisine savante et végétale qui passe de l’Alsace au Japon, dans une salle vitrée au rez-de-chaussée de ton hôtel.",
+  tip:"Service du soir de 19 h à 21 h 30 le samedi. C’est le point d’orgue du week-end : réserve dès maintenant. Les avis citent un service parfois inégal et un menu en français seulement."},
+ {id:"brenner",type:"table",day:3,name:"Wistub Brenner",place:"1 rue Turenne, Colmar",village:"Colmar",ll:[48.0739,7.3578],rating:4.3,reviews:2462,price:"€€€",book:true,
+  phone:"+33 3 89 41 42 33",tags:["Plan B du samedi","Winstub"],
+  hours:WEEK_FULL("12h–16h · 19h–22h"),
+  story:"Winstub historique au bord de la Petite Venise, ouverte tous les jours à midi et le soir. Les avis décrivent une cuisine alsacienne copieuse, un beau foie gras et une bonne carte de vins locaux.",
+  tip:"Plan B si JY’S est complet. Plus décontracté, mais les portions sont généreuses : prévois de l’appétit."},
+
+ /* Dimanche 1er novembre */
  {id:"colmar",type:"ville",day:4,name:"Colmar",place:"Dimanche matin, train de midi",ll:[48.0794,7.3585],
   story:"Ville natale de Bartholdi, le sculpteur de la statue de la Liberté. Le musée Unterlinden abrite le retable d’Issenheim.",
-  tip:"Dernière étape : rends les vélos si tu les loues et rejoins la gare, à environ 600 m de l’hôtel, avant le train de midi."}
+  tip:"Rends les vélos si tu les loues et rejoins la gare, à environ 600 m de l’hôtel, avant le train de midi. Le 1er novembre est férié : vérifie les ouvertures avant de t’y rendre."}
 ];
 
-var WIKI = {molsheim:"Molsheim",obernai:"Obernai",bachert:"Barr (Bas-Rhin)",hering:"Barr (Bas-Rhin)",gilg:"Mittelbergheim",seltz:"Mittelbergheim",
-  andlau:"Andlau",selestat:"Sélestat",ribeauville:"Ribeauvillé",mittnacht:"Hunawihr",ermel:"Hunawihr",dopff:"Riquewihr",
-  meyerkrumb:"Kaysersberg Vignoble",weinbach:"Kaysersberg Vignoble",kaysersberg:"Kaysersberg Vignoble",freyburger:"Ammerschwihr",colmar:"Colmar",
-  stoffel:"Eguisheim",beyer:"Eguisheim",baur:"Eguisheim",rouffach:"Rouffach",guebwiller:"Guebwiller",
-  hotelbarr:"Barr (Bas-Rhin)",giteriquewihr:"Riquewihr",hotelcolmar:"Colmar",hk:"Château du Haut-Kœnigsbourg",stulrich:"Château de Saint-Ulrich",hohland:"Château du Hohlandsbourg",troischateaux:"Châteaux d'Eguisheim"};
+var WIKI = {strasbourg:"Strasbourg",molsheim:"Molsheim",obernai:"Obernai",hering:"Barr (Bas-Rhin)",hotelbarr:"Barr (Bas-Rhin)",enfin:"Barr (Bas-Rhin)",tablecinq:"Barr (Bas-Rhin)",
+  seltz:"Mittelbergheim",kreydenweiss:"Andlau",ostertag:"Epfig",selestat:"Sélestat",bonpichet:"Sélestat",hk:"Château du Haut-Kœnigsbourg",deiss:"Bergheim (Haut-Rhin)",rollygassmann:"Rorschwihr",
+  trimbach:"Ribeauvillé",ribeauville:"Ribeauvillé",stulrich:"Château de Saint-Ulrich",hugel:"Riquewihr",giteriquewihr:"Riquewihr",sarment:"Riquewihr",tablegourmet:"Riquewihr",
+  weinbach:"Kaysersberg Vignoble",nasti:"Kaysersberg Vignoble",kaysersberg:"Kaysersberg Vignoble",boxler:"Niedermorschwihr",hohland:"Château du Hohlandsbourg",troischateaux:"Châteaux d'Eguisheim",beyer:"Eguisheim",
+  hotelcolmar:"Colmar",jys:"Colmar",brenner:"Colmar",colmar:"Colmar"};
 STOPS.forEach(function(s){ s.wiki = WIKI[s.id] || null; });
 
 var FACTS = [
@@ -435,7 +544,7 @@ var FACTS = [
 ];
 
 /* ---------- État ---------- */
-var state = {day:0, sel:null, sun:false, favOnly:false, towns:true, chateaux:true, heberg:true, favs:{}, fact:-1};
+var state = {day:0, sel:null, sun:false, favOnly:false, towns:true, chateaux:true, heberg:true, tables:true, favs:{}, fact:-1};
 try {
   var saved = JSON.parse(localStorage.getItem("alsace-velo-favs") || "null");
   if (saved && typeof saved === "object") state.favs = saved;
@@ -448,7 +557,7 @@ function saveFavs(){ try { localStorage.setItem("alsace-velo-favs", JSON.stringi
 /* Numéros par jour */
 (function(){
   var count = {1:0,2:0,3:0,4:0};
-  STOPS.forEach(function(s){ if (s.type !== "chateau" && s.type !== "hebergement") { count[s.day]++; s.n = count[s.day]; } else s.n = null; s.sunday = !!(s.hours && s.hours[6] !== "Fermé"); });
+  STOPS.forEach(function(s){ if (s.type !== "chateau" && s.type !== "hebergement" && s.type !== "table") { count[s.day]++; s.n = count[s.day]; } else s.n = null; s.sunday = !!(s.hours && s.hours[6] !== "Fermé"); });
 })();
 
 var $ = function(id){ return document.getElementById(id); };
@@ -465,10 +574,12 @@ function toast(msg){
 /* ---------- Éléments visuels ---------- */
 var TOWER = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M4 21V9h3V6h2v3h2V6h2v3h2V6h2v3h3v12h-6v-5a3 3 0 0 0-6 0v5z"/></svg>';
 var BED = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V5H1v15h2v-3h18v3h2v-9c0-2.21-1.79-4-4-4z"/></svg>';
-function glyph(s){ return s.type==="chateau" ? TOWER : (s.type==="hebergement" ? BED : s.n); }
+var FORK = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>';
+function glyph(s){ return s.type==="chateau" ? TOWER : (s.type==="hebergement" ? BED : (s.type==="table" ? FORK : s.n)); }
 var ART = {
   ville:'<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="currentColor"><path d="M0 180V120l30-30 30 30v60zM70 180V100l40-40 40 40v80zM160 180V130l26-26 26 26v50zM222 180V90l38-38 38 38v90zM296 180V125l12-12 12 12v55z"/></g><g stroke="#1D1320" stroke-width="3" opacity=".45"><path d="M70 130h80M100 100v80M222 120h76M260 90v90"/></g></svg>',
   domaine:'<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="currentColor"><path d="M0 180V110Q80 60 170 100T320 80V180z" opacity=".6"/><path d="M0 180V140Q90 100 180 130T320 120V180z"/></g><g stroke="#1D1320" stroke-width="2" opacity=".45"><path d="M20 150l60-30M50 165l80-38M100 172l90-38M170 170l80-40M230 170l70-32"/></g><path d="M250 30h10v24l6 10v60h-22V64l6-10z" fill="#1D1320" opacity=".55"/></svg>',
+  table:'<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="currentColor"><path d="M0 180V130Q100 105 170 125T320 118V180z" opacity=".5"/><ellipse cx="160" cy="128" rx="96" ry="18"/><rect x="156" y="128" width="8" height="44"/></g><g fill="#1D1320" opacity=".55"><circle cx="160" cy="104" r="26"/></g><g stroke="#1D1320" stroke-width="4" opacity=".6" stroke-linecap="round"><path d="M112 96v26M120 96v26M128 96v26M208 96v26"/></g></svg>',
   hebergement:'<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="currentColor"><path d="M0 180V130Q100 100 170 125T320 115V180z" opacity=".55"/><path d="M90 180V95l70-42 70 42v85z"/></g><g fill="#1D1320" opacity=".6"><rect x="140" y="120" width="40" height="60"/><rect x="104" y="108" width="22" height="22"/><rect x="194" y="108" width="22" height="22"/></g></svg>',
   chateau:'<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><g fill="currentColor"><path d="M0 180V140Q100 110 160 130T320 120V180z" opacity=".6"/><path d="M100 150V70h16V58h14v12h12V58h14v12h16v80zM200 150V95h22V85h10v10h22v55z"/></g><path d="M146 150v-22a12 12 0 0 1 24 0v22z" fill="#1D1320" opacity=".6"/></svg>'
 };
@@ -604,7 +715,8 @@ function visible(){
     if (!state.towns && s.type === "ville") return false;
     if (!state.chateaux && s.type === "chateau") return false;
     if (!state.heberg && s.type === "hebergement") return false;
-    if (state.sun && s.type === "domaine" && !s.sunday) return false;
+    if (!state.tables && s.type === "table") return false;
+    if (state.sun && (s.type === "domaine" || s.type === "table") && !s.sunday) return false;
     if (state.favOnly && !state.favs[s.id]) return false;
     return true;
   });
@@ -614,7 +726,7 @@ function drawMarkers(list){
   if (!map) return;
   group.clearLayers(); markers = {};
   list.forEach(function(s){
-    var m = L.marker(s.ll, {icon:makeIcon(s, state.sel===s.id), keyboard:true, title:s.name, riseOnHover:true});
+    var m = L.marker(s.mll || s.ll, {icon:makeIcon(s, state.sel===s.id), keyboard:true, title:s.name, riseOnHover:true});
     if (s.type === "ville") m.bindTooltip(s.name, {permanent:true, direction:"right", offset:[12,0], className:"town-label"});
     else m.bindTooltip(s.name, {direction:"top", offset:[0,-14]});
     m.on("click", function(){ select(s.id, true); });
@@ -628,7 +740,40 @@ function drawMarkers(list){
 }
 
 /* ---------- Rendu du panneau ---------- */
-function totalKm(){ return DAY_IDS.reduce(function(t,d){ return t + DAYS[d].km; }, 0); }
+function totalKm(){ return DAY_IDS.reduce(function(t,d){ return t + (DAYS[d].optional ? 0 : DAYS[d].km); }, 0); }
+function totalDplus(){ return DAY_IDS.reduce(function(t,d){ return t + (DAYS[d].optional ? 0 : DAYS[d].dplus); }, 0); }
+function fmt(n){ return Number(n).toLocaleString("fr-FR"); }
+function renderStats(){
+  var caves = STOPS.filter(function(s){ return s.type==="domaine" && s.core; }).length;
+  var options = STOPS.filter(function(s){ return s.type==="domaine" && !s.core; }).length;
+  var tables = STOPS.filter(function(s){ return s.type==="table" && s.core; }).length;
+  var cells = [
+    [fmt(totalKm()), "km à vélo", COL[1]],
+    [fmt(totalDplus()), "m de dénivelé, estimés", COL[2]],
+    [caves, "caves d’exception (+"+options+" options)", COL[3]],
+    [tables, "tables à réserver", COL[4]],
+    ["2", "étoiles Michelin au menu", "#FF5A36"]
+  ];
+  $("stats").innerHTML = cells.map(function(c){ return '<div class="stat" style="--c:'+c[2]+'"><b>'+c[0]+'</b><span>'+c[1]+'</span></div>'; }).join("");
+}
+
+function profileSVG(d){
+  var pts = DAYS[d].profile; if (!pts) return "";
+  var W = 320, H = 96, pad = 8, base = H - 18;
+  var maxKm = pts[pts.length-1][0];
+  var alts = pts.map(function(p){ return p[1]; });
+  var lo = Math.min.apply(null, alts) - 15, hi = Math.max.apply(null, alts) + 25;
+  function X(k){ return pad + (k/maxKm)*(W-2*pad); }
+  function Y(a){ return base - ((a-lo)/(hi-lo))*(base-22); }
+  var line = pts.map(function(p,i){ return (i?"L":"M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join(" ");
+  var area = line + " L" + X(maxKm).toFixed(1) + " " + base + " L" + X(0).toFixed(1) + " " + base + " Z";
+  var top = pts.reduce(function(m,p){ return p[1] > m[1] ? p : m; }, pts[0]);
+  var dots = pts.map(function(p){ return '<circle cx="'+X(p[0]).toFixed(1)+'" cy="'+Y(p[1]).toFixed(1)+'" r="2.6" fill="'+COL[d]+'"/>'; }).join("");
+  var peakLbl = '<text x="'+Math.min(W-pad-40, Math.max(pad+40, X(top[0]))).toFixed(1)+'" y="'+(Y(top[1])-7).toFixed(1)+'" text-anchor="middle" class="pk">'+esc(top[2])+' '+top[1]+' m</text>';
+  return '<svg class="profile" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Profil indicatif de la journée, sommet à '+top[1]+' m">'+
+    '<path d="'+area+'" fill="'+COL[d]+'" opacity=".18"/><path d="'+line+'" fill="none" stroke="'+COL[d]+'" stroke-width="2.4" stroke-linejoin="round"/>'+dots+peakLbl+
+    '<text x="'+pad+'" y="'+(H-4)+'" class="ax">'+esc(pts[0][2])+'</text><text x="'+(W-pad)+'" y="'+(H-4)+'" text-anchor="end" class="ax">'+esc(pts[pts.length-1][2])+' · '+pts[pts.length-1][0]+' km</text></svg>';
+}
 function renderDayBar(){
   var h = '<button class="all" role="tab" type="button" data-day="0" aria-selected="'+(state.day===0)+'"><b>Tout</b><small>'+totalKm()+' km</small></button>';
   DAY_IDS.forEach(function(d){
@@ -638,13 +783,16 @@ function renderDayBar(){
 }
 
 function renderDayInfo(){
-  var nDom = STOPS.filter(function(s){ return s.type==="domaine" && (!state.day || s.day===state.day); }).length;
+  var inDay = function(s){ return !state.day || s.day===state.day; };
+  var nCaves = STOPS.filter(function(s){ return s.type==="domaine" && s.core && inDay(s); }).length;
   if (!state.day) {
-    $("dayinfo").innerHTML = '<h2>Le parcours en entier</h2><p><span class="km">Environ '+totalKm()+' km</span> du jeudi 29 octobre à midi au dimanche 1er novembre à midi, '+nDom+' domaines à choisir. Une dégustation prend une à deux heures : deux ou trois par jour suffisent.</p>';
-  } else {
-    var d = DAYS[state.day];
-    $("dayinfo").innerHTML = '<h2>'+d.label+' : '+esc(d.title)+'</h2><p>'+(d.km ? '<span class="km">Environ '+d.km+' km</span>'+(nDom ? ' · '+nDom+' domaine'+(nDom>1?"s":"")+' sur la route.' : '') : '<span class="km">Pas de vélo prévu</span>')+'</p><p>'+esc(d.intro)+'</p><p>'+esc(d.fact)+'</p>';
+    $("dayinfo").innerHTML = '<h2>Le parcours en entier</h2><p>Du jeudi 29 octobre à midi au dimanche 1er novembre à midi : <span class="km">'+fmt(totalKm())+' km</span>, <span class="km">≈ '+fmt(totalDplus())+' m de dénivelé</span> et '+nCaves+' caves choisies pour leur niveau, plus trois tables qui comptent. Touche un jour pour voir le programme heure par heure.</p>';
+    return;
   }
+  var d = DAYS[state.day], c = COL[state.day];
+  var chips = '<div class="dchips" style="--c:'+c+'"><span class="dchip"><b>'+d.km+' km</b>'+(d.optional?" · facultatif":"")+'</span><span class="dchip"><b>≈ '+fmt(d.dplus)+' m</b> D+</span>'+(nCaves?'<span class="dchip"><b>'+nCaves+'</b> cave'+(nCaves>1?"s":"")+'</span>':'')+'</div>';
+  var prog = '<ol class="prog" style="--c:'+c+'">'+d.program.map(function(r){ return '<li><time>'+esc(r[0])+'</time><span>'+esc(r[1])+'</span></li>'; }).join("")+'</ol>';
+  $("dayinfo").innerHTML = '<h2><span class="tl" style="color:'+c+'">'+esc(d.tagline)+'</span>'+d.label+' : '+esc(d.title)+'</h2>'+chips+'<p>'+esc(d.intro)+'</p>'+profileSVG(state.day)+'<p class="pnote">Profil indicatif, altitudes approximatives entre les étapes.</p>'+prog+'<p class="dfact">'+esc(d.fact)+'</p>';
 }
 
 function renderFilters(){
@@ -653,14 +801,15 @@ function renderFilters(){
     '<button class="chip" type="button" data-f="fav" aria-pressed="'+state.favOnly+'">Ma sélection ('+favCount()+')</button>'+
     '<button class="chip" type="button" data-f="towns" aria-pressed="'+state.towns+'">Villes-étapes</button>'+
     '<button class="chip" type="button" data-f="chateaux" aria-pressed="'+state.chateaux+'">Châteaux</button>'+
-    '<button class="chip" type="button" data-f="heberg" aria-pressed="'+state.heberg+'">Hébergements</button>';
+    '<button class="chip" type="button" data-f="heberg" aria-pressed="'+state.heberg+'">Hébergements</button>'+
+    '<button class="chip" type="button" data-f="tables" aria-pressed="'+state.tables+'">Tables</button>';
   $("copyFavs").hidden = favCount() === 0;
 }
 
 var STAR = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8z"/></svg>';
 
 function dayLine(s){
-  if (s.type !== "domaine" || !s.hours) return "";
+  if ((s.type !== "domaine" && s.type !== "table") || !s.hours) return "";
   var h = s.hours[DAYS[s.day].dow], off = h === "Fermé";
   return '<small class="dayhrs'+(off?" off":"")+'">'+DAYS[s.day].name+" : "+(off?"fermé":esc(h))+'</small>'+
     (DAYS[s.day].holiday ? '<small class="dayhrs off">Jour férié : à confirmer par téléphone</small>' : "");
@@ -668,11 +817,11 @@ function dayLine(s){
 
 function stopHTML(s){
   var open = state.sel === s.id;
-  var sub = esc(s.place) + (s.rating ? " · " + Number(s.rating).toFixed(1).replace(".",",") + " sur " + (s.scale||5) + " (" + Number(s.reviews).toLocaleString("fr-FR") + " avis)" : "");
+  var sub = esc(s.place) + (s.rating ? " · " + Number(s.rating).toFixed(1).replace(".",",") + " sur " + (s.scale||5) + " (" + Number(s.reviews).toLocaleString("fr-FR") + " avis)" : "") + (s.price ? " · " + s.price : "");
   var body = "";
   if (open) {
     var tags = "";
-    if (s.type === "domaine") {
+    if (s.type === "domaine" || s.type === "table") {
       if (s.hours) tags += '<span class="tag'+(s.sunday?"":" off")+'" style="--c:'+COL[s.day]+'">'+(s.sunday?"Ouvert le dimanche":"Fermé le dimanche")+'</span>';
       else tags += '<span class="tag off">Horaires à demander</span>';
     }
@@ -712,7 +861,7 @@ function stopHTML(s){
         '<span class="pin">'+glyph(s)+'</span>'+
         '<span class="stop-title"><b>'+esc(s.name)+'</b><small>'+sub+'</small>'+dayLine(s)+'</span>'+
       '</button>'+
-      ((s.type === "domaine" || s.type === "chateau") ? '<button class="star" type="button" data-act="fav" aria-pressed="'+isFav+'" aria-label="'+(isFav?"Retirer de":"Ajouter à")+' ma sélection : '+esc(s.name)+'">'+STAR+'</button>' : '')+
+      ((s.type === "domaine" || s.type === "chateau" || s.type === "table") ? '<button class="star" type="button" data-act="fav" aria-pressed="'+isFav+'" aria-label="'+(isFav?"Retirer de":"Ajouter à")+' ma sélection : '+esc(s.name)+'">'+STAR+'</button>' : '')+
     '</div>'+body+'</li>';
 }
 
@@ -738,7 +887,7 @@ function select(id, fromMap){
   if (li) li.scrollIntoView({block:"nearest", behavior:RM?"auto":"smooth"});
   if (map) {
     var z = Math.max(map.getZoom(), 14);
-    if (RM) map.setView(s.ll, z); else map.flyTo(s.ll, z, {duration:.9});
+    if (RM) map.setView(s.mll || s.ll, z); else map.flyTo(s.mll || s.ll, z, {duration:.9});
   }
 }
 
@@ -760,6 +909,7 @@ $("filters").addEventListener("click", function(e){
   if (f === "towns") state.towns = !state.towns;
   if (f === "chateaux") state.chateaux = !state.chateaux;
   if (f === "heberg") state.heberg = !state.heberg;
+  if (f === "tables") state.tables = !state.tables;
   if (state.sel && !visible().some(function(s){ return s.id === state.sel; })) state.sel = null;
   render();
 });
@@ -799,6 +949,32 @@ $("copyFavs").addEventListener("click", function(){
   }
 });
 
+var TASKS = [
+  {id:"t-velos", day:1, label:"Vélos prêts à Strasbourg jeudi midi (location ou vélos dans le train)"},
+  {id:"t-train", day:4, label:"Train du retour dimanche à midi depuis Colmar (Toussaint : très demandé)"}
+];
+var BOOKED = {};
+try { BOOKED = JSON.parse(localStorage.getItem("vinlo-booked") || "{}") || {}; } catch(e) {}
+function renderBookList(){
+  var items = TASKS.map(function(t){ return {id:t.id, day:t.day, name:t.label, phone:"", tag:"À faire"}; })
+    .concat(STOPS.filter(function(s){ return s.book; }).map(function(s){ return {id:s.id, day:s.day, name:s.name, phone:s.phone||"", tag:s.core ? "Incontournable" : "Option"}; }));
+  items.sort(function(a,b){ return a.day - b.day; });
+  var done = items.filter(function(i){ return BOOKED[i.id]; }).length;
+  $("bkIntro").textContent = done + " sur " + items.length + " cochés. Les grandes maisons reçoivent sur rendez-vous : appelle en début de semaine.";
+  $("booklist").innerHTML = items.map(function(i){
+    var on = !!BOOKED[i.id];
+    return '<li class="bk'+(on?" done":"")+'" style="--c:'+COL[i.day]+'"><button type="button" class="chk" data-id="'+i.id+'" aria-pressed="'+on+'" aria-label="Marquer comme fait : '+esc(i.name)+'"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'+
+      '<div class="bk-t"><b>'+esc(i.name)+'</b><small>'+DAYS[i.day].name+" · "+i.tag+'</small></div>'+
+      (i.phone ? '<a class="bk-tel" href="tel:'+i.phone.replace(/\s/g,"")+'" aria-label="Appeler '+esc(i.name)+'">Appeler</a>' : '')+'</li>';
+  }).join("");
+}
+$("booklist").addEventListener("click", function(e){
+  var b = e.target.closest(".chk"); if (!b) return;
+  var id = b.getAttribute("data-id"); BOOKED[id] = !BOOKED[id]; if (!BOOKED[id]) delete BOOKED[id];
+  try { localStorage.setItem("vinlo-booked", JSON.stringify(BOOKED)); } catch(e2) {}
+  renderBookList();
+});
+
 function nextFact(){
   var i; do { i = Math.floor(Math.random()*FACTS.length); } while (i === state.fact && FACTS.length > 1);
   state.fact = i; $("fact").textContent = FACTS[i];
@@ -825,6 +1001,8 @@ lb.addEventListener("click", function(e){ if (e.target === lb) closeLb(); });
 /* ---------- Démarrage ---------- */
 nextFact();
 render();
+renderStats();
+renderBookList();
 if (map) {
   map.invalidateSize();
   fit(0);

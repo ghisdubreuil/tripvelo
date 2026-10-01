@@ -284,8 +284,8 @@ h1,h2,h3{font-family:var(--display)}
       </details>
       <details>
         <summary>Les tables</summary>
-        <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, dans ta rue) et JY’S à Colmar (samedi soir, deux étoiles, dans ton hôtel). Le déjeuner de vendredi se fait à Sélestat. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
-        <p>Chaque soir a une alternative nettement moins chère (€€), au cas où : le Winstub du Manoir à Barr (jeudi), Au Tire Bouchon à Riquewihr (vendredi) et le Winstub au Cygne à Colmar (samedi). Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
+        <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, dans ta rue) et JY’S à Colmar (samedi soir, deux étoiles, dans ton hôtel). Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
+        <p>Chaque soir a une alternative nettement moins chère (€€), au cas où : le Winstub du Manoir à Barr (jeudi), Au Tire Bouchon à Riquewihr (vendredi) et La Stub à Colmar (samedi), avec Les Bateliers en option dans la Petite Venise. Pour un dîner de fête le vendredi, La Table du Gourmet remplace le Sarment d’Or. Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
       </details>
       <details>
         <summary>Hébergement</summary>
@@ -344,11 +344,11 @@ var DAYS = {
      fact:"Variante tranquille : le TER jusqu’à Molsheim t’économise 25 km. Le soleil se couche vers 17 h : garde les feux à portée de main.",
      program:[["11 h 30","Arrivée en train à Strasbourg, vélos en main"],["12 h 30","Départ par la piste du canal de la Bruche"],["14 h 15","Molsheim"],["15 h 00","Obernai"],["15 h 45","Dégustation chez Hering, à Barr"],["17 h 00","Arrivée à l’hébergement (heure à confirmer)"],["19 h 15","Dîner chez ENFIN"]],
      profile:[[0,140,"Strasbourg"],[25,180,"Molsheim"],[36,185,"Obernai"],[45,200,"Barr"]]},
-  2:{name:"Vendredi", label:"Vendredi 30 octobre", short:"Ven", dow:4, title:"Barr à Riquewihr", tagline:"Le jour des grands noms", km:52, dplus:350,
-     intro:"Quatre maisons de premier plan : Kreydenweiss à Andlau, Marcel Deiss à Bergheim, Trimbach à Ribeauvillé et Hugel à Riquewihr. Entre les deux, 20 km de plaine pour aller déjeuner à Sélestat. C’est le jour pour lequel il faut réserver.",
+  2:{name:"Vendredi", label:"Vendredi 30 octobre", short:"Ven", dow:4, title:"Barr à Riquewihr", tagline:"Le jour des grands noms", km:48, dplus:350,
+     intro:"Quatre maisons de premier plan : Kreydenweiss à Andlau, Marcel Deiss à Bergheim, Trimbach à Ribeauvillé et Hugel à Riquewihr. Entre les deux, une vingtaine de kilomètres de plaine pour aller déjeuner à Châtenois, au pied du Haut-Kœnigsbourg. C’est le jour pour lequel il faut réserver.",
      fact:"Trimbach est fermé le week-end : c’est vendredi ou jamais. Le Haut-Kœnigsbourg est un défi bonus, mais il remplace Deiss et Trimbach.",
-     program:[["8 h 15","Départ de Barr (Seltz, à Mittelbergheim, ouvre à 9 h : option)"],["10 h 00","Kreydenweiss, à Andlau"],["12 h 15","Déjeuner à Sélestat, chez Au Bon Pichet"],["14 h 30","Marcel Deiss, à Bergheim"],["15 h 45","Trimbach, à Ribeauvillé"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)"],["19 h 00","Dîner au Sarment d’Or, à côté du gîte"]],
-     profile:[[0,200,"Barr"],[7,210,"Andlau"],[27,170,"Sélestat"],[41,215,"Bergheim"],[46,240,"Ribeauvillé"],[52,245,"Riquewihr"]]},
+     program:[["8 h 15","Départ de Barr (Seltz, à Mittelbergheim, ouvre à 9 h : option)"],["10 h 00","Kreydenweiss, à Andlau"],["12 h 15","Déjeuner à Châtenois, chez La Vignette"],["14 h 30","Marcel Deiss, à Bergheim"],["15 h 45","Trimbach, à Ribeauvillé"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)"],["19 h 00","Dîner au Sarment d’Or, à côté du gîte"]],
+     profile:[[0,200,"Barr"],[7,210,"Andlau"],[25,195,"Châtenois"],[36,215,"Bergheim"],[41,240,"Ribeauvillé"],[48,245,"Riquewihr"]]},
   3:{name:"Samedi", label:"Samedi 31 octobre", short:"Sam", dow:5, title:"Riquewihr à Colmar", tagline:"Sommets et étoiles", km:47, dplus:750,
      intro:"Le jour sportif : l’ascension du Hohlandsbourg, la route forestière des crêtes jusqu’aux Trois Châteaux, entre deux grandes caves. On finit à Colmar à la tombée de la nuit, pour un dîner deux étoiles dans ton propre hôtel.",
      fact:"Les stars de Turckheim et de Wettolsheim (Zind-Humbrecht, Barmès-Buecher) sont fermées le samedi : elles ne rentrent pas dans ton week-end.",
@@ -363,7 +363,7 @@ var DAYS = {
 
 var ROUTES = {
   1:[[48.5850,7.7340],[48.5600,7.6800],[48.5500,7.6000],[48.5450,7.5400],[48.5403,7.4940],[48.4600,7.4810],[48.4140,7.4529],[48.4087,7.4498]],
-  2:[[48.4087,7.4498],[48.3956,7.4418],[48.3883,7.4155],[48.3167,7.4167],[48.2594,7.4542],[48.2048,7.3563],[48.1944,7.3254],[48.1806,7.3153],[48.1669,7.2958]],
+  2:[[48.4087,7.4498],[48.3956,7.4418],[48.3883,7.4155],[48.3167,7.4167],[48.2705,7.3995],[48.2048,7.3563],[48.1944,7.3254],[48.1806,7.3153],[48.1669,7.2958]],
   3:[[48.1669,7.2958],[48.1362,7.2732],[48.0997,7.2726],[48.0858,7.2761],[48.0739,7.2906],[48.0600,7.2692],[48.0390,7.2730],[48.0428,7.3068],[48.0757,7.3531]],
   4:[[48.0757,7.3531],[48.0600,7.2985],[48.0433,7.3076],[48.0757,7.3531]]
 };
@@ -418,18 +418,18 @@ var STOPS = [
   phone:"+33 3 88 85 51 34",
   hours:["8h–12h · 13h–17h","8h–12h · 13h–17h","8h–12h · 13h–17h","8h–12h · 13h–17h","8h–12h · 13h–16h","Fermé","Fermé"],tags:["Option","Biodynamie","Sur rendez-vous"],
   story:"Domaine d’Epfig en biodynamie, réputé pour ses vins issus de plusieurs Grands Crus d’Alsace selon les avis. Uniquement sur rendez-vous : un visiteur raconte un refus faute de réservation.",
-  tip:"Option à la place de Seltz, à 3 ou 4 km de ta route entre Andlau et Sélestat. Ferme à 16 h le vendredi."},
- {id:"selestat",type:"ville",day:2,name:"Sélestat",place:"Étape du déjeuner",ll:[48.2594,7.4542],
-  story:"La Bibliothèque humaniste conserve la Cosmographiae Introductio (1507), l’un des premiers textes à nommer l’Amérique.",
-  tip:"Tu y arrives après 27 km. Les horaires de la bibliothèque varient selon la saison : vérifie avant."},
- {id:"bonpichet",type:"table",day:2,name:"Au Bon Pichet",place:"10 marché aux Choux, Sélestat",village:"Sélestat",ll:[48.2586,7.4568],rating:4.4,reviews:326,price:"€€€",book:true,core:true,
-  phone:"+33 3 88 82 96 65",tags:["Déjeuner du vendredi"],
-  hours:["Fermé","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","12h–13h30","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","Fermé"],
-  story:"Restaurant simple et soigné au cœur de Sélestat. Les avis citent un menu du jour autour de 20 € d’une belle tenue et une carte de vins fournie.",
-  tip:"Service de 12 h à 13 h 30 : assieds-toi à 12 h 15 si tu veux être chez Deiss à 14 h 30."},
+  tip:"Option à la place de Seltz, à 3 ou 4 km de ta route entre Andlau et Châtenois. Ferme à 16 h le vendredi."},
+ {id:"chatenois",type:"ville",day:2,name:"Châtenois",place:"Étape du déjeuner",ll:[48.2705,7.3995],
+  story:"Village viticole au pied des collines sous-vosgiennes. Sa Tour des Sorcières, porte-tour gothique du XVe siècle couronnée d’un nid de cigogne, gardait l’entrée d’une double enceinte fortifiée.",
+  tip:"Tu y arrives après environ 25 km, sur la Véloroute du Vignoble. Le Haut-Kœnigsbourg est juste au-dessus : c’est d’ici que s’engage la montée du défi bonus."},
+ {id:"lavignette",type:"table",day:2,name:"Restaurant La Vignette",place:"60 rue du Maréchal Foch, Châtenois",village:"Châtenois",ll:[48.2721979,7.3990445],rating:4.6,reviews:729,price:"€€€",book:true,core:true,
+  phone:"+33 3 88 82 39 17",tags:["Déjeuner du vendredi","Terrasse sous la vigne"],
+  hours:["Fermé","12h–14h","12h–14h30 · 19h–21h","12h–14h · 19h–21h","12h–14h · 19h–21h","12h–14h · 19h–21h","Fermé"],
+  story:"Table du centre de Châtenois, avec une terrasse sous la vigne et un intérieur raffiné. Les avis saluent des desserts remarquables, un risotto au poulpe à marier avec un pinot gris, et des portions généreuses. Quelques avis notent des prix qui montent et un service parfois lent.",
+  tip:"Service de 12 h à 14 h le vendredi : assieds-toi vers 12 h 15 et dis d’emblée que tu as une cave à 14 h 30. Réserve."},
  {id:"hk",type:"chateau",day:2,name:"Château du Haut-Kœnigsbourg",place:"Orschwiller, le défi bonus",ll:[48.2494,7.3442],tags:["Défi bonus"],
   story:"Incendié en 1462 par les troupes réunies de Colmar, Strasbourg et Bâle pour en chasser des chevaliers pillards, abandonné pendant la guerre de Trente Ans, puis reconstruit de 1900 à 1908 sur ordre de l’empereur allemand Guillaume II. Il reçoit plus de 500 000 visiteurs par an.",
-  tip:"À environ 8 km à l’ouest de Sélestat et à plus de 700 m : une montée soutenue. Il prendrait la place de ton après-midi chez Deiss et Trimbach : c’est l’un ou l’autre, pas les deux. Vérifie les horaires d’ouverture."},
+  tip:"Juste au-dessus de Châtenois et à plus de 700 m (755 m selon les sources) : une montée soutenue. Il prendrait la place de ton après-midi chez Deiss et Trimbach : c’est l’un ou l’autre, pas les deux. Vérifie les horaires d’ouverture."},
  {id:"deiss",type:"domaine",day:2,name:"Domaine Marcel Deiss",place:"Bergheim",ll:[48.2048303,7.3563385],rating:4.6,reviews:125,core:true,book:true,
   phone:"+33 3 89 73 63 37",
   hours:["8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","10h–12h · 14h–18h","Fermé"],tags:["Incontournable","Complantation","Réserver"],
@@ -465,6 +465,11 @@ var STOPS = [
   hours:["18h45–20h30","18h45–20h30","18h45–20h30","Fermé","18h45–20h45","12h–13h30 · 18h45–20h45","12h–13h30 · 18h45–20h30"],
   story:"Restaurant semi-gastronomique et hôtel de sept chambres, repris par une jeune équipe après plusieurs années de fermeture selon un avis. Carte de saison avec des producteurs locaux et de bons conseils sur les vins d’Alsace.",
   tip:"À deux numéros de ton gîte (4 rue du Cerf contre le 2) : dîner en quelques pas après la journée. Service jusqu’à 20 h 45 le vendredi."},
+ {id:"tablegourmet",type:"table",day:2,name:"La Table du Gourmet",place:"5 rue de la 1re Armée, Riquewihr",village:"Riquewihr",ll:[48.166278,7.29726],mll:[48.1659,7.2980],rating:4.5,reviews:473,price:"€€€€",book:true,
+  phone:"+33 3 89 49 09 09",tags:["Option gastronomique du vendredi","Menus longs"],
+  hours:["12h15–13h30 · 19h15–20h45","Fermé","Fermé","19h15–20h45","12h15–13h30 · 19h15–20h45","12h15–13h30 · 19h15–20h45","12h15–13h30 · 19h15–20h45"],
+  story:"Table de Jean-Luc Brendel dans une salle rouge, à deux pas de Hugel. Les avis parlent de menus longs, jusqu’à cinq heures, et d’un menu autour de 100 € au déjeuner.",
+  tip:"Pour un vrai repas de fête le vendredi, à la place du Sarment d’Or. Compte trois à cinq heures, et réserve. Dîner de 19 h 15 à 20 h 45."},
  {id:"tirebouchon",type:"table",day:2,name:"Au Tire Bouchon",place:"29 rue du Général de Gaulle, Riquewihr",village:"Riquewihr",ll:[48.1670072,7.2971334],mll:[48.1675,7.2967],rating:4.4,reviews:1511,price:"€€",book:true,
   phone:"+33 3 89 47 91 61",tags:["Alternative moins chère","Winstub","Cave voûtée voisine"],
   hours:["11h45–18h","11h45–18h","11h45–18h","11h45–18h","11h45–14h30 · 18h30–21h","11h45–14h30 · 18h30–21h","11h45–14h30 · 18h30–21h"],
@@ -511,11 +516,16 @@ var STOPS = [
   hours:["Fermé","19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","Fermé"],
   story:"Deux étoiles au Guide Michelin. Jean-Yves Schillinger, élève de Joël Robuchon, a été élu cuisinier de l’année par le Pudlo Alsace 2026 : une cuisine savante et végétale qui passe de l’Alsace au Japon, dans une salle vitrée au rez-de-chaussée de ton hôtel.",
   tip:"Service du soir de 19 h à 21 h 30 le samedi. C’est le point d’orgue du week-end : réserve dès maintenant. Les avis citent un service parfois inégal et un menu en français seulement."},
- {id:"cygne",type:"table",day:3,name:"Winstub au Cygne",place:"15 rue Édouard Richard, Colmar",village:"Colmar",ll:[48.0800997,7.3506344],rating:4.5,reviews:647,price:"€€",book:true,
-  phone:"+33 3 89 23 76 26",tags:["Alternative moins chère","Winstub","Sert jusqu’à 23 h"],
-  hours:["12h–14h","12h–14h · 19h–23h","12h–14h · 19h–23h","12h–14h · 19h–23h","12h–14h · 19h–23h","19h–23h","Fermé"],
-  story:"Winstub à l’écart de l’hyper-centre touristique, selon les avis, avec une cuisine locale : escargots, tarte flambée, jambon braisé à l’ancienne, tête de veau vinaigrette. Les avis vantent l’ambiance et la carte, mais sont partagés sur le service.",
-  tip:"L’alternative du samedi, à environ 500 m de ton hôtel. Elle sert de 19 h à 23 h : pratique si tu rentres tard de la montée."},
+ {id:"lastub",type:"table",day:3,name:"La Stub",place:"72 Grand Rue, Colmar",village:"Colmar",ll:[48.0749217,7.3571692],rating:4.6,reviews:2236,price:"€€",book:true,
+  phone:"+33 3 39 10 94 79",tags:["Alternative moins chère","Tartes flambées"],
+  hours:["11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30"],
+  story:"Petite adresse familiale spécialisée dans la tarte flambée, en de nombreuses variétés : ail des ours et jambon, poivre du Sichuan, version classique. Les avis citent un service souriant et rapide, et un très bon rapport qualité-prix en plein centre.",
+  tip:"L’alternative du samedi, à moins d’un kilomètre de ton hôtel. Service du soir de 18 h 30 à 21 h 30 : la salle est petite et se remplit, réserve."},
+ {id:"bateliers",type:"table",day:3,name:"Les Bateliers",place:"4 rue de la Herse, Petite Venise, Colmar",village:"Colmar",ll:[48.0738168,7.3573936],mll:[48.0735,7.3566],rating:4.6,reviews:2091,book:true,
+  tags:["Option du samedi","Petite Venise"],
+  hours:["11h45–16h45 · 18h30–20h30","11h45–16h45 · 18h30–20h30","Fermé","11h45–16h45 · 18h30–20h30","11h45–16h45 · 18h30–20h30","11h45–16h45 · 18h30–20h30","Fermé"],
+  story:"Table alsacienne de la Petite Venise, avec des places en terrasse au-dessus du canal. Les avis vantent la joue de porc, la choucroute et le jarret, un service professionnel et chaleureux, mais signalent un temps de table limité à une heure.",
+  tip:"Le dîner le plus tôt de la sélection : 18 h 30 à 20 h 30 le samedi, donc à privilégier si tu veux dîner dès ton arrivée. Les avis divergent sur la réservation : certains disent qu’il faut faire la queue, d’autres conseillent de réserver en ligne. Vérifie avant d’y aller."},
 
  /* Dimanche 1er novembre */
  {id:"colmar",type:"ville",day:4,name:"Colmar",place:"Dimanche matin, train de midi",ll:[48.0794,7.3585],
@@ -524,10 +534,10 @@ var STOPS = [
 ];
 
 var WIKI = {strasbourg:"Strasbourg",molsheim:"Molsheim",obernai:"Obernai",hering:"Barr (Bas-Rhin)",hotelbarr:"Barr (Bas-Rhin)",enfin:"Barr (Bas-Rhin)",
-  seltz:"Mittelbergheim",kreydenweiss:"Andlau",ostertag:"Epfig",selestat:"Sélestat",bonpichet:"Sélestat",hk:"Château du Haut-Kœnigsbourg",deiss:"Bergheim (Haut-Rhin)",rollygassmann:"Rorschwihr",
+  seltz:"Mittelbergheim",kreydenweiss:"Andlau",ostertag:"Epfig",chatenois:"Châtenois (Bas-Rhin)",lavignette:"Châtenois (Bas-Rhin)",hk:"Château du Haut-Kœnigsbourg",deiss:"Bergheim (Haut-Rhin)",rollygassmann:"Rorschwihr",
   trimbach:"Ribeauvillé",ribeauville:"Ribeauvillé",stulrich:"Château de Saint-Ulrich",hugel:"Riquewihr",giteriquewihr:"Riquewihr",sarment:"Riquewihr",
   weinbach:"Kaysersberg Vignoble",nasti:"Kaysersberg Vignoble",kaysersberg:"Kaysersberg Vignoble",boxler:"Niedermorschwihr",hohland:"Château du Hohlandsbourg",troischateaux:"Châteaux d'Eguisheim",beyer:"Eguisheim",
-  hotelcolmar:"Colmar",jys:"Colmar",cygne:"Colmar",manoir:"Barr (Bas-Rhin)",tirebouchon:"Riquewihr",colmar:"Colmar"};
+  hotelcolmar:"Colmar",jys:"Colmar",lastub:"Colmar",bateliers:"Colmar",tablegourmet:"Riquewihr",manoir:"Barr (Bas-Rhin)",tirebouchon:"Riquewihr",colmar:"Colmar"};
 STOPS.forEach(function(s){ s.wiki = WIKI[s.id] || null; });
 
 var FACTS = [

@@ -274,6 +274,8 @@ button,a,summary,input{touch-action:manipulation}
 .bigbtn.pri{background:var(--hot);border-color:var(--hot);color:var(--cave)}
 .bigbtn.alt{background:var(--text);border-color:var(--text);color:var(--cave)}
 .bigbtn:active{transform:scale(.97)}
+.bigbtn small.sub{display:block;font-weight:500;font-size:.78rem;opacity:.8;margin-top:.15rem}
+.bigbtn:has(small.sub){flex-direction:column;gap:0}
 .after{list-style:none;margin:0 0 1rem;padding:0}
 .after li{display:grid;grid-template-columns:4.6rem 1fr;gap:.6rem;padding:.65rem .1rem;border-bottom:1px solid var(--line);font-size:1rem}
 .after time{font:800 1rem var(--display);color:var(--c)}
@@ -1253,7 +1255,7 @@ function renderNow(){
       '<article class="nowcard" style="--c:'+(off === "before" ? COL[1] : COL[3])+'"><span class="eyebrow">'+(off === "before" ? "Patience" : "Terminé")+'</span><div class="big-t" style="font-size:2.2rem">'+esc(o.head)+'</div>'+
       '<h3>'+esc(o.joke)+'</h3><p class="cd">'+esc(o.sub)+'</p></article>'+
       '<div class="quick"><button class="bigbtn alt wide" type="button" data-do="demo">👀 Voir comment ça marchera</button>'+
-      '<a class="bigbtn wide" target="_blank" rel="noopener" href="https://vinlo2026.netlify.app">🍷 Suivi des dégustations (app de Rémi)</a>'+
+      '<a class="bigbtn wide" target="_blank" rel="noopener" href="https://vinlo2026.netlify.app">🍷 Suivi des dégustations (app de Rémi)<small class="sub">Code d’accès vinlo2026 copié au clic : colle-le</small></a>'+
       '<button class="bigbtn" type="button" data-do="wc">🚽 Toilettes</button><button class="bigbtn drunkbtn" type="button" data-do="drunk">🍷 Mode bourré</button></div>';
     return;
   }
@@ -1288,7 +1290,7 @@ function renderNow(){
   }
   h += '<div class="quick"><button class="bigbtn" type="button" data-do="wc">🚽 Toilettes</button>'+
        (night ? '<a class="bigbtn" target="_blank" rel="noopener" href="'+gmaps(night.addr || night.ll)+'">🏠 Mon hébergement</a>' : '')+
-       '<a class="bigbtn alt wide" target="_blank" rel="noopener" href="https://vinlo2026.netlify.app">🍷 Suivi des dégustations (app de Rémi)</a>'+
+       '<a class="bigbtn alt wide" target="_blank" rel="noopener" href="https://vinlo2026.netlify.app">🍷 Suivi des dégustations (app de Rémi)<small class="sub">Code d’accès vinlo2026 copié au clic : colle-le</small></a>'+
        '<button class="bigbtn drunkbtn wide" type="button" data-do="drunk">🍷 Mode « je suis bourré »</button>';
   if (navigator.wakeLock) h += '<button class="bigbtn wide" type="button" data-do="wake" aria-pressed="'+UI.wake+'">'+(UI.wake ? '✅ Écran toujours allumé' : '💡 Garder l’écran allumé')+'</button>';
   h += '</div>';
@@ -1516,6 +1518,13 @@ $("tabbar").addEventListener("click", function(e){
   var b = e.target.closest("[data-tab]"); if (!b) return;
   var t = b.getAttribute("data-tab");
   if (t === "drunk") setDrunk(true); else setView(t);
+});
+/* App de Rémi : le code d’accès est copié au clic (l’app n’accepte pas de code dans le lien) */
+document.addEventListener("click", function(e){
+  var a = e.target.closest('a[href^="https://vinlo2026.netlify.app"]'); if (!a) return;
+  var code = "vinlo2026";
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(function(){ toast("Code vinlo2026 copié : colle-le"); }, function(){ toast("Code d’accès : " + code); });
+  else toast("Code d’accès : " + code);
 });
 $("wcClose").addEventListener("click", closeWC);
 $("wcAgain").addEventListener("click", openWC);

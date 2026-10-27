@@ -286,6 +286,10 @@ button,a,summary,input{touch-action:manipulation}
 .drunkbtn{background:var(--d2);border-color:var(--d2);color:var(--cave);font-weight:800}
 .go-link{display:inline-flex;align-items:center;margin-left:.5rem;min-height:36px;padding:.2rem .7rem;border-radius:999px;border:1px solid var(--c);color:var(--c);font:700 .82rem var(--sans);text-decoration:none;white-space:nowrap}
 .prog li{align-items:center}
+.prog li.opt{opacity:.85}
+.prog li.opt::before{background:var(--panel);border:2px dashed var(--c);left:-6px;top:.7rem;width:10px;height:10px}
+.prog li.opt span{font-style:italic;border-bottom:2px dashed color-mix(in srgb,var(--c) 55%,transparent);padding-bottom:.15rem}
+.mk.opt .mk-in{border-style:dashed;border-color:var(--text);opacity:.9}
 
 /* Carte : fiche en bas */
 .mapcard{position:absolute;left:12px;right:12px;bottom:12px;z-index:700;display:none;background:var(--cave);border:2px solid var(--c);border-radius:18px;padding:.85rem .9rem .9rem;box-shadow:0 8px 28px rgba(0,0,0,.55)}
@@ -526,7 +530,7 @@ var DAYS = {
   2:{name:"Vendredi", label:"Vendredi 30 octobre", short:"Ven", dow:4, title:"Barr à Riquewihr", tagline:"Le jour des grands noms", km:48, dplus:350,
      intro:"Trois maisons de premier plan, après un arrêt au comptoir de la brasserie La Saint-Pierre dès 9 h : Bader à Epfig (visite confirmée), Marcel Deiss à Bergheim (visite payante confirmée) et Hugel à Riquewihr. Entre les deux, une vingtaine de kilomètres de plaine pour aller déjeuner à Châtenois (réservation confirmée à 12 h 15), au pied du Haut-Kœnigsbourg. C’est le jour pour lequel il faut réserver.",
      fact:"Les visites de Bader (10 h) et de Deiss (14 h 30) sont confirmées. Le Haut-Kœnigsbourg est un défi bonus, mais il remplace Deiss.",
-     program:[["8 h 15","Départ de Barr","hotelbarr"],["9 h 00","Brasserie La Saint-Pierre, à Saint-Pierre : arrêt au comptoir (ouvre à 9 h)","saintpierre"],["10 h 00","Domaine Bader, à Epfig (visite confirmée)","bader"],["12 h 15","Déjeuner à Châtenois, chez La Vignette (réservation confirmée)","lavignette"],["14 h 30","Marcel Deiss, à Bergheim (visite payante confirmée)","deiss"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)","hugel"],["19 h 00","Dîner au Sarment d’Or, à côté de ton hébergement (table réservée)","sarment"]],
+     program:[["8 h 15","Départ de Barr","hotelbarr"],["9 h 00","Brasserie La Saint-Pierre, à Saint-Pierre : arrêt au comptoir (ouvre à 9 h)","saintpierre"],["10 h 00","Domaine Bader, à Epfig (visite confirmée)","bader"],["12 h 15","Déjeuner à Châtenois, chez La Vignette (réservation confirmée)","lavignette"],["14 h 30","Marcel Deiss, à Bergheim (visite payante confirmée)","deiss"],["14 h 30","Option de Vivien : Château du Haut-Kœnigsbourg, à la place de Deiss (en pointillé)","hk",true],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)","hugel"],["19 h 00","Dîner au Sarment d’Or, à côté de ton hébergement (table réservée)","sarment"]],
      profile:[[0,200,"Barr"],[7,210,"Andlau"],[25,195,"Châtenois"],[36,215,"Bergheim"],[41,240,"Ribeauvillé"],[48,245,"Riquewihr"]]},
   3:{name:"Samedi", label:"Samedi 31 octobre", short:"Sam", dow:5, title:"Riquewihr à Colmar", tagline:"Sommets et étoiles", km:47, dplus:750,
      intro:"Le jour sportif : l’ascension du Hohlandsbourg, la route forestière des crêtes jusqu’aux Trois Châteaux, entre deux grandes caves. On finit à Colmar à la tombée de la nuit, pour un dîner deux étoiles.",
@@ -614,9 +618,9 @@ var STOPS = [
   hours:["Fermé","12h–14h","12h–14h30 · 19h–21h","12h–14h · 19h–21h","12h–14h · 19h–21h","12h–14h · 19h–21h","Fermé"],
   story:"Table du centre de Châtenois, avec une terrasse sous la vigne et un intérieur raffiné. Les avis saluent des desserts remarquables, un risotto au poulpe à marier avec un pinot gris, et des portions généreuses. Quelques avis notent des prix qui montent et un service parfois lent.",
   tip:"Réservation confirmée vendredi à 12 h 15. Service de 12 h à 14 h : dis d’emblée que tu as une cave à 14 h 30."},
- {id:"hk",type:"chateau",day:2,name:"Château du Haut-Kœnigsbourg",place:"Orschwiller, le défi bonus",ll:[48.2494,7.3442],tags:["Défi bonus"],
+ {id:"hk",type:"chateau",day:2,name:"Château du Haut-Kœnigsbourg",place:"Orschwiller, l’option de Vivien",ll:[48.2494,7.3442],opt:true,tags:["Option de Vivien","Défi bonus"],
   story:"Incendié en 1462 par les troupes réunies de Colmar, Strasbourg et Bâle pour en chasser des chevaliers pillards, abandonné pendant la guerre de Trente Ans, puis reconstruit de 1900 à 1908 sur ordre de l’empereur allemand Guillaume II. Il reçoit plus de 500 000 visiteurs par an.",
-  tip:"Juste au-dessus de Châtenois et à plus de 700 m (755 m selon les sources) : une montée soutenue. Il prendrait la place de ton après-midi chez Deiss : c’est l’un ou l’autre, pas les deux. Vérifie les horaires d’ouverture."},
+  tip:"Juste au-dessus de Châtenois et à plus de 700 m (755 m selon les sources) : une montée soutenue. Option de Vivien, en pointillé sur la carte : elle prendrait la place de ton après-midi chez Deiss (visite confirmée à 14 h 30), c’est l’un ou l’autre, pas les deux. Vérifie les horaires d’ouverture."},
  {id:"deiss",type:"domaine",day:2,name:"Domaine Marcel Deiss",place:"Bergheim",ll:[48.2048303,7.3563385],rating:4.6,reviews:125,core:true,book:true,
   phone:"+33 3 89 73 63 37",
   hours:["8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","8h30–12h · 14h–18h","10h–12h · 14h–18h","Fermé"],tags:["Incontournable","Complantation","Visite payante confirmée"],
@@ -839,7 +843,7 @@ function loadPhoto(s){
 }
 
 /* ---------- Carte ---------- */
-var map = null, group = null, lines = {}, casings = {}, markers = {};
+var map = null, group = null, lines = {}, casings = {}, markers = {}, optLine = null;
 if (window.L) {
   map = L.map("map", {zoomControl:false, scrollWheelZoom:true}).setView([48.2,7.4], 9);
   L.control.zoom({position:"bottomright"}).addTo(map);
@@ -867,6 +871,7 @@ if (window.L) {
   showBase(baseIdx);
   $("layer").addEventListener("click", function(){ baseIdx = (baseIdx+1) % BASES.length; showBase(baseIdx); });
   group = L.layerGroup().addTo(map);
+  optLine = L.polyline([[48.2705,7.3995],[48.2600,7.3720],[48.2494,7.3442],[48.2300,7.3480],[48.2048,7.3563]], {color:COL[2], weight:4, opacity:1, dashArray:"2 9", lineCap:"round", lineJoin:"round", interactive:false}).addTo(map);
   DAY_IDS.forEach(function(d){
     casings[d] = L.polyline(ROUTES[d], {color:"#1D1320", weight:9, opacity:.75, lineCap:"round", lineJoin:"round", interactive:false}).addTo(map);
     lines[d]   = L.polyline(ROUTES[d], {color:COL[d], weight:5, opacity:1, lineCap:"round", lineJoin:"round", interactive:false}).addTo(map);
@@ -890,7 +895,7 @@ function fit(day){
 }
 
 function makeIcon(s, selected){
-  var cls = "mk " + s.type + (selected ? " sel" : "");
+  var cls = "mk " + s.type + (s.opt ? " opt" : "") + (selected ? " sel" : "");
   return L.divIcon({className:cls, html:'<span class="mk-in" style="--c:'+COL[s.day]+'">'+glyph(s)+'</span>', iconSize:[34,34], iconAnchor:[17,17]});
 }
 
@@ -925,6 +930,7 @@ function drawMarkers(list){
     lines[d].setStyle({opacity:on?1:.15, weight:on?5:3});
     casings[d].setStyle({opacity:on?.75:.2});
   });
+  if (optLine) optLine.setStyle({opacity:(!state.day || state.day === 2) ? 1 : .15});
 }
 
 /* ---------- Rendu du panneau ---------- */
@@ -979,7 +985,7 @@ function renderDayInfo(){
   }
   var d = DAYS[state.day], c = COL[state.day];
   var chips = '<div class="dchips" style="--c:'+c+'"><span class="dchip"><b>'+d.km+' km</b>'+(d.optional?" · facultatif":"")+'</span><span class="dchip"><b>≈ '+fmt(d.dplus)+' m</b> D+</span>'+(nCaves?'<span class="dchip"><b>'+nCaves+'</b> cave'+(nCaves>1?"s":"")+'</span>':'')+'</div>';
-  var prog = '<ol class="prog" style="--c:'+c+'">'+d.program.map(function(r){ var tg = targetOf(r[2]); return '<li><time>'+esc(r[0])+'</time><span>'+esc(r[1])+(tg ? '<a class="go-link" target="_blank" rel="noopener" href="'+gmaps(tg.ll)+'">Y aller</a>' : '')+'</span></li>'; }).join("")+'</ol>';
+  var prog = '<ol class="prog" style="--c:'+c+'">'+d.program.map(function(r){ var tg = targetOf(r[2]); return '<li'+(r[3] ? ' class="opt"' : '')+'><time>'+esc(r[0])+'</time><span>'+esc(r[1])+(tg ? '<a class="go-link" target="_blank" rel="noopener" href="'+gmaps(tg.ll)+'">Y aller</a>' : '')+'</span></li>'; }).join("")+'</ol>';
   $("dayinfo").innerHTML = '<h2><span class="tl" style="color:'+c+'">'+esc(d.tagline)+'</span>'+d.label+' : '+esc(d.title)+'</h2>'+chips+'<p>'+esc(d.intro)+'</p>'+profileSVG(state.day)+'<p class="pnote">Profil indicatif, altitudes approximatives entre les étapes.</p>'+prog+'<p class="dfact">'+esc(d.fact)+'</p>';
 }
 
@@ -1189,7 +1195,7 @@ function targetOf(ref){
   var s = byId(ref); return s ? {ll:s.addr || s.ll, id:s.id, phone:s.phone, name:s.name} : null;
 }
 function stepsOf(d){
-  return DAYS[d].program.map(function(r){ return {t:parseT(r[0]), time:r[0].replace(/\s/g," "), text:r[1], ref:r[2]}; });
+  return DAYS[d].program.filter(function(r){ return !r[3]; }).map(function(r){ return {t:parseT(r[0]), time:r[0].replace(/\s/g," "), text:r[1], ref:r[2]}; });
 }
 function planAt(d, m){
   var S = stepsOf(d), next = -1, cur = -1, i;

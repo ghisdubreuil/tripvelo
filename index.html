@@ -284,7 +284,7 @@ h1,h2,h3{font-family:var(--display)}
       </details>
       <details>
         <summary>Les tables</summary>
-        <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, dans ta rue) et JY’S à Colmar (samedi soir, deux étoiles, dans ton hôtel). Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
+        <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, dans ta rue) et JY’S à Colmar (samedi soir, deux étoiles). Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
         <p>Chaque soir a une alternative nettement moins chère (€€), au cas où : le Winstub du Manoir à Barr (jeudi), Au Tire Bouchon à Riquewihr (vendredi) et La Stub à Colmar (samedi), avec Les Bateliers en option dans la Petite Venise. Pour un dîner de fête le vendredi, La Table du Gourmet remplace le Sarment d’Or. Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
       </details>
       <details>
@@ -350,14 +350,14 @@ var DAYS = {
      program:[["8 h 15","Départ de Barr (Seltz, à Mittelbergheim, ouvre à 9 h : option)"],["10 h 00","Kreydenweiss, à Andlau"],["12 h 15","Déjeuner à Châtenois, chez La Vignette"],["14 h 30","Marcel Deiss, à Bergheim"],["15 h 45","Trimbach, à Ribeauvillé"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)"],["19 h 00","Dîner au Sarment d’Or, à côté du gîte"]],
      profile:[[0,200,"Barr"],[7,210,"Andlau"],[25,195,"Châtenois"],[36,215,"Bergheim"],[41,240,"Ribeauvillé"],[48,245,"Riquewihr"]]},
   3:{name:"Samedi", label:"Samedi 31 octobre", short:"Sam", dow:5, title:"Riquewihr à Colmar", tagline:"Sommets et étoiles", km:47, dplus:750,
-     intro:"Le jour sportif : l’ascension du Hohlandsbourg, la route forestière des crêtes jusqu’aux Trois Châteaux, entre deux grandes caves. On finit à Colmar à la tombée de la nuit, pour un dîner deux étoiles dans ton propre hôtel.",
+     intro:"Le jour sportif : l’ascension du Hohlandsbourg, la route forestière des crêtes jusqu’aux Trois Châteaux, entre deux grandes caves. On finit à Colmar à la tombée de la nuit, pour un dîner deux étoiles.",
      fact:"Les stars de Turckheim et de Wettolsheim (Zind-Humbrecht, Barmès-Buecher) sont fermées le samedi : elles ne rentrent pas dans ton week-end.",
      program:[["9 h 00","Départ de Riquewihr"],["9 h 30","Weinbach, à Kaysersberg (ouvre à 9 h 30, pause dès 11 h 30)"],["11 h 30","Boxler, à Niedermorschwihr (sur rendez-vous)"],["12 h 30","Déjeuner léger à Turckheim"],["14 h 00","Montée au Hohlandsbourg, puis route forestière jusqu’à Husseren"],["15 h 30","Les Trois Châteaux d’Eguisheim"],["16 h 15","Emile Beyer, à Eguisheim"],["17 h 15","Dernière étape vers Colmar : 7 km, feux obligatoires"],["19 h 30","Dîner chez JY’S"]],
      profile:[[0,245,"Riquewihr"],[9,240,"Kaysersberg"],[14,235,"Niedermorschwihr"],[20,230,"Wintzenheim"],[27,620,"Hohlandsbourg"],[35,330,"Husseren"],[39,220,"Eguisheim"],[47,190,"Colmar"]]},
   4:{name:"Dimanche", label:"Dimanche 1er novembre", short:"Dim", dow:6, holiday:true, optional:true, title:"Colmar, le rappel", tagline:"La boucle du lendemain", km:18, dplus:60,
      intro:"Le 1er novembre est la Toussaint : les caves seront fermées. On garde donc les jambes pour une boucle facultative de 18 km par Wettolsheim et Eguisheim avant le petit-déjeuner, puis Colmar à pied et le train de midi.",
      fact:"Musées, boulangeries et restaurants peuvent être fermés ou en horaires réduits le jour férié : vérifie avant de t’y rendre.",
-     program:[["8 h 00","Boucle facultative Colmar, Wettolsheim, Eguisheim (18 km)"],["9 h 30","Petit-déjeuner à l’hôtel"],["10 h 30","Colmar à pied : Petite Venise et vieille ville"],["11 h 30","Vélos rendus, gare à environ 600 m"],["12 h 00","Train de midi"]],
+     program:[["8 h 00","Boucle facultative Colmar, Wettolsheim, Eguisheim (18 km)"],["9 h 30","Petit-déjeuner à ton hébergement"],["10 h 30","Colmar à pied : Petite Venise et vieille ville"],["11 h 30","Vélos rendus, puis départ vers la gare"],["12 h 00","Train de midi"]],
      profile:[[0,190,"Colmar"],[6,215,"Wettolsheim"],[10,220,"Eguisheim"],[18,190,"Colmar"]]}
 };
 
@@ -505,16 +505,16 @@ var STOPS = [
   hours:["14h–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","9h–12h · 13h30–18h","10h–12h · 13h30–18h","Fermé"],tags:["Incontournable","Riesling comparatif"],
   story:"Une dégustation comparative : un même riesling en trois niveaux (tradition, lieu-dit, grand cru), précédé d’un crémant. Eguisheim est bâtie en cercles concentriques autour de son château, et le pape Léon IX y serait né vers l’an 1000.",
   tip:"Ta dernière dégustation, vers 16 h 15 : il ferme à 18 h, mais le jour baisse vers 17 h. Un tarif par personne est cité dans les avis : demande-le."},
- {id:"hotelcolmar",type:"hebergement",day:3,name:"L’Esquisse Hotel & Spa Colmar",place:"2 avenue de la Marne, Colmar",village:"Colmar",ll:[48.0757,7.3531],mll:[48.0761,7.3522],rating:9.2,reviews:1616,scale:10,
-  phone:"+33 3 67 68 20 00",web:"https://www.lesquisse-colmar.com/",tags:["Nuit 3","5 étoiles","Spa et piscine","Parking privé"],
-  booking:"https://www.booking.com/hotel/fr/colmar-champ-de-mars.fr.html?checkin=2026-10-31&checkout=2026-11-01&group_adults=4&no_rooms=1&group_children=0",
-  facts:[["Séjour","Samedi 31 octobre, 1 nuit, 4 adultes"],["Hôtel","5 étoiles, 62 chambres et suites (MGallery)"],["Équipements","Spa, piscine intérieure, restaurant, parking privé"],["Gare","À environ 600 m à pied"],["Note Booking","9,2 sur 10 (plus de 1 500 avis)"]],
-  story:"Hôtel dans le parc du Champ de Mars, à dix minutes à pied du centre historique. Le spa et la piscine sont faits pour récupérer d’une journée à 750 m de dénivelé. La gare est à environ 600 m : pratique pour le train de dimanche midi.",
-  tip:"Tu y arrives de nuit après 47 km : prévois des feux sur les vélos. Demande à la réception où ranger les vélos. Emplacement sur la carte approximatif."},
+ {id:"hotelcolmar",type:"hebergement",day:3,name:"Le 17 Colmar",place:"Colmar (adresse à confirmer sur ta réservation)",village:"Colmar",ll:[48.0778,7.3580],mll:[48.0778,7.3580],
+  tags:["Nuit 3"],
+  booking:"https://www.booking.com/hotel/fr/le-17-colmar.fr.html?checkin=2026-10-31&checkout=2026-11-01&group_adults=4&no_rooms=1&group_children=0",
+  facts:[["Séjour","Samedi 31 octobre, 1 nuit"],["Voyageurs","4 adultes, 1 chambre"]],
+  story:"Hébergement à Colmar pour la nuit du samedi. Vérifie l’adresse exacte et les modalités d’arrivée dans ta réservation Booking.",
+  tip:"Tu y arrives de nuit après 47 km : prévois des feux sur les vélos. Demande à l’hôte où ranger les vélos pour la nuit. Emplacement sur la carte approximatif."},
  {id:"jys",type:"table",day:3,name:"JY’S",place:"3 allée du Champ de Mars, Colmar",village:"Colmar",ll:[48.0756,7.3535],mll:[48.0754,7.3546],rating:4.5,reviews:897,price:"€€€€",book:true,core:true,
   phone:"+33 3 89 21 53 60",tags:["2 étoiles Michelin","Le point d’orgue"],
   hours:["Fermé","19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","Fermé"],
-  story:"Deux étoiles au Guide Michelin. Jean-Yves Schillinger, élève de Joël Robuchon, a été élu cuisinier de l’année par le Pudlo Alsace 2026 : une cuisine savante et végétale qui passe de l’Alsace au Japon, dans une salle vitrée au rez-de-chaussée de ton hôtel.",
+  story:"Deux étoiles au Guide Michelin. Jean-Yves Schillinger, élève de Joël Robuchon, a été élu cuisinier de l’année par le Pudlo Alsace 2026 : une cuisine savante et végétale qui passe de l’Alsace au Japon, dans une salle vitrée au rez-de-chaussée.",
   tip:"Service du soir de 19 h à 21 h 30 le samedi. C’est le point d’orgue du week-end : réserve dès maintenant. Les avis citent un service parfois inégal et un menu en français seulement."},
  {id:"lastub",type:"table",day:3,name:"La Stub",place:"72 Grand Rue, Colmar",village:"Colmar",ll:[48.0749217,7.3571692],rating:4.6,reviews:2236,price:"€€",book:true,
   phone:"+33 3 39 10 94 79",tags:["Alternative moins chère","Tartes flambées"],

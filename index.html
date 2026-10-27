@@ -284,8 +284,8 @@ h1,h2,h3{font-family:var(--display)}
       </details>
       <details>
         <summary>Les tables</summary>
-        <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, table déjà réservée) et JY’S à Colmar (samedi soir, deux étoiles). Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
-        <p>Chaque soir a une alternative nettement moins chère (€€), au cas où : le Winstub du Manoir à Barr (jeudi), Au Tire Bouchon à Riquewihr (vendredi) et La Stub à Colmar (samedi), avec Les Bateliers en option dans la Petite Venise. Pour le vendredi, la table du Sarment d’Or est déjà réservée : Au Tire Bouchon et La Table du Gourmet ne sont là qu’en secours. Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
+        <p>Les trois repas qui comptent : le Winstub du Manoir à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, table déjà réservée) et JY’S à Colmar (samedi soir, deux étoiles). Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
+        <p>Le jeudi, ENFIN reste l’option chic mais chère (€€€€) pour un dîner plus gastronomique. Pour les autres soirs, il y a une alternative nettement moins chère (€€), au cas où : Au Tire Bouchon à Riquewihr (vendredi) et La Stub à Colmar (samedi), avec Les Bateliers en option dans la Petite Venise. Pour le vendredi, la table du Sarment d’Or est déjà réservée : Au Tire Bouchon et La Table du Gourmet ne sont là qu’en secours. Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
       </details>
       <details>
         <summary>Hébergement</summary>
@@ -342,7 +342,7 @@ var DAYS = {
   1:{name:"Jeudi", label:"Jeudi 29 octobre", short:"Jeu", dow:3, title:"Strasbourg à Barr", tagline:"L’échauffement", km:45, dplus:100,
      intro:"On arrive de Paris ou de Reims vers midi et on enfourche tout de suite : 25 km plats le long du canal de la Bruche, puis le pied des Vosges jusqu’à Barr. Une seule dégustation avant la nuit, et un vrai dîner.",
      fact:"Variante tranquille : le TER jusqu’à Molsheim t’économise 25 km. Le soleil se couche vers 17 h : garde les feux à portée de main.",
-     program:[["11 h 30","Arrivée en train à Strasbourg, vélos en main"],["12 h 30","Départ par la piste du canal de la Bruche"],["14 h 15","Molsheim"],["15 h 00","Obernai"],["15 h 45","Dégustation chez Hering, à Barr"],["17 h 00","Arrivée à l’hébergement (heure à confirmer)"],["19 h 15","Dîner chez ENFIN"]],
+     program:[["11 h 30","Arrivée en train à Strasbourg, vélos en main"],["12 h 30","Départ par la piste du canal de la Bruche"],["14 h 15","Molsheim"],["15 h 00","Obernai"],["15 h 45","Dégustation chez Hering, à Barr"],["17 h 00","Arrivée à l’hébergement (heure à confirmer)"],["19 h 00","Dîner au Winstub du Manoir (ou ENFIN en option chic)"]],
      profile:[[0,140,"Strasbourg"],[25,180,"Molsheim"],[36,185,"Obernai"],[45,200,"Barr"]]},
   2:{name:"Vendredi", label:"Vendredi 30 octobre", short:"Ven", dow:4, title:"Barr à Riquewihr", tagline:"Le jour des grands noms", km:48, dplus:350,
      intro:"Quatre maisons de premier plan : Kreydenweiss à Andlau, Marcel Deiss à Bergheim, Trimbach à Ribeauvillé et Hugel à Riquewihr. Entre les deux, une vingtaine de kilomètres de plaine pour aller déjeuner à Châtenois, au pied du Haut-Kœnigsbourg. C’est le jour pour lequel il faut réserver.",
@@ -392,16 +392,16 @@ var STOPS = [
   facts:[["Séjour","Jeudi 29 octobre, 1 nuit, 4 adultes"],["Adresse","11 rue Saint-Marc, 67140 Barr"],["Arrivée","À partir de 15 h"],["Départ","Avant 11 h 30"]],
   story:"Ta première nuit, après 45 km depuis Strasbourg. Hôtel du centre de Barr, à deux pas du Winstub du Manoir, l’alternative du jeudi soir.",
   tip:"Demande où ranger les vélos pour la nuit. Horaires d’arrivée et de départ tirés d’annuaires : confirme-les dans ta réservation. Le repère sur la carte est approximatif."},
- {id:"enfin",type:"table",day:1,name:"ENFIN",place:"2 chemin du Château d’Andlau, Barr",village:"Barr",ll:[48.4049,7.4255],rating:4.8,reviews:339,price:"€€€€",book:true,core:true,
-  phone:"+33 3 69 61 37 30",tags:["Dîner du jeudi","Vins nature"],
+ {id:"enfin",type:"table",day:1,name:"ENFIN",place:"2 chemin du Château d’Andlau, Barr",village:"Barr",ll:[48.4049,7.4255],rating:4.8,reviews:339,price:"€€€€",book:true,
+  phone:"+33 3 69 61 37 30",tags:["Option chic et chère","Vins nature"],
   hours:["Fermé","Fermé","19h15–22h30","19h15–22h30","12h–14h30 · 19h15–22h30","12h–14h30 · 19h15–22h30","12h–14h30"],
   story:"Cuisine régionale et créative, très végétale selon les avis, avec des vins nature et un accord sans alcool inventif. Les avis saluent le cadre, le service et les détails.",
-  tip:"Le jeudi, service du soir seulement (19 h 15 à 22 h 30). Un peu à l’écart du centre de Barr (chemin du Château d’Andlau) : à faire à vélo. Réserve dès maintenant."},
- {id:"manoir",type:"table",day:1,name:"Winstub du Manoir",place:"6 rue Saint-Marc, Barr",village:"Barr",ll:[48.4065541,7.4491834],rating:4.5,reviews:638,price:"€€",book:true,
-  phone:"+33 3 88 08 07 36",tags:["Alternative moins chère","Winstub","Tartes flambées"],
+  tip:"L’option chic du jeudi, bien plus chère que le Winstub du Manoir. Service du soir seulement (19 h 15 à 22 h 30). Un peu à l’écart du centre de Barr (chemin du Château d’Andlau) : à faire à vélo. Réserve dès maintenant."},
+ {id:"manoir",type:"table",day:1,name:"Winstub du Manoir",place:"6 rue Saint-Marc, Barr",village:"Barr",ll:[48.4065541,7.4491834],rating:4.5,reviews:638,price:"€€",book:true,core:true,
+  phone:"+33 3 88 08 07 36",tags:["Dîner du jeudi","Winstub","Tartes flambées"],
   hours:["12h–13h30 · 19h–21h","12h–13h","Fermé","12h–13h30 · 19h–21h","12h–13h30 · 19h–21h","19h–21h","12h–13h30 · 19h–21h"],
   story:"Winstub du vieux Barr, tenue par une toute petite équipe selon un avis. Les avis vantent une cuisine locale soignée, des tartes flambées à la pâte maison et des vins du village à prix doux.",
-  tip:"L’alternative du jeudi, nettement moins chère qu’ENFIN. Service de 19 h à 21 h : un avis note une certaine lenteur quand la salle est pleine, donc réserve."},
+  tip:"Le dîner du jeudi, à deux pas de l’hôtel et nettement moins cher qu’ENFIN. Service de 19 h à 21 h : un avis note une certaine lenteur quand la salle est pleine, donc réserve."},
 
  /* Vendredi 30 */
  {id:"seltz",type:"domaine",day:2,name:"Domaine Albert Seltz",place:"Mittelbergheim",ll:[48.395573,7.443666],rating:5.0,reviews:456,

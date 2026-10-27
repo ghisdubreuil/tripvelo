@@ -284,7 +284,7 @@ h1,h2,h3{font-family:var(--display)}
       </details>
       <details>
         <summary>Les tables</summary>
-        <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, dans ta rue : table déjà réservée) et JY’S à Colmar (samedi soir, deux étoiles). Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
+        <p>Les trois repas qui comptent : ENFIN à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, table déjà réservée) et JY’S à Colmar (samedi soir, deux étoiles). Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
         <p>Chaque soir a une alternative nettement moins chère (€€), au cas où : le Winstub du Manoir à Barr (jeudi), Au Tire Bouchon à Riquewihr (vendredi) et La Stub à Colmar (samedi), avec Les Bateliers en option dans la Petite Venise. Pour le vendredi, la table du Sarment d’Or est déjà réservée : Au Tire Bouchon et La Table du Gourmet ne sont là qu’en secours. Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
       </details>
       <details>
@@ -347,7 +347,7 @@ var DAYS = {
   2:{name:"Vendredi", label:"Vendredi 30 octobre", short:"Ven", dow:4, title:"Barr à Riquewihr", tagline:"Le jour des grands noms", km:48, dplus:350,
      intro:"Quatre maisons de premier plan : Kreydenweiss à Andlau, Marcel Deiss à Bergheim, Trimbach à Ribeauvillé et Hugel à Riquewihr. Entre les deux, une vingtaine de kilomètres de plaine pour aller déjeuner à Châtenois, au pied du Haut-Kœnigsbourg. C’est le jour pour lequel il faut réserver.",
      fact:"Trimbach est fermé le week-end : c’est vendredi ou jamais. Le Haut-Kœnigsbourg est un défi bonus, mais il remplace Deiss et Trimbach.",
-     program:[["8 h 15","Départ de Barr (Seltz, à Mittelbergheim, ouvre à 9 h : option)"],["10 h 00","Kreydenweiss, à Andlau"],["12 h 15","Déjeuner à Châtenois, chez La Vignette"],["14 h 30","Marcel Deiss, à Bergheim"],["15 h 45","Trimbach, à Ribeauvillé"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)"],["19 h 00","Dîner au Sarment d’Or, à côté du gîte (table réservée)"]],
+     program:[["8 h 15","Départ de Barr (Seltz, à Mittelbergheim, ouvre à 9 h : option)"],["10 h 00","Kreydenweiss, à Andlau"],["12 h 15","Déjeuner à Châtenois, chez La Vignette"],["14 h 30","Marcel Deiss, à Bergheim"],["15 h 45","Trimbach, à Ribeauvillé"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)"],["19 h 00","Dîner au Sarment d’Or, à côté de ton hébergement (table réservée)"]],
      profile:[[0,200,"Barr"],[7,210,"Andlau"],[25,195,"Châtenois"],[36,215,"Bergheim"],[41,240,"Ribeauvillé"],[48,245,"Riquewihr"]]},
   3:{name:"Samedi", label:"Samedi 31 octobre", short:"Sam", dow:5, title:"Riquewihr à Colmar", tagline:"Sommets et étoiles", km:47, dplus:750,
      intro:"Le jour sportif : l’ascension du Hohlandsbourg, la route forestière des crêtes jusqu’aux Trois Châteaux, entre deux grandes caves. On finit à Colmar à la tombée de la nuit, pour un dîner deux étoiles.",
@@ -386,12 +386,12 @@ var STOPS = [
   hours:["9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h30","9h–12h · 13h30–18h","Fermé"],tags:["Ta dégustation du jeudi"],
   story:"Plusieurs visiteurs y sont entrés sans rendez-vous et ont eu une vraie dégustation. Au-dessus de Barr s’étend le Grand Cru Kirchberg de Barr.",
   tip:"Ouvert jusqu’à 18 h 30 le jeudi : pas de course contre la nuit si tu arrives avant 17 h."},
- {id:"hotelbarr",type:"hebergement",day:1,name:"Les Cigognes de Barr",place:"Barr, adresse à confirmer",village:"Barr",ll:[48.4090,7.4500],mll:[48.4084,7.4492],
-  tags:["Nuit 1","Détails à compléter"],
-  booking:"https://www.booking.com/hotel/fr/les-cigognes-de-barr.fr.html?checkin=2026-10-29&checkout=2026-10-30&group_adults=4&no_rooms=1&group_children=0",
-  facts:[["Séjour","Jeudi 29 octobre, 1 nuit, 4 adultes"],["Adresse","À confirmer sur ta réservation Booking"],["Arrivée","À confirmer avec l’hôte"]],
-  story:"Ta première nuit, après 45 km depuis Strasbourg. Je n’ai pas pu lire la page Booking de cet hébergement : l’adresse, le type de logement, les équipements et la note manquent donc ici.",
-  tip:"Vérifie l’adresse exacte et l’heure d’arrivée dans ta confirmation, et demande où ranger les vélos. Le repère sur la carte est placé au centre de Barr, par défaut."},
+ {id:"hotelbarr",type:"hebergement",day:1,name:"Hôtel Le Manoir",place:"11 rue Saint-Marc, 67140 Barr",village:"Barr",ll:[48.4090,7.4500],mll:[48.4084,7.4492],
+  tags:["Nuit 1"],
+  web:"https://www.hotellemanoirbarr.fr/fr",
+  facts:[["Séjour","Jeudi 29 octobre, 1 nuit, 4 adultes"],["Adresse","11 rue Saint-Marc, 67140 Barr"],["Arrivée","À partir de 15 h"],["Départ","Avant 11 h 30"]],
+  story:"Ta première nuit, après 45 km depuis Strasbourg. Hôtel du centre de Barr, à deux pas du Winstub du Manoir, l’alternative du jeudi soir.",
+  tip:"Demande où ranger les vélos pour la nuit. Horaires d’arrivée et de départ tirés d’annuaires : confirme-les dans ta réservation. Le repère sur la carte est approximatif."},
  {id:"enfin",type:"table",day:1,name:"ENFIN",place:"2 chemin du Château d’Andlau, Barr",village:"Barr",ll:[48.4049,7.4255],rating:4.8,reviews:339,price:"€€€€",book:true,core:true,
   phone:"+33 3 69 61 37 30",tags:["Dîner du jeudi","Vins nature"],
   hours:["Fermé","Fermé","19h15–22h30","19h15–22h30","12h–14h30 · 19h15–22h30","12h–14h30 · 19h15–22h30","12h–14h30"],
@@ -453,18 +453,17 @@ var STOPS = [
  {id:"hugel",type:"domaine",day:2,name:"Famille Hugel",place:"Riquewihr",ll:[48.1668625,7.2974822],rating:4.5,reviews:255,core:true,
   phone:"+33 3 89 47 92 15",hours:WEEK_FULL("9h30–12h · 13h–18h"),tags:["Incontournable","Vins moelleux","Ouvert 7 jours sur 7"],
   story:"Maison familiale installée à Riquewihr depuis 1639. Les avis citent ses vins moelleux parmi les meilleurs, et une visite des « trois terroirs » dans le vignoble.",
-  tip:"Ouvert tous les jours de 9 h 30 à 18 h : à faire en arrivant à Riquewihr vendredi vers 17 h, à pied depuis le gîte. La visite des terroirs demande sans doute une réservation."},
- {id:"giteriquewihr",type:"hebergement",day:2,name:"Gîte Le Chemin de Ronde",place:"2 rue du Cerf, Riquewihr",village:"Riquewihr",ll:[48.1669,7.2958],rating:8.7,reviews:46,scale:10,
-  tags:["Nuit 2","Parking privé","Cuisine équipée"],
-  booking:"https://www.booking.com/hotel/fr/ga-r-te-le-chemin-de-ronde.fr.html?checkin=2026-10-30&checkout=2026-10-31&group_adults=4&no_rooms=1&group_children=0",
-  facts:[["Séjour","Vendredi 30 octobre, 1 nuit, 4 adultes"],["Logement","Gîte de deux appartements : 52 m² (1 chambre) et 100 m² (2 chambres)"],["Équipements","Cuisine équipée, baignoire, Wi-Fi gratuit, parking privé"],["Arrivée","De 15 h ou 16 h à 22 h selon les sources"],["Départ","Avant 10 h"],["Note Booking","8,7 sur 10 (46 avis)"]],
-  story:"Gîte au cœur de Riquewihr, à quelques minutes à pied du centre. Les avis vantent l’emplacement et l’accueil des propriétaires, avec linge et serviettes fournis.",
-  tip:"Prévois d’arriver avant 22 h, ou préviens les propriétaires. Un avis mentionne des parkings en haut du village : demande où laisser les vélos pour la nuit."},
+  tip:"Ouvert tous les jours de 9 h 30 à 18 h : à faire en arrivant à Riquewihr vendredi vers 17 h, à pied depuis ton hébergement. La visite des terroirs demande sans doute une réservation."},
+ {id:"giteriquewihr",type:"hebergement",day:2,name:"La Maison Bleue",place:"16 rue Saint-Nicolas, Riquewihr (adresse à confirmer)",village:"Riquewihr",ll:[48.1669,7.2958],mll:[48.1669,7.2958],
+  tags:["Nuit 2"],
+  facts:[["Séjour","Vendredi 30 octobre, 1 nuit, 4 adultes"],["Adresse","16 rue Saint-Nicolas, 68340 Riquewihr (un autre site indique 15 rue du Panorama)"],["Arrivée","À partir de 15 h"],["Départ","Avant 11 h"]],
+  story:"Maison historique au cœur de Riquewihr, avec plusieurs appartements et une grande terrasse commune.",
+  tip:"L’adresse varie selon les sources : confirme-la avec le propriétaire avant d’arriver, ainsi que l’heure d’arrivée et l’endroit où laisser les vélos. Le repère sur la carte est approximatif."},
  {id:"sarment",type:"table",day:2,name:"Le Sarment d’Or",place:"4 rue du Cerf, Riquewihr",village:"Riquewihr",ll:[48.1669,7.2957],mll:[48.1673,7.2950],rating:4.9,reviews:148,price:"€€€",book:true,core:true,
-  phone:"+33 3 10 06 51 06",tags:["Dîner du vendredi","Réservé","Dans ta rue"],
+  phone:"+33 3 10 06 51 06",tags:["Dîner du vendredi","Réservé"],
   hours:["18h45–20h30","18h45–20h30","18h45–20h30","Fermé","18h45–20h45","12h–13h30 · 18h45–20h45","12h–13h30 · 18h45–20h30"],
   story:"Restaurant semi-gastronomique et hôtel de sept chambres, repris par une jeune équipe après plusieurs années de fermeture selon un avis. Carte de saison avec des producteurs locaux et de bons conseils sur les vins d’Alsace.",
-  tip:"Table réservée pour le vendredi soir. À deux numéros de ton gîte (4 rue du Cerf contre le 2) : dîner en quelques pas après la journée. Service jusqu’à 20 h 45 le vendredi."},
+  tip:"Table réservée pour le vendredi soir. Dans le centre de Riquewihr, à quelques pas de ton hébergement après la journée. Service jusqu’à 20 h 45 le vendredi."},
  {id:"tablegourmet",type:"table",day:2,name:"La Table du Gourmet",place:"5 rue de la 1re Armée, Riquewihr",village:"Riquewihr",ll:[48.166278,7.29726],mll:[48.1659,7.2980],rating:4.5,reviews:473,price:"€€€€",book:true,
   phone:"+33 3 89 49 09 09",tags:["Option gastronomique du vendredi","Menus longs"],
   hours:["12h15–13h30 · 19h15–20h45","Fermé","Fermé","19h15–20h45","12h15–13h30 · 19h15–20h45","12h15–13h30 · 19h15–20h45","12h15–13h30 · 19h15–20h45"],

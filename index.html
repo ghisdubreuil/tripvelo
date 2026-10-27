@@ -99,10 +99,6 @@ dialog#lightbox img{display:block;max-width:92vw;max-height:84vh;max-height:84dv
 .stop.ville .pin{background:var(--cave);color:var(--c);border-color:var(--c)}
 .stop-title b{display:block;font-weight:600;line-height:1.25}
 .stop-title small{color:var(--muted);font-size:.84rem}
-.star{background:none;border:0;padding:.6rem .7rem;color:var(--muted);border-radius:10px;display:grid;place-items:center}
-.star svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round}
-.star[aria-pressed="true"]{color:var(--d2)}
-.star[aria-pressed="true"] svg{fill:currentColor}
 .stop-body{padding:.2rem 1rem 1rem 3.4rem}
 .tags{display:flex;flex-wrap:wrap;gap:.35rem;margin:0 0 .6rem}
 .tag{font-size:.78rem;padding:.12rem .55rem;border-radius:999px;background:color-mix(in srgb,var(--c) 22%,transparent);border:1px solid color-mix(in srgb,var(--c) 55%,transparent)}
@@ -173,7 +169,6 @@ details p{margin:0 0 .9rem;color:var(--muted);font-size:.93rem;max-width:56ch}
 .mk-in{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;font:600 .8rem/1 var(--sans);background:var(--c);color:var(--cave);border:2px solid var(--cave);box-shadow:0 1px 6px rgba(0,0,0,.5);transition:transform .18s ease}
 .mk.ville .mk-in{background:var(--cave);color:var(--c);border-color:var(--c);width:22px;height:22px;margin:3px;font-size:.7rem}
 .mk.sel .mk-in{transform:scale(1.4);box-shadow:0 0 0 3px var(--text)}
-.mk.fav .mk-in::after{content:"";position:absolute;top:-3px;right:-3px;width:10px;height:10px;border-radius:50%;background:var(--d2);border:2px solid var(--cave)}
 .mk-in{position:relative}
 
 .toast{position:fixed;left:50%;bottom:calc(1.2rem + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--text);color:var(--cave);padding:.6rem 1rem;border-radius:8px;font-weight:500;font-size:.92rem;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:2000}
@@ -377,7 +372,6 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
   .filters::-webkit-scrollbar{display:none}
   .chip{min-height:46px;font-size:.95rem;white-space:nowrap;padding:.4rem 1rem}
   .stop-head{min-height:64px}
-  .star{min-width:52px;min-height:52px}
   .btn{min-height:50px;font-size:1rem;padding:.5rem 1rem}
   summary{min-height:56px;font-size:1.05rem}
   .stop-body{padding-left:1rem;padding-right:.5rem}
@@ -388,9 +382,9 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
   .map-portrait{display:block;position:absolute;z-index:500;top:max(12px,env(safe-area-inset-top));right:12px;border:0;background:none;padding:0;border-radius:10px;cursor:zoom-in}
   .leaflet-control-zoom{display:none}
   .toast{bottom:calc(var(--nav) + .8rem)}
-  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:1500;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:var(--cave);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom));min-height:var(--nav)}
-  .tabbar button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;border:0;background:none;border-radius:14px;color:var(--muted);font:600 .74rem/1 var(--sans);padding:.2rem 0}
-  .tabbar svg{width:26px;height:26px;fill:currentColor}
+  .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:1500;display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--cave);border-top:1px solid var(--line);padding:6px 3px calc(6px + env(safe-area-inset-bottom));min-height:var(--nav)}
+  .tabbar button,.tabbar .tablink{display:flex;text-decoration:none;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:56px;border:0;background:none;border-radius:14px;color:var(--muted);font:600 .66rem/1 var(--sans);padding:.2rem 0;min-width:0}
+  .tabbar svg{width:25px;height:25px;fill:currentColor}
   .tabbar button[aria-current="page"]{color:var(--text);background:var(--panel-2)}
   .tabbar .t-drunk{background:var(--d2);color:var(--cave);font-weight:800}
 }
@@ -445,8 +439,8 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
       </details>
       <details>
         <summary>Les tables</summary>
-        <p>Les trois repas qui comptent : le Winstub du Manoir à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, table déjà réservée) et JY’S à Colmar (samedi soir, deux étoiles). Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
-        <p>Le jeudi, ENFIN reste l’option chic mais chère (€€€€) pour un dîner plus gastronomique. Pour les autres soirs, il y a une alternative nettement moins chère (€€), au cas où : Au Tire Bouchon à Riquewihr (vendredi) et La Stub à Colmar (samedi), avec Les Bateliers en option dans la Petite Venise. Pour le vendredi, la table du Sarment d’Or est déjà réservée : Au Tire Bouchon et La Table du Gourmet ne sont là qu’en secours. Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
+        <p>Les trois repas qui comptent : le Winstub du Manoir à Barr (jeudi soir), Le Sarment d’Or à Riquewihr (vendredi soir, table déjà réservée) et, à Colmar le samedi soir, au choix : « on pète le budget » chez JY’S (deux étoiles) ou « on se pète la panse » aux Bateliers. Le déjeuner de vendredi se fait à Châtenois, chez La Vignette. Samedi midi, reste léger pour ne pas dormir sur les montées, sauf si tu choisis Olivier Nasti à Kaysersberg, qui remplace les châteaux de l’après-midi.</p>
+        <p>Le jeudi, ENFIN reste l’option chic mais chère (€€€€) pour un dîner plus gastronomique. Pour les autres soirs, il y a une alternative nettement moins chère (€€), au cas où : Au Tire Bouchon à Riquewihr (vendredi) et La Stub à Colmar (samedi, en secours de JY’S et des Bateliers). Pour le vendredi, la table du Sarment d’Or est déjà réservée : Au Tire Bouchon et La Table du Gourmet ne sont là qu’en secours. Toutes les tables de la sélection demandent une réservation. Étoiles : Guide Michelin 2026.</p>
       </details>
       <details>
         <summary>Hébergement</summary>
@@ -461,9 +455,6 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
         <p>Du jeudi 29 octobre au dimanche 1er novembre 2026, tu tombes en plein dans les vacances scolaires de la Toussaint (du 17 octobre au 2 novembre, toutes zones) : plus de monde et des prix plus hauts. Le dimanche 1er novembre est férié : beaucoup de caves, de commerces et de restaurants seront fermés, donc appelle avant de te déplacer.</p>
         <p>L’heure d’hiver est en place depuis le 25 octobre : le soleil se couche vers 17 h. Les étapes du vendredi et du samedi se terminent de nuit : feux avant et arrière obligatoires.</p>
       </details>
-      <div class="links" style="margin-top:1rem">
-        <button class="btn ghost" id="copyFavs" type="button" hidden>Copier ma sélection</button>
-      </div>
     </section>
 
     <footer class="foot" data-v="more">
@@ -488,9 +479,10 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
   <img alt="Rémi à vélo au milieu des vignes, une bouteille de vin à la main, un village alsacien derrière lui" src="remi.jpg" data-remi>
 </dialog>
 <nav class="tabbar" id="tabbar" aria-label="Navigation">
-  <button type="button" data-tab="now"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 7v5.2l3.6 2.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Maintenant</button>
-  <button type="button" data-tab="plan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h2v2H4zm4 0h12v2H8zm-4 5h2v2H4zm4 0h12v2H8zm-4 5h2v2H4zm4 0h12v2H8z"/></svg>Programme</button>
+  <button type="button" data-tab="now"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 7v5.2l3.6 2.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Étape</button>
+  <button type="button" data-tab="plan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h2v2H4zm4 0h12v2H8zm-4 5h2v2H4zm4 0h12v2H8zm-4 5h2v2H4zm4 0h12v2H8z"/></svg>Jours</button>
   <button type="button" data-tab="map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Carte</button>
+  <a class="tablink" href="https://vinlo2026.netlify.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-3.5L5 21V4a1 1 0 0 1 1-1z"/></svg>Dégust.</a>
   <button type="button" data-tab="more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>Plus</button>
   <button type="button" data-tab="drunk" class="t-drunk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12l-1 8a5 5 0 0 1-4 4.9V20h4v2H7v-2h4v-5.1A5 5 0 0 1 7 10z"/></svg>Bourré</button>
 </nav>
@@ -526,17 +518,17 @@ var DAYS = {
   1:{name:"Jeudi", label:"Jeudi 29 octobre", short:"Jeu", dow:3, title:"Strasbourg à Barr", tagline:"L’échauffement", km:45, dplus:100,
      intro:"On arrive de Paris ou de Reims vers midi et on enfourche tout de suite : 25 km plats le long du canal de la Bruche, puis le pied des Vosges jusqu’à Barr. Une seule dégustation avant la nuit, et un vrai dîner.",
      fact:"Variante tranquille : le TER jusqu’à Molsheim t’économise 25 km. Le soleil se couche vers 17 h : garde les feux à portée de main.",
-     program:[["11 h 30","Arrivée en train à Strasbourg, vélos en main","strasbourg"],["12 h 30","Départ par la piste du canal de la Bruche","strasbourg"],["14 h 15","Molsheim","molsheim"],["15 h 00","Obernai","obernai"],["16 h 00","Dégustation chez Hering, à Barr (visite confirmée)","hering"],["17 h 00","Arrivée à l’hébergement (heure à confirmer)","hotelbarr"],["19 h 00","Dîner au Winstub du Manoir (ou ENFIN en option chic si vous avez de la thune à claquer (ou rémi peut vous inviter sinon))","manoir"]],
+     program:[["11 h 30","Arrivée en train à Strasbourg, vélos en main","strasbourg"],["12 h 30","Départ par la piste du canal de la Bruche","strasbourg"],["14 h 15","Molsheim","molsheim"],["15 h 00","Obernai","obernai"],["16 h 00","Dégustation chez Hering, à Barr (visite confirmée)","hering"],["18 h 00","Arrivée à l’hôtel","hotelbarr"],["19 h 00","Dîner au Winstub du Manoir (ou ENFIN en option chic si vous avez de la thune à claquer (ou rémi peut vous inviter sinon))","manoir"]],
      profile:[[0,140,"Strasbourg"],[25,180,"Molsheim"],[36,185,"Obernai"],[45,200,"Barr"]]},
   2:{name:"Vendredi", label:"Vendredi 30 octobre", short:"Ven", dow:4, title:"Barr à Riquewihr", tagline:"Le jour des grands noms", km:48, dplus:350,
-     intro:"Trois maisons de premier plan : Bader à Epfig (visite confirmée), Marcel Deiss à Bergheim (visite payante confirmée) et Hugel à Riquewihr. Entre les deux, une vingtaine de kilomètres de plaine pour aller déjeuner à Châtenois, au pied du Haut-Kœnigsbourg. C’est le jour pour lequel il faut réserver.",
+     intro:"Trois maisons de premier plan, plus une brasserie : Bader à Epfig (visite confirmée), la brasserie La Saint-Pierre à 11 h (visite à réserver par mail), Marcel Deiss à Bergheim (visite payante confirmée) et Hugel à Riquewihr. Entre les deux, une vingtaine de kilomètres de plaine pour aller déjeuner à Châtenois, au pied du Haut-Kœnigsbourg. C’est le jour pour lequel il faut réserver.",
      fact:"Les visites de Bader (10 h) et de Deiss (14 h 30) sont confirmées. Le Haut-Kœnigsbourg est un défi bonus, mais il remplace Deiss.",
-     program:[["8 h 15","Départ de Barr","hotelbarr"],["10 h 00","Domaine Bader, à Epfig (visite confirmée)","bader"],["12 h 15","Déjeuner à Châtenois, chez La Vignette","lavignette"],["14 h 30","Marcel Deiss, à Bergheim (visite payante confirmée)","deiss"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)","hugel"],["19 h 00","Dîner au Sarment d’Or, à côté de ton hébergement (table réservée)","sarment"]],
+     program:[["8 h 15","Départ de Barr","hotelbarr"],["10 h 00","Domaine Bader, à Epfig (visite confirmée)","bader"],["11 h 00","Brasserie La Saint-Pierre, à Saint-Pierre (visite guidée, à réserver par mail)","saintpierre"],["13 h 00","Déjeuner à Châtenois, chez La Vignette","lavignette"],["14 h 30","Marcel Deiss, à Bergheim (visite payante confirmée)","deiss"],["17 h 00","Hugel, à Riquewihr (ferme à 18 h)","hugel"],["19 h 00","Dîner au Sarment d’Or, à côté de ton hébergement (table réservée)","sarment"]],
      profile:[[0,200,"Barr"],[7,210,"Andlau"],[25,195,"Châtenois"],[36,215,"Bergheim"],[41,240,"Ribeauvillé"],[48,245,"Riquewihr"]]},
   3:{name:"Samedi", label:"Samedi 31 octobre", short:"Sam", dow:5, title:"Riquewihr à Colmar", tagline:"Sommets et étoiles", km:47, dplus:750,
      intro:"Le jour sportif : l’ascension du Hohlandsbourg, la route forestière des crêtes jusqu’aux Trois Châteaux, entre deux grandes caves. On finit à Colmar à la tombée de la nuit, pour un dîner deux étoiles.",
      fact:"Les stars de Turckheim et de Wettolsheim (Zind-Humbrecht, Barmès-Buecher) sont fermées le samedi : elles ne rentrent pas dans ton week-end.",
-     program:[["9 h 30","Départ de Riquewihr","giteriquewihr"],["10 h 00","Weinbach, à Kaysersberg (visite payante confirmée)","weinbach"],["11 h 30","Boxler, à Niedermorschwihr (sur rendez-vous)","boxler"],["12 h 30","Déjeuner léger à Turckheim",[48.0894,7.2733]],["14 h 00","Montée au Hohlandsbourg, puis route forestière jusqu’à Husseren","hohland"],["15 h 30","Les Trois Châteaux d’Eguisheim","troischateaux"],["16 h 30","Emile Beyer, à Eguisheim (visite payante à confirmer)","beyer"],["17 h 45","Dernière étape vers Colmar : 7 km, feux obligatoires","hotelcolmar"],["19 h 30","Dîner chez JY’S","jys"]],
+     program:[["9 h 30","Départ de Riquewihr","giteriquewihr"],["10 h 00","Weinbach, à Kaysersberg (visite payante confirmée)","weinbach"],["11 h 30","Boxler, à Niedermorschwihr (sur rendez-vous)","boxler"],["12 h 30","Déjeuner léger à Turckheim",[48.0894,7.2733]],["14 h 00","Montée au Hohlandsbourg, puis route forestière jusqu’à Husseren","hohland"],["15 h 30","Les Trois Châteaux d’Eguisheim","troischateaux"],["16 h 30","Emile Beyer, à Eguisheim (visite payante à confirmer)","beyer"],["17 h 45","Dernière étape vers Colmar : 7 km, feux obligatoires","hotelcolmar"],["19 h 30","Dîner : on pète le budget chez JY’S ou on se pète la panse aux Bateliers","jys"]],
      profile:[[0,245,"Riquewihr"],[9,240,"Kaysersberg"],[14,235,"Niedermorschwihr"],[20,230,"Wintzenheim"],[27,620,"Hohlandsbourg"],[35,330,"Husseren"],[39,220,"Eguisheim"],[47,190,"Colmar"]]},
   4:{name:"Dimanche", label:"Dimanche 1er novembre", short:"Dim", dow:6, holiday:true, optional:true, title:"Colmar, le rappel", tagline:"La boucle du lendemain", km:18, dplus:60,
      intro:"Le 1er novembre est la Toussaint : les caves seront fermées. On garde donc les jambes pour une boucle facultative de 18 km par Wettolsheim et Eguisheim avant le petit-déjeuner, puis Colmar à pied et le train de midi.",
@@ -571,7 +563,7 @@ var STOPS = [
   facts:[["Visite","Jeudi 29 octobre, 16 h à 17 h : confirmée"]],
   story:"Plusieurs visiteurs y sont entrés sans rendez-vous et ont eu une vraie dégustation. Au-dessus de Barr s’étend le Grand Cru Kirchberg de Barr.",
   tip:"Visite confirmée jeudi de 16 h à 17 h. Ouvert jusqu’à 18 h 30 le jeudi : pas de course contre la nuit."},
- {id:"hotelbarr",type:"hebergement",day:1,name:"Hôtel Le Manoir",place:"11 rue Saint-Marc, 67140 Barr",village:"Barr",ll:[48.4090,7.4500],mll:[48.4084,7.4492],
+ {id:"hotelbarr",type:"hebergement",day:1,name:"Hôtel Le Manoir",place:"11 rue Saint-Marc, 67140 Barr",village:"Barr",ll:[48.4066,7.4490],mll:[48.4066,7.4490],addr:"11 rue Saint Marc, 67140 Barr, France",
   tags:["Nuit 1"],
   web:"https://www.hotellemanoirbarr.fr/fr",
   facts:[["Séjour","Jeudi 29 octobre, 1 nuit, 4 adultes"],["Adresse","11 rue Saint-Marc, 67140 Barr"],["Arrivée","À partir de 15 h"],["Départ","Avant 11 h 30"]],
@@ -594,6 +586,13 @@ var STOPS = [
   facts:[["Visite","Vendredi 30 octobre, 10 h : confirmée"],["Adresse","1 rue de l’Église, 67680 Epfig"]],
   story:"Domaine d’Epfig, village du piémont entre Andlau et Châtenois.",
   tip:"Visite confirmée vendredi à 10 h. Epfig est sur ta route entre Andlau et Châtenois. Le repère sur la carte est approximatif."},
+ {id:"saintpierre",type:"domaine",day:2,name:"Brasserie La Saint-Pierre",place:"30 rue Principale, 67140 Saint-Pierre",ll:[48.3730,7.4550],mll:[48.3730,7.4550],book:true,brasserie:true,
+  web:"https://www.lasaintpierre.com/",
+  tags:["Brasserie","Visite guidée à 11 h","Réserver par mail"],
+  hours:["Fermé","9h–18h","9h–18h","9h–18h","9h–18h","9h–18h","Fermé"],
+  facts:[["Visite","Vendredi 30 octobre, 11 h : visite guidée d’1 h, 4 bières commentées"],["Réservation","Par mail : info@lasaintpierre.com"],["Tarif","Environ 6 à 7 € par personne, à vérifier"],["Détour","Environ 3 km de Barr : 4 à 5 km de plus vendredi"]],
+  story:"Brasserie artisanale du village de Saint-Pierre, à une poignée de kilomètres de Barr. La visite guidée d’une heure se termine par une dégustation commentée de quatre bières.",
+  tip:"Visite à réserver par mail à info@lasaintpierre.com : pas encore confirmée. Elle n’a lieu qu’à 11 h, du mardi au samedi. Le comptoir reste ouvert de 9 h à 18 h. Le repère sur la carte est approximatif."},
  {id:"kreydenweiss",type:"domaine",day:2,name:"Domaine Marc Kreydenweiss",place:"Andlau",ll:[48.3883515,7.4155198],rating:4.6,reviews:60,core:true,book:true,
   phone:"+33 3 88 08 95 83",
   hours:["8h–12h · 13h30–17h","8h–12h · 13h30–17h","8h–12h · 13h30–17h","8h–12h · 13h30–17h","8h–12h · 13h30–17h","10h–12h · 14h–17h","Fermé"],tags:["Incontournable","Biodynamie","Réserver"],
@@ -611,7 +610,7 @@ var STOPS = [
   phone:"+33 3 88 82 39 17",tags:["Déjeuner du vendredi","Terrasse sous la vigne"],
   hours:["Fermé","12h–14h","12h–14h30 · 19h–21h","12h–14h · 19h–21h","12h–14h · 19h–21h","12h–14h · 19h–21h","Fermé"],
   story:"Table du centre de Châtenois, avec une terrasse sous la vigne et un intérieur raffiné. Les avis saluent des desserts remarquables, un risotto au poulpe à marier avec un pinot gris, et des portions généreuses. Quelques avis notent des prix qui montent et un service parfois lent.",
-  tip:"Service de 12 h à 14 h le vendredi : assieds-toi vers 12 h 15 et dis d’emblée que tu as une cave à 14 h 30. Réserve."},
+  tip:"Service de 12 h à 14 h le vendredi : assieds-toi vers 13 h (12 h 15 si tu sautes la brasserie) et dis d’emblée que tu as une cave à 14 h 30. Réserve."},
  {id:"hk",type:"chateau",day:2,name:"Château du Haut-Kœnigsbourg",place:"Orschwiller, le défi bonus",ll:[48.2494,7.3442],tags:["Défi bonus"],
   story:"Incendié en 1462 par les troupes réunies de Colmar, Strasbourg et Bâle pour en chasser des chevaliers pillards, abandonné pendant la guerre de Trente Ans, puis reconstruit de 1900 à 1908 sur ordre de l’empereur allemand Guillaume II. Il reçoit plus de 500 000 visiteurs par an.",
   tip:"Juste au-dessus de Châtenois et à plus de 700 m (755 m selon les sources) : une montée soutenue. Il prendrait la place de ton après-midi chez Deiss : c’est l’un ou l’autre, pas les deux. Vérifie les horaires d’ouverture."},
@@ -635,11 +634,11 @@ var STOPS = [
   phone:"+33 3 89 47 92 15",hours:WEEK_FULL("9h30–12h · 13h–18h"),tags:["Incontournable","Vins moelleux","Ouvert 7 jours sur 7"],
   story:"Maison familiale installée à Riquewihr depuis 1639. Les avis citent ses vins moelleux parmi les meilleurs, et une visite des « trois terroirs » dans le vignoble.",
   tip:"Ouvert tous les jours de 9 h 30 à 18 h : à faire en arrivant à Riquewihr vendredi vers 17 h, à pied depuis ton hébergement. La visite des terroirs demande sans doute une réservation."},
- {id:"giteriquewihr",type:"hebergement",day:2,name:"La Maison Bleue",place:"16 rue Saint-Nicolas, Riquewihr (adresse à confirmer)",village:"Riquewihr",ll:[48.1669,7.2958],mll:[48.1669,7.2958],
+ {id:"giteriquewihr",type:"hebergement",day:2,name:"La Maison Bleue",place:"16 rue Saint-Nicolas, 68340 Riquewihr",village:"Riquewihr",ll:[48.1672,7.2962],mll:[48.1672,7.2962],addr:"16 Rue Saint Nicolas, 68340 Riquewihr, France",
   tags:["Nuit 2"],
-  facts:[["Séjour","Vendredi 30 octobre, 1 nuit, 4 adultes"],["Adresse","16 rue Saint-Nicolas, 68340 Riquewihr (un autre site indique 15 rue du Panorama)"],["Arrivée","À partir de 15 h"],["Départ","Avant 11 h"]],
+  facts:[["Séjour","Vendredi 30 octobre, 1 nuit, 4 adultes"],["Adresse","16 rue Saint-Nicolas, 68340 Riquewihr"],["Arrivée","À partir de 15 h"],["Départ","Avant 11 h"]],
   story:"Maison historique au cœur de Riquewihr, avec plusieurs appartements et une grande terrasse commune.",
-  tip:"L’adresse varie selon les sources : confirme-la avec le propriétaire avant d’arriver, ainsi que l’heure d’arrivée et l’endroit où laisser les vélos. Le repère sur la carte est approximatif."},
+  tip:"Confirme avec le propriétaire l’heure d’arrivée et l’endroit où laisser les vélos. Le repère sur la carte est approximatif, mais l’itinéraire part de l’adresse exacte."},
  {id:"sarment",type:"table",day:2,name:"Le Sarment d’Or",place:"4 rue du Cerf, Riquewihr",village:"Riquewihr",ll:[48.1669,7.2957],mll:[48.1673,7.2950],rating:4.9,reviews:148,price:"€€€",book:true,core:true,
   phone:"+33 3 10 06 51 06",tags:["Dîner du vendredi","Réservé"],
   hours:["18h45–20h30","18h45–20h30","18h45–20h30","Fermé","18h45–20h45","12h–13h30 · 18h45–20h45","12h–13h30 · 18h45–20h30"],
@@ -687,27 +686,27 @@ var STOPS = [
   facts:[["Visite","Samedi 31 octobre, 16 h 30 : payante, à confirmer"],["Tarif","20 € par personne"]],
   story:"Une dégustation comparative : un même riesling en trois niveaux (tradition, lieu-dit, grand cru), précédé d’un crémant. Eguisheim est bâtie en cercles concentriques autour de son château, et le pape Léon IX y serait né vers l’an 1000.",
   tip:"Ta dernière dégustation, prévue à 16 h 30 (20 € par personne) : la visite reste à confirmer. Il ferme à 18 h, mais le jour baisse vers 17 h."},
- {id:"hotelcolmar",type:"hebergement",day:3,name:"Le 17 Colmar",place:"17 rue des Têtes, 68000 Colmar",village:"Colmar",ll:[48.0778,7.3580],mll:[48.0778,7.3580],
+ {id:"hotelcolmar",type:"hebergement",day:3,name:"Le 17 Colmar",place:"17 rue des Têtes, 68000 Colmar",village:"Colmar",ll:[48.0798,7.3557],mll:[48.0798,7.3557],addr:"17 rue des Têtes, 68000 Colmar, France",
   tags:["Nuit 3"],
   booking:"https://www.booking.com/hotel/fr/le-17-colmar.fr.html?checkin=2026-10-31&checkout=2026-11-01&group_adults=4&no_rooms=1&group_children=0",
   facts:[["Séjour","Samedi 31 octobre, 1 nuit"],["Voyageurs","4 adultes, 1 chambre"]],
   story:"Hébergement à Colmar pour la nuit du samedi. Vérifie les modalités d’arrivée dans ta réservation Booking.",
   tip:"Tu y arrives de nuit après 47 km : prévois des feux sur les vélos. Demande à l’hôte où ranger les vélos pour la nuit. Emplacement sur la carte approximatif."},
  {id:"jys",type:"table",day:3,name:"JY’S",place:"3 allée du Champ de Mars, Colmar",village:"Colmar",ll:[48.0756,7.3535],mll:[48.0754,7.3546],rating:4.5,reviews:897,price:"€€€€",book:true,core:true,
-  phone:"+33 3 89 21 53 60",tags:["2 étoiles Michelin","Le point d’orgue"],
+  phone:"+33 3 89 21 53 60",tags:["On pète le budget","2 étoiles Michelin","Le point d’orgue"],
   hours:["Fermé","19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","12h–13h30 · 19h–21h30","Fermé"],
   story:"Deux étoiles au Guide Michelin. Jean-Yves Schillinger, élève de Joël Robuchon, a été élu cuisinier de l’année par le Pudlo Alsace 2026 : une cuisine savante et végétale qui passe de l’Alsace au Japon, dans une salle vitrée au rez-de-chaussée.",
-  tip:"Service du soir de 19 h à 21 h 30 le samedi. C’est le point d’orgue du week-end : réserve dès maintenant. Les avis citent un service parfois inégal et un menu en français seulement."},
+  tip:"Option « on pète le budget » pour le samedi soir, face aux Bateliers (« on se pète la panse »). Service du soir de 19 h à 21 h 30 : réserve dès maintenant. Les avis citent un service parfois inégal et un menu en français seulement."},
  {id:"lastub",type:"table",day:3,name:"La Stub",place:"72 Grand Rue, Colmar",village:"Colmar",ll:[48.0749217,7.3571692],rating:4.6,reviews:2236,price:"€€",book:true,
-  phone:"+33 3 39 10 94 79",tags:["Alternative moins chère","Tartes flambées"],
+  phone:"+33 3 39 10 94 79",tags:["Secours du samedi","Tartes flambées"],
   hours:["11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30","11h30–13h30 · 18h30–21h30"],
   story:"Petite adresse familiale spécialisée dans la tarte flambée, en de nombreuses variétés : ail des ours et jambon, poivre du Sichuan, version classique. Les avis citent un service souriant et rapide, et un très bon rapport qualité-prix en plein centre.",
-  tip:"L’alternative du samedi, à moins d’un kilomètre de ton hôtel. Service du soir de 18 h 30 à 21 h 30 : la salle est petite et se remplit, réserve."},
+  tip:"Le secours du samedi, si JY’S et les Bateliers sont complets, à moins d’un kilomètre de ton hôtel. Service du soir de 18 h 30 à 21 h 30 : la salle est petite et se remplit, réserve."},
  {id:"bateliers",type:"table",day:3,name:"Les Bateliers",place:"4 rue de la Herse, Petite Venise, Colmar",village:"Colmar",ll:[48.0738168,7.3573936],mll:[48.0735,7.3566],rating:4.6,reviews:2091,book:true,
-  tags:["Option du samedi","Petite Venise"],
+  tags:["On se pète la panse","Petite Venise"],
   hours:["11h45–16h45 · 18h30–20h30","11h45–16h45 · 18h30–20h30","Fermé","11h45–16h45 · 18h30–20h30","11h45–16h45 · 18h30–20h30","11h45–16h45 · 18h30–20h30","Fermé"],
   story:"Table alsacienne de la Petite Venise, avec des places en terrasse au-dessus du canal. Les avis vantent la joue de porc, la choucroute et le jarret, un service professionnel et chaleureux, mais signalent un temps de table limité à une heure.",
-  tip:"Le dîner le plus tôt de la sélection : 18 h 30 à 20 h 30 le samedi, donc à privilégier si tu veux dîner dès ton arrivée. Les avis divergent sur la réservation : certains disent qu’il faut faire la queue, d’autres conseillent de réserver en ligne. Vérifie avant d’y aller."},
+  tip:"Option « on se pète la panse » pour le samedi soir, face à JY’S (« on pète le budget ») : choucroute, jarret, joue de porc. C’est le dîner le plus tôt de la sélection, de 18 h 30 à 20 h 30 : arrive avant 19 h 30. Les avis divergent sur la réservation : certains disent qu’il faut faire la queue, d’autres conseillent de réserver en ligne. Vérifie avant d’y aller."},
 
  /* Dimanche 1er novembre */
  {id:"colmar",type:"ville",day:4,name:"Colmar",place:"Dimanche matin, train de midi",ll:[48.0794,7.3585],
@@ -716,7 +715,7 @@ var STOPS = [
 ];
 
 var WIKI = {strasbourg:"Strasbourg",molsheim:"Molsheim",obernai:"Obernai",hering:"Barr (Bas-Rhin)",hotelbarr:"Barr (Bas-Rhin)",enfin:"Barr (Bas-Rhin)",
-  bader:"Epfig",kreydenweiss:"Andlau",ostertag:"Epfig",chatenois:"Châtenois (Bas-Rhin)",lavignette:"Châtenois (Bas-Rhin)",hk:"Château du Haut-Kœnigsbourg",deiss:"Bergheim (Haut-Rhin)",rollygassmann:"Rorschwihr",
+  bader:"Epfig",saintpierre:"Saint-Pierre (Bas-Rhin)",kreydenweiss:"Andlau",ostertag:"Epfig",chatenois:"Châtenois (Bas-Rhin)",lavignette:"Châtenois (Bas-Rhin)",hk:"Château du Haut-Kœnigsbourg",deiss:"Bergheim (Haut-Rhin)",rollygassmann:"Rorschwihr",
   ribeauville:"Ribeauvillé",stulrich:"Château de Saint-Ulrich",hugel:"Riquewihr",giteriquewihr:"Riquewihr",sarment:"Riquewihr",
   weinbach:"Kaysersberg Vignoble",nasti:"Kaysersberg Vignoble",kaysersberg:"Kaysersberg Vignoble",boxler:"Niedermorschwihr",hohland:"Château du Hohlandsbourg",troischateaux:"Châteaux d'Eguisheim",beyer:"Eguisheim",
   hotelcolmar:"Colmar",jys:"Colmar",lastub:"Colmar",bateliers:"Colmar",tablegourmet:"Riquewihr",manoir:"Barr (Bas-Rhin)",tirebouchon:"Riquewihr",colmar:"Colmar"};
@@ -736,15 +735,7 @@ var FACTS = [
 ];
 
 /* ---------- État ---------- */
-var state = {day:0, sel:null, sun:false, favOnly:false, towns:true, chateaux:true, heberg:true, tables:true, favs:{}, fact:-1};
-try {
-  var saved = JSON.parse(localStorage.getItem("alsace-velo-favs") || "null");
-  if (saved && typeof saved === "object") state.favs = saved;
-  else STOPS.forEach(function(s){ if (s.fav) state.favs[s.id] = true; });
-} catch(e) {
-  STOPS.forEach(function(s){ if (s.fav) state.favs[s.id] = true; });
-}
-function saveFavs(){ try { localStorage.setItem("alsace-velo-favs", JSON.stringify(state.favs)); } catch(e){} }
+var state = {day:0, sel:null, sun:false, towns:true, chateaux:true, heberg:true, tables:true, fact:-1};
 
 /* Numéros par jour */
 (function(){
@@ -755,7 +746,6 @@ function saveFavs(){ try { localStorage.setItem("alsace-velo-favs", JSON.stringi
 var $ = function(id){ return document.getElementById(id); };
 function esc(t){ return String(t).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
 function byId(id){ for (var i=0;i<STOPS.length;i++) if (STOPS[i].id===id) return STOPS[i]; return null; }
-function favCount(){ return Object.keys(state.favs).filter(function(k){ return state.favs[k]; }).length; }
 
 function toast(msg){
   var t = $("toast"); t.textContent = msg; t.classList.add("on");
@@ -897,7 +887,7 @@ function fit(day){
 }
 
 function makeIcon(s, selected){
-  var cls = "mk " + s.type + (selected ? " sel" : "") + (state.favs[s.id] ? " fav" : "");
+  var cls = "mk " + s.type + (selected ? " sel" : "");
   return L.divIcon({className:cls, html:'<span class="mk-in" style="--c:'+COL[s.day]+'">'+glyph(s)+'</span>', iconSize:[34,34], iconAnchor:[17,17]});
 }
 
@@ -909,7 +899,6 @@ function visible(){
     if (!state.heberg && s.type === "hebergement") return false;
     if (!state.tables && s.type === "table") return false;
     if (state.sun && (s.type === "domaine" || s.type === "table") && !s.sunday) return false;
-    if (state.favOnly && !state.favs[s.id]) return false;
     return true;
   });
 }
@@ -941,7 +930,7 @@ function totalDplus(){ return DAY_IDS.reduce(function(t,d){ return t + (DAYS[d].
 function fmt(n){ return Number(n).toLocaleString("fr-FR"); }
 function renderStats(){
   var caves = STOPS.filter(function(s){ return s.type==="domaine" && s.core; }).length;
-  var options = STOPS.filter(function(s){ return s.type==="domaine" && !s.core; }).length;
+  var options = STOPS.filter(function(s){ return s.type==="domaine" && !s.core && !s.brasserie; }).length;
   var tables = STOPS.filter(function(s){ return s.type==="table" && s.core; }).length;
   var cells = [
     [fmt(totalKm()), "km à vélo", COL[1]],
@@ -994,15 +983,12 @@ function renderDayInfo(){
 function renderFilters(){
   $("filters").innerHTML =
     '<button class="chip" type="button" data-f="sun" aria-pressed="'+state.sun+'">Ouvert le dimanche</button>'+
-    '<button class="chip" type="button" data-f="fav" aria-pressed="'+state.favOnly+'">Ma sélection ('+favCount()+')</button>'+
     '<button class="chip" type="button" data-f="towns" aria-pressed="'+state.towns+'">Villes-étapes</button>'+
     '<button class="chip" type="button" data-f="chateaux" aria-pressed="'+state.chateaux+'">Châteaux</button>'+
     '<button class="chip" type="button" data-f="heberg" aria-pressed="'+state.heberg+'">Hébergements</button>'+
     '<button class="chip" type="button" data-f="tables" aria-pressed="'+state.tables+'">Tables</button>';
-  $("copyFavs").hidden = favCount() === 0;
 }
 
-var STAR = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.9 6.8 19.7l1-5.9L3.5 9.7l5.9-.8z"/></svg>';
 
 function dayLine(s){
   if ((s.type !== "domaine" && s.type !== "table") || !s.hours) return "";
@@ -1040,7 +1026,7 @@ function stopHTML(s){
     }
     var links = s.booking ? '<a class="btn" target="_blank" rel="noopener" href="'+esc(s.booking)+'">Voir sur Booking</a>' : '';
     links += '<button class="btn ghost" type="button" data-do="map" data-id="'+s.id+'">Voir sur la carte</button>';
-    links += '<a class="btn'+(s.booking?' ghost':'')+'" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination='+s.ll[0]+','+s.ll[1]+'&travelmode=bicycling">Itinéraire à vélo</a>';
+    links += '<a class="btn'+(s.booking?' ghost':'')+'" target="_blank" rel="noopener" href="'+gmaps(s.addr || s.ll)+'">Itinéraire à vélo</a>';
     if (s.phone) links += '<a class="btn ghost" href="tel:'+s.phone.replace(/\s/g,"")+'">Appeler</a>';
     if (s.web) links += '<a class="btn ghost" target="_blank" rel="noopener" href="'+esc(s.web)+'">'+(s.type==="hebergement"?"Site de l’hôtel":"Site du domaine")+'</a>';
     body = '<div class="stop-body" id="body-'+s.id+'">'+
@@ -1051,14 +1037,12 @@ function stopHTML(s){
       (s.tip ? '<p class="tip">'+esc(s.tip)+'</p>' : '')+
       hrs+facts+'<div class="links">'+links+'</div></div>';
   }
-  var isFav = !!state.favs[s.id];
   return '<li class="stop '+s.type+(open?" open":"")+'" data-id="'+s.id+'" style="--c:'+COL[s.day]+'">'+
     '<div class="stop-row">'+
       '<button class="stop-head" type="button" data-act="open" aria-expanded="'+open+'" aria-controls="body-'+s.id+'">'+
         '<span class="pin">'+glyph(s)+'</span>'+
         '<span class="stop-title"><b>'+esc(s.name)+'</b><small>'+sub+'</small>'+dayLine(s)+'</span>'+
       '</button>'+
-      ((s.type === "domaine" || s.type === "chateau" || s.type === "table") ? '<button class="star" type="button" data-act="fav" aria-pressed="'+isFav+'" aria-label="'+(isFav?"Retirer de":"Ajouter à")+' ma sélection : '+esc(s.name)+'">'+STAR+'</button>' : '')+
     '</div>'+body+'</li>';
 }
 
@@ -1102,7 +1086,6 @@ $("filters").addEventListener("click", function(e){
   var b = e.target.closest("button[data-f]"); if (!b) return;
   var f = b.getAttribute("data-f");
   if (f === "sun") state.sun = !state.sun;
-  if (f === "fav") state.favOnly = !state.favOnly;
   if (f === "towns") state.towns = !state.towns;
   if (f === "chateaux") state.chateaux = !state.chateaux;
   if (f === "heberg") state.heberg = !state.heberg;
@@ -1116,35 +1099,10 @@ $("stops").addEventListener("click", function(e){
   var id = li.getAttribute("data-id");
   var act = e.target.closest("[data-act]");
   if (!act) return;
-  if (act.getAttribute("data-act") === "fav") {
-    state.favs[id] = !state.favs[id];
-    if (!state.favs[id]) delete state.favs[id];
-    saveFavs();
-    if (state.favOnly && !state.favs[id]) { if (state.sel===id) state.sel = null; }
-    render();
-    return;
-  }
   select(id, false);
 });
 
 $("reset").addEventListener("click", function(){ state.sel = null; state.day = 0; render(); fit(0); });
-
-$("copyFavs").addEventListener("click", function(){
-  var list = STOPS.filter(function(s){ return state.favs[s.id]; });
-  var txt = "Ma sélection de domaines en Alsace :\n" + list.map(function(s){
-    return "- " + s.name + " (" + s.place + ", " + DAYS[s.day].name.toLowerCase() + ")" + (s.phone ? " - " + s.phone : "") + " - dimanche : " + (s.hours ? (s.sunday ? "ouvert" : "fermé") : "à demander");
-  }).join("\n");
-  function done(){ toast("Sélection copiée"); }
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(txt).then(done, function(){ fallback(); });
-  } else fallback();
-  function fallback(){
-    var ta = document.createElement("textarea"); ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand("copy"); done(); } catch(e) { toast("Copie impossible sur ce navigateur"); }
-    document.body.removeChild(ta);
-  }
-});
 
 var TASKS = [
   {id:"t-velos", day:1, label:"Vélos prêts à Strasbourg jeudi midi (location ou vélos dans le train)"},
@@ -1196,7 +1154,7 @@ $("lbClose").addEventListener("click", closeLb);
 lb.addEventListener("click", function(e){ if (e.target === lb) closeLb(); });
 
 /* ---------- Mobile : vues, étape suivante, mode bourré ---------- */
-var UI = {view:"now", drunk:false, wake:false, manual:null, nowDay:0};
+var UI = {view:"now", drunk:false, wake:false, manual:null, nowDay:0, demo:false};
 try {
   var savedUI = JSON.parse(localStorage.getItem("vinlo-ui") || "null");
   if (savedUI) {
@@ -1221,11 +1179,11 @@ function curMinutes(){ return UI.manual != null ? UI.manual : realMinutes(); }
 function hhmm(m){ m = ((m % 1440) + 1440) % 1440; return p2(Math.floor(m/60)) + ":" + p2(m%60); }
 function parseT(str){ var m = /(\d+)\s*h\s*(\d*)/.exec(str); return m ? parseInt(m[1],10)*60 + (m[2] ? parseInt(m[2],10) : 0) : 0; }
 function shortText(t){ return String(t).replace(/\s*\(.*$/, "").split(",")[0]; }
-function gmaps(ll){ return "https://www.google.com/maps/dir/?api=1&destination="+ll[0]+","+ll[1]+"&travelmode=bicycling"; }
+function gmaps(ll){ return "https://www.google.com/maps/dir/?api=1&destination="+(typeof ll === "string" ? encodeURIComponent(ll) : ll[0]+","+ll[1])+"&travelmode=bicycling"; }
 function targetOf(ref){
   if (!ref) return null;
   if (Array.isArray(ref)) return {ll:ref};
-  var s = byId(ref); return s ? {ll:s.ll, id:s.id, phone:s.phone, name:s.name} : null;
+  var s = byId(ref); return s ? {ll:s.addr || s.ll, id:s.id, phone:s.phone, name:s.name} : null;
 }
 function stepsOf(d){
   return DAYS[d].program.map(function(r){ return {t:parseT(r[0]), time:r[0].replace(/\s/g," "), text:r[1], ref:r[2]}; });
@@ -1244,6 +1202,41 @@ function countdown(dt){
 }
 function nightStop(d){ return byId(NIGHT[d]); }
 
+/* Avant ou après le week-end */
+function todayKey(){ var d = new Date(); return d.getFullYear() + "-" + p2(d.getMonth()+1) + "-" + p2(d.getDate()); }
+function offTrip(){
+  if (UI.demo || autoDay()) return null;
+  var k = todayKey();
+  return k < TRIP[1] ? "before" : (k > TRIP[4] ? "after" : null);
+}
+function daysToGo(){
+  var start = new Date(2026, 9, 29), now = new Date();
+  return Math.max(1, Math.ceil((start - now) / 86400000));
+}
+var JOKES_BEFORE = [
+  "Du calme, champion. Le Riesling n’est pas encore ouvert, et le vélo non plus.",
+  "La seule étape au programme, c’est la patience. Elle se déguste lentement, sans recracher.",
+  "Tu rafraîchis la page toutes les cinq minutes pour que le week-end arrive plus vite ? Ça ne marche pas. On a testé.",
+  "Les vignes poussent à leur rythme. Toi aussi, tu peux attendre.",
+  "Pas de cave, pas de côte, pas de dîner étoilé aujourd’hui. Entraîne plutôt ton foie et tes mollets."
+];
+var JOKES_AFTER = [
+  "Le week-end est terminé : plus de caves, plus de côtes, plus de dîners étoilés. Mais on est quand même content de te revoir.",
+  "Plus rien au programme, sauf un grand verre d’eau et une longue sieste. Content de te retrouver quand même !",
+  "Les vignes ont encore leurs raisins, mais tes mollets ont donné. Bienvenue au retour à la vraie vie. On t’aime quand même.",
+  "Fin de l’étape. Le vin voyage mieux que toi : laisse-le arriver par colis. Ça fait plaisir de te revoir, en tout cas."
+];
+function offHTML(kind){
+  var n = daysToGo(), list = kind === "before" ? JOKES_BEFORE : JOKES_AFTER;
+  var joke = list[(new Date().getDate()) % list.length];
+  var head = kind === "before"
+    ? (n === 1 ? "C’est demain !" : "Plus que " + n + " jours")
+    : "Le week-end est fini";
+  var sub = kind === "before" ? "Départ jeudi 29 octobre, à midi, à Strasbourg." : "On t’attend pour le prochain Vinlo.";
+  return {head:head, sub:sub, joke:joke};
+}
+
+
 function dayPickHTML(d){
   var h = '<div class="daypick" role="group" aria-label="Jour">';
   DAY_IDS.forEach(function(i){ h += '<button type="button" data-do="day" data-d="'+i+'" style="--c:'+COL[i]+'" aria-pressed="'+(d===i)+'">'+DAYS[i].short+'</button>'; });
@@ -1252,13 +1245,24 @@ function dayPickHTML(d){
 
 function renderNow(){
   var el = $("nowView"); if (!el) return;
+  var off = offTrip();
+  if (off) {
+    var o = offHTML(off);
+    el.innerHTML = '<div class="now-bar"><div><h2>Vinlo 2026</h2><small>29 octobre au 1er novembre</small></div></div>'+
+      '<article class="nowcard" style="--c:'+(off === "before" ? COL[1] : COL[3])+'"><span class="eyebrow">'+(off === "before" ? "Patience" : "Terminé")+'</span><div class="big-t" style="font-size:2.2rem">'+esc(o.head)+'</div>'+
+      '<h3>'+esc(o.joke)+'</h3><p class="cd">'+esc(o.sub)+'</p></article>'+
+      '<div class="quick"><button class="bigbtn alt wide" type="button" data-do="demo">👀 Voir comment ça marchera</button>'+
+      '<a class="bigbtn wide" target="_blank" rel="noopener" href="https://vinlo2026.netlify.app">🍷 Suivi des dégustations (app de Rémi)</a>'+
+      '<button class="bigbtn" type="button" data-do="wc">🚽 Toilettes</button><button class="bigbtn drunkbtn" type="button" data-do="drunk">🍷 Mode bourré</button></div>';
+    return;
+  }
   var d = curDay(), m = curMinutes(), pl = planAt(d, m), c = COL[d], S = pl.S;
   var night = nightStop(d), live = UI.manual == null;
   var h = '<div class="now-bar"><div><h2>Vinlo 2026</h2><small>'+esc(DAYS[d].label)+' · '+esc(DAYS[d].title)+'</small></div></div>';
   h += '<div class="clockrow"><label for="nowTime">Il est</label><input id="nowTime" type="time" value="'+hhmm(m)+'" step="60">'+
        (live ? '<span class="live">heure réelle</span>' : '<button class="bigbtn" style="width:auto;min-height:56px" type="button" data-do="live">Maintenant</button>')+'</div>';
   h += dayPickHTML(d);
-  if (!autoDay()) h += '<p class="hint">Hors des dates du voyage (29 octobre au 1er novembre) : l’heure est fixée pour la démo. Change-la ci-dessus, ou touche « Maintenant » pour l’heure réelle.</p>';
+  if (!autoDay()) h += '<p class="hint">Hors des dates du voyage (29 octobre au 1er novembre) : c’est une démo : change l’heure et le jour ci-dessus. <button class="linkbtn" type="button" data-do="exitdemo">Quitter la démo</button></p>';
   if (m >= 16*60+45 || m < 7*60+30) h += '<p class="alert">🔦 La nuit tombe vers 17 h : allume tes feux avant et arrière.</p>';
   if (pl.next >= 0) {
     var t = S[pl.next], tg = targetOf(t.ref), dt = t.t - m;
@@ -1278,11 +1282,12 @@ function renderNow(){
     var tom = d < 4 ? stepsOf(d+1)[0] : null;
     h += '<article class="nowcard" style="--c:'+c+'"><span class="eyebrow">Journée terminée</span><h3>'+(d < 4 ? 'Direction l’hébergement, puis dodo.' : 'Fin du voyage. Bon retour !')+'</h3>'+
       (night && d < 4 ? '<p class="cd">'+esc(night.name)+'</p>' : '')+'<div class="go">'+
-      (night && d < 4 ? '<a class="bigbtn pri wide" target="_blank" rel="noopener" href="'+gmaps(night.ll)+'">🏠 Aller à l’hébergement</a>' : '')+'</div>'+
+      (night && d < 4 ? '<a class="bigbtn pri wide" target="_blank" rel="noopener" href="'+gmaps(night.addr || night.ll)+'">🏠 Aller à l’hébergement</a>' : '')+'</div>'+
       (tom ? '<p class="was" style="margin:.8rem 0 0">Demain, '+tom.time+' : '+esc(shortText(tom.text))+'</p>' : '')+'</article>';
   }
   h += '<div class="quick"><button class="bigbtn" type="button" data-do="wc">🚽 Toilettes</button>'+
-       (night ? '<a class="bigbtn" target="_blank" rel="noopener" href="'+gmaps(night.ll)+'">🏠 Mon hébergement</a>' : '')+
+       (night ? '<a class="bigbtn" target="_blank" rel="noopener" href="'+gmaps(night.addr || night.ll)+'">🏠 Mon hébergement</a>' : '')+
+       '<a class="bigbtn alt wide" target="_blank" rel="noopener" href="https://vinlo2026.netlify.app">🍷 Suivi des dégustations (app de Rémi)</a>'+
        '<button class="bigbtn drunkbtn wide" type="button" data-do="drunk">🍷 Mode « je suis bourré »</button>';
   if (navigator.wakeLock) h += '<button class="bigbtn wide" type="button" data-do="wake" aria-pressed="'+UI.wake+'">'+(UI.wake ? '✅ Écran toujours allumé' : '💡 Garder l’écran allumé')+'</button>';
   h += '</div>';
@@ -1301,6 +1306,14 @@ var TIPS = [
 ];
 function renderDrunk(){
   var el = $("drunk"); if (!el || !el.classList.contains("on")) return;
+  var off = offTrip();
+  if (off) {
+    var o = offHTML(off);
+    el.innerHTML = '<div class="dk-top"><span class="dk-title">MODE BOURRÉ</span><button class="dk-sober" type="button" data-do="sober">JE SUIS SOBRE</button></div>'+
+      '<div class="dk-card" style="--c:'+(off === "before" ? COL[1] : COL[3])+'"><div class="lbl">'+(off === "before" ? "PATIENCE" : "TERMINÉ")+'</div><div class="to">'+esc(o.head.toUpperCase())+'</div><div class="at" style="font-size:1.5rem">'+esc(o.joke)+'</div></div>'+
+      '<button class="dk-btn wcb" type="button" data-do="wc">🚽 TOILETTES</button><button class="dk-btn go" type="button" data-do="demo">👀 VOIR LA DÉMO</button>';
+    return;
+  }
   var d = curDay(), m = curMinutes(), pl = planAt(d, m), c = COL[d], S = pl.S, live = UI.manual == null;
   var night = nightStop(d);
   var h = '<div class="dk-top"><span class="dk-title">MODE BOURRÉ</span><button class="dk-sober" type="button" data-do="sober">JE SUIS SOBRE</button></div>'+
@@ -1319,7 +1332,7 @@ function renderDrunk(){
   } else {
     h += '<div class="dk-card" style="--c:'+c+'"><div class="lbl">PLUS RIEN AU PROGRAMME</div><div class="to">'+(d < 4 ? 'VA DORMIR.' : 'BON RETOUR !')+'</div></div>';
   }
-  if (night) h += '<a class="dk-btn sleep" target="_blank" rel="noopener" href="'+gmaps(night.ll)+'">🏠 JE VEUX DORMIR</a>';
+  if (night) h += '<a class="dk-btn sleep" target="_blank" rel="noopener" href="'+gmaps(night.addr || night.ll)+'">🏠 JE VEUX DORMIR</a>';
   h += '<button class="dk-btn wcb" type="button" data-do="wc">🚽 TOILETTES</button>'+
        '<p class="dk-tip">'+TIPS[Math.floor(Date.now()/60000) % TIPS.length]+'</p>';
   el.innerHTML = h;
@@ -1363,7 +1376,7 @@ function setView(v, noFit){
 function showMapCard(s){
   var mc = $("mapcard");
   var h = '<button class="mc-x" type="button" data-do="mcx" aria-label="Fermer">×</button><h3>'+esc(s.name)+'</h3><p>'+esc(s.place)+(s.price ? ' · '+esc(s.price) : '')+'</p><div class="go">'+
-    '<a class="bigbtn pri" target="_blank" rel="noopener" href="'+gmaps(s.ll)+'">🧭 Y aller</a>'+
+    '<a class="bigbtn pri" target="_blank" rel="noopener" href="'+gmaps(s.addr || s.ll)+'">🧭 Y aller</a>'+
     (s.phone ? '<a class="bigbtn" href="tel:'+s.phone.replace(/\s/g,"")+'">📞 Appeler</a>' : '<button class="bigbtn" type="button" data-do="detail" data-id="'+s.id+'">Détails</button>')+
     (s.phone ? '<button class="bigbtn wide" type="button" data-do="detail" data-id="'+s.id+'">Voir la fiche</button>' : '')+'</div>';
   mc.style.setProperty("--c", COL[s.day]);
@@ -1479,6 +1492,8 @@ document.addEventListener("click", function(e){
   if (act === "drunk") setDrunk(true);
   else if (act === "sober") setDrunk(false);
   else if (act === "wc") openWC();
+  else if (act === "demo") { UI.demo = true; UI.nowDay = 1; UI.manual = 11*60; renderNow(); renderDrunk(); }
+  else if (act === "exitdemo") { UI.demo = false; UI.nowDay = 0; UI.manual = null; renderNow(); renderDrunk(); }
   else if (act === "wake") setWake(!UI.wake);
   else if (act === "live") setManual(null);
   else if (act === "adj") setManual(curMinutes() + parseInt(b.getAttribute("data-n"), 10));
@@ -1507,7 +1522,6 @@ $("locate").addEventListener("click", locateMe);
 if (map) map.on("click", hideMapCard);
 
 /* Démarrage de l’interface mobile */
-if (!autoDay()) UI.manual = 11*60;
 renderNow();
 setView(UI.view);
 if (UI.drunk) setDrunk(true);

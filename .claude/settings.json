@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'Update Saturday hotel address to 17 rue des Têtes, Colmar *)",
+      "Bash(git push *)",
+      "Bash(git commit -q -m 'Mark Le Sarment d'\\\\''Or as booked for Friday, other tables as backup *)",
+      "WebSearch"
+    ]
+  }
+}

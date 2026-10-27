@@ -376,7 +376,8 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
   summary{min-height:56px;font-size:1.05rem}
   .stop-body{padding-left:1rem;padding-right:.5rem}
   .mapbtns{top:max(12px,env(safe-area-inset-top))}
-  .reset{min-height:46px;font-size:.95rem}
+  .mapbtns{gap:6px;right:84px}
+  .reset{min-height:46px;font-size:.88rem;padding:.4rem .65rem}
   .mk-in{width:36px;height:36px}
   .mk.table .mk-in{width:38px;height:38px}
   .map-portrait{display:block;position:absolute;z-index:500;top:max(12px,env(safe-area-inset-top));right:12px;border:0;background:none;padding:0;border-radius:10px;cursor:zoom-in}
@@ -427,7 +428,7 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
       <h3>Avant de partir</h3>
       <details>
         <summary>Vélos, train et dénivelé</summary>
-        <p>Jeudi, le départ se fait à vélo depuis Strasbourg : il faut donc des vélos dès midi, par location ou en les emportant dans le train (en TGV, place vélo à réserver, en nombre limité). Variante tranquille : TER jusqu’à Molsheim, 25 km en moins.</p>
+        <p>Jeudi, le départ se fait à vélo depuis Strasbourg : il faut donc avoir ses vélos dès midi : vous les emmenez dans le train (en TGV, place vélo à réserver, en nombre limité). Variante tranquille : TER jusqu’à Molsheim, 25 km en moins.</p>
         <p>Samedi, compte environ 750 m de dénivelé avec un sommet à 620 m : prévois des braquets légers, ou des vélos à assistance électrique si tu veux garder de l’énergie pour JY’S. Avant de t’engager sur la route forestière des Cinq Châteaux, vérifie qu’elle est ouverte et praticable.</p>
         <p>Retour dimanche à midi depuis Colmar. Le train de la Toussaint est très demandé : réserve tôt. Vers Paris, vérifie les horaires exacts des TGV. Pour Rémi, compte un TER de Colmar à Strasbourg puis le TGV direct Strasbourg–Reims.</p>
       </details>
@@ -533,7 +534,7 @@ var DAYS = {
   4:{name:"Dimanche", label:"Dimanche 1er novembre", short:"Dim", dow:6, holiday:true, optional:true, title:"Colmar, le rappel", tagline:"La boucle du lendemain", km:18, dplus:60,
      intro:"Le 1er novembre est la Toussaint : les caves seront fermées. On garde donc les jambes pour une boucle facultative de 18 km par Wettolsheim et Eguisheim avant le petit-déjeuner, puis Colmar à pied et le train de midi.",
      fact:"Musées, boulangeries et restaurants peuvent être fermés ou en horaires réduits le jour férié : vérifie avant de t’y rendre.",
-     program:[["8 h 00","Boucle facultative Colmar, Wettolsheim, Eguisheim (18 km)","hotelcolmar"],["9 h 30","Petit-déjeuner à ton hébergement","hotelcolmar"],["10 h 30","Colmar à pied : Petite Venise et vieille ville","colmar"],["11 h 30","Vélos rendus, puis départ vers la gare",[48.0716,7.3462]],["12 h 00","Train de midi",[48.0716,7.3462]]],
+     program:[["8 h 00","Boucle facultative Colmar, Wettolsheim, Eguisheim (18 km)","hotelcolmar"],["9 h 30","Petit-déjeuner à ton hébergement","hotelcolmar"],["10 h 30","Colmar à pied : Petite Venise et vieille ville","colmar"],["11 h 30","Départ vers la gare avec les vélos",[48.0716,7.3462]],["12 h 00","Train de midi",[48.0716,7.3462]]],
      profile:[[0,190,"Colmar"],[6,215,"Wettolsheim"],[10,220,"Eguisheim"],[18,190,"Colmar"]]}
 };
 
@@ -550,7 +551,7 @@ var STOPS = [
  /* Jeudi 29 */
  {id:"strasbourg",type:"ville",day:1,name:"Strasbourg",place:"Arrivée en train vers midi",ll:[48.5850,7.7340],
   story:"La flèche de sa cathédrale, haute de 142 m, a fait d’elle le plus haut édifice du monde de 1647 à 1874.",
-  tip:"Il te faut les vélos dès la gare : location ou vélos emportés dans le train (en TGV, place vélo à réserver). Départ par la piste du canal de la Bruche, 25 km plats jusqu’à Molsheim. Variante tranquille : TER jusqu’à Molsheim."},
+  tip:"Vous arrivez avec vos vélos dans le train (en TGV, place vélo à réserver). Départ par la piste du canal de la Bruche, 25 km plats jusqu’à Molsheim. Variante tranquille : TER jusqu’à Molsheim."},
  {id:"molsheim",type:"ville",day:1,name:"Molsheim",place:"25 km dans les jambes",ll:[48.5403,7.4940],
   story:"Ettore Bugatti y a installé sa manufacture en 1909, et la marque y a toujours son siège au château Saint-Jean.",
   tip:"Premier ravitaillement : bois et mange avant de remonter vers le vignoble."},
@@ -711,7 +712,7 @@ var STOPS = [
  /* Dimanche 1er novembre */
  {id:"colmar",type:"ville",day:4,name:"Colmar",place:"Dimanche matin, train de midi",ll:[48.0794,7.3585],
   story:"Ville natale de Bartholdi, le sculpteur de la statue de la Liberté. Le musée Unterlinden abrite le retable d’Issenheim.",
-  tip:"Rends les vélos si tu les loues et rejoins la gare, à environ 600 m de l’hôtel, avant le train de midi. Le 1er novembre est férié : vérifie les ouvertures avant de t’y rendre."}
+  tip:"Rejoins la gare avec ton vélo, à environ 600 m de l’hôtel, avant le train de midi. Le 1er novembre est férié : vérifie les ouvertures avant de t’y rendre."}
 ];
 
 var WIKI = {strasbourg:"Strasbourg",molsheim:"Molsheim",obernai:"Obernai",hering:"Barr (Bas-Rhin)",hotelbarr:"Barr (Bas-Rhin)",enfin:"Barr (Bas-Rhin)",
@@ -855,13 +856,13 @@ if (window.L) {
         subdomains:"abc", maxZoom:20})
     ]}
   ];
-  var baseIdx = 0;
+  var baseIdx = 2;
   function showBase(i){
     BASES.forEach(function(b){ b.layers.forEach(function(l){ if (map.hasLayer(l)) map.removeLayer(l); }); });
     BASES[i].layers.forEach(function(l){ l.addTo(map); });
     $("layer").textContent = BASES[(i+1) % BASES.length].name;
   }
-  showBase(0);
+  showBase(baseIdx);
   $("layer").addEventListener("click", function(){ baseIdx = (baseIdx+1) % BASES.length; showBase(baseIdx); });
   group = L.layerGroup().addTo(map);
   DAY_IDS.forEach(function(d){
@@ -1105,7 +1106,7 @@ $("stops").addEventListener("click", function(e){
 $("reset").addEventListener("click", function(){ state.sel = null; state.day = 0; render(); fit(0); });
 
 var TASKS = [
-  {id:"t-velos", day:1, label:"Vélos prêts à Strasbourg jeudi midi (location ou vélos dans le train)"},
+  {id:"t-velos", day:1, label:"Places vélo réservées dans le train pour jeudi midi"},
   {id:"t-train", day:4, label:"Train du retour dimanche à midi depuis Colmar (Toussaint : très demandé)"}
 ];
 var BOOKED = {};

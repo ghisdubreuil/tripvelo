@@ -2092,6 +2092,8 @@ function dgSettings(){
     dgField("Adresse du serveur (URL Apps Script se terminant par /exec)", dgInput("api", DGS.api, 'type="url" placeholder="https://script.google.com/macros/s/…/exec"'), true)+
     '</div><div class="quick"><button class="bigbtn pri wide" type="submit">Enregistrer</button></div></form>';
   h += '<p class="dg-sync" id="dgSync">'+dgStatusHTML()+'</p>';
+  if (DG.detail) h += '<p class="dg-empty" style="text-align:left;font-size:.8rem">Détail technique : '+esc(DG.detail)+'</p>';
+  if (dgApi()) h += '<p class="dg-empty" style="text-align:left;font-size:.85rem">Test du serveur : <a href="'+esc(dgApi())+'?token='+esc(DG_TOKEN)+'" target="_blank" rel="noopener">ouvrir l’adresse</a> (doit afficher <code>{"ok":true,…}</code>)</p>';
   h += '<div class="quick">'+(dgApi() ? '<button class="bigbtn" type="button" data-dg="sync">🔄 Synchroniser</button>' : '')+
     '<button class="bigbtn" type="button" data-dg="export">💾 Exporter (JSON)</button></div>';
   h += '<p class="dg-empty">'+dgBottles().length+' bouteilles et '+Object.keys(DGS.notes).filter(function(k){ return !DGS.notes[k].deleted; }).length+' notes sur ce téléphone.</p>';
@@ -2184,10 +2186,29 @@ function dgResize(file){
 }
 
 /* Synchronisation avec le back */
+/* Réponse du serveur : JSON attendu ; une page HTML veut dire que le script n’est pas autorisé ou pas déployé */
+function dgJson(r){
+  return r.text().then(function(t){
+    var j; try { j = JSON.parse(t); } catch(e) {
+      var err = new Error(/authori[sz]|autoris|accounts\.google|sign in|connexion/i.test(t) ? "auth" : "html");
+      err.detail = (r.status || "") + " " + t.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160);
+      throw err;
+    }
+    if (!j.ok) throw new Error(j.error || "erreur");
+    return j;
+  });
+}
+function dgErrText(e){
+  var m = e && e.message;
+  if (m === "auth") return "Le serveur Google n’est pas encore autorisé : lance « setup » une fois dans le projet Apps Script";
+  if (m === "token") return "Jeton refusé par le serveur (DG_TOKEN différent de TOKEN)";
+  if (m === "html") return "Le serveur répond une page au lieu de données : vérifie le déploiement (accès « Tout le monde »)";
+  if (e instanceof TypeError) return navigator.onLine === false ? "Pas de réseau : tout est gardé sur le téléphone" : "Serveur injoignable (réseau ou autorisation Google)";
+  return "Erreur du serveur : " + (m || "inconnue");
+}
 function dgPost(body){
   body.token = DG_TOKEN;
-  return fetch(dgApi(), {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(body)})
-    .then(function(r){ return r.json(); }).then(function(j){ if (!j.ok) throw new Error(j.error || "erreur"); return j; });
+  return fetch(dgApi(), {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(body)}).then(dgJson);
 }
 function dgPush(){
   return DGS.queue.slice().reduce(function(chain, key){
@@ -2201,6 +2222,9 @@ function dgPush(){
         if (cur && photo && cur.photoData === photo && j.item.photo) { cur.photo = j.item.photo; delete cur.photoData; }
         if (cur && cur.updatedAt > item.updatedAt) return;   // modifié pendant l’envoi : repartira au prochain tour
         store[id] = j.item; dgDequeue(key);
+      }, function(err){
+        if (err && err.message === "bad request") { dgDequeue(key); return; }   /* élément invalide : on ne bloque pas la file */
+        throw err;
       });
     });
   }, Promise.resolve());
@@ -2215,15 +2239,17 @@ function dgMerge(store, list, kind){
 function dgPull(){
   var api = dgApi();
   return fetch(api + (api.indexOf("?") >= 0 ? "&" : "?") + "token=" + encodeURIComponent(DG_TOKEN) + "&t=" + Date.now())
-    .then(function(r){ return r.json(); }).then(function(j){
-      if (!j.ok) throw new Error(j.error || "erreur");
+    .then(dgJson).then(function(j){
       dgMerge(DGS.bottles, j.bottles, "bottle"); dgMerge(DGS.notes, j.notes, "note"); dgMerge(DGS.cart, j.cart, "cart");
     });
 }
 function dgSync(){
   if (!dgApi() || DG.busy || navigator.onLine === false) { dgStatus(); return; }
   DG.busy = true; dgStatus();
-  dgPush().then(dgPull).then(function(){ DGS.last = Date.now(); DG.err = ""; }, function(){ DG.err = "Synchro impossible pour l’instant"; })
+  var pushErr = null;
+  dgPush().catch(function(e){ pushErr = e; }).then(dgPull)
+    .then(function(){ if (pushErr) throw pushErr; DGS.last = Date.now(); DG.err = ""; DG.detail = ""; },
+          function(e){ DG.err = dgErrText(e); DG.detail = (e && e.detail) || (e && e.message) || ""; })
     .then(function(){ DG.busy = false; dgSave(); if (dgLive()) dgRender(); else dgStatus(); });
 }
 setInterval(function(){ if (UI.view === "degust" && document.visibilityState === "visible") dgSync(); }, 45000);

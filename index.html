@@ -1631,7 +1631,7 @@ if (map) map.on("click", hideMapCard);
 
 /* ---------- Dégustations : domaines, bouteilles, notes, classement ---------- */
 /* Tout est enregistré sur le téléphone, puis synchronisé avec le back Google Apps Script (backend/README.md) */
-var DG_API = "";            // URL « /exec » du déploiement Apps Script, partagée par tout le groupe
+var DG_API = "https://script.google.com/macros/s/AKfycbwPNYtE48RV2lpjZJqa-vr-094McPwANiJhYBGgEUt4PuZCHt5EjpJCrzuLvLtyJ1mR/exec";            // URL « /exec » du déploiement Apps Script, partagée par tout le groupe
 var DG_TOKEN = "vinlo2026"; // identique à TOKEN dans backend/degustations.gs
 var DG_KEY = "vinlo-degust-v1";
 var DG = {screen:"home", tab:"bottles", filter:"all", dom:null, bottle:null, edit:null, photo:null, back:[], busy:false, err:""};

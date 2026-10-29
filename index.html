@@ -510,6 +510,32 @@ textarea.dg-inp{resize:vertical;min-height:64px}
 .dg-tab th,.dg-tab td{padding:.4rem 0;border-bottom:1px solid var(--line);text-align:left}
 .dg-tab td{text-align:right;white-space:nowrap;padding-left:.8rem}
 .dg-tab tr.tot th,.dg-tab tr.tot td{font-weight:800;border-bottom:0}
+html.dg-open .drunk{display:none!important}
+.dg-fab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;width:68px;height:68px;border-radius:50%;border:0;background:var(--d2);color:var(--cave);font-size:1.9rem;box-shadow:0 6px 20px rgba(0,0,0,.5);display:grid;place-items:center}
+.dg-fab:active{transform:scale(.94)}
+.dg-fab span{position:absolute;top:-4px;right:-4px;min-width:26px;height:26px;padding:0 6px;border-radius:999px;background:var(--hot);color:var(--cave);font:800 .9rem/26px var(--sans)}
+.dg-fab span:empty{display:none}
+.dg-wrap{padding-bottom:6.5rem}
+.dg-card.now{border-color:var(--hot)}
+.dg-save{position:sticky;bottom:0;z-index:3;margin:0 -1.1rem;padding:.7rem 1.1rem calc(.7rem + env(safe-area-inset-bottom,0px));background:linear-gradient(to bottom,transparent,var(--cave) 35%)}
+.dg-save .bigbtn{min-height:64px;font-size:1.15rem}
+.dg-more{margin:0 0 .9rem}
+.dg-more>summary{display:flex;align-items:center;min-height:58px;padding:.5rem 1rem;border-radius:16px;border:2px dashed var(--line);font-weight:700;color:var(--muted);cursor:pointer;list-style:none}
+.dg-more>summary::-webkit-details-marker{display:none}
+.dg-more[open]>summary{margin:0 0 .9rem;color:var(--text)}
+.dg-pills span{min-height:48px;padding:.4rem .95rem;font-size:1rem}
+.dg-score-big{align-items:center;gap:.6rem}
+.dg-sv{display:flex;align-items:baseline;gap:.25rem;flex-wrap:wrap;justify-content:center;min-width:9rem}
+.dg-sv b{font:800 4.2rem/1 var(--display);color:var(--s)}
+.dg-sv small{font-size:1.2rem;color:var(--muted)}
+.dg-sv span{width:100%;text-align:center;font:800 1.05rem var(--display);color:var(--s)}
+.dg-sb{flex:none;width:64px;height:64px;border-radius:50%;border:3px solid var(--line);background:var(--panel-2);color:var(--text);font:800 2rem/1 var(--sans)}
+.dg-sb:active{transform:scale(.92)}
+.dg-range{height:56px}
+.dg-range::-webkit-slider-thumb{width:34px;height:34px}
+.dg-step button{width:52px;height:52px}
+.dk-two .dk-btn{margin:0 0 .6rem}
+@media (max-width:860px){ .dg-fab{bottom:calc(var(--nav) + 14px)} .dg-save{padding-bottom:.7rem} html.dg-open .toast{bottom:calc(var(--nav) + 6.2rem)} }
 @media (max-width:420px){ .dg-grid{grid-template-columns:minmax(0,1fr)} }
 </style>
 </head>
@@ -606,7 +632,7 @@ textarea.dg-inp{resize:vertical;min-height:64px}
   <button type="button" data-tab="more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>Plus</button>
   <button type="button" data-tab="drunk" class="t-drunk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12l-1 8a5 5 0 0 1-4 4.9V20h4v2H7v-2h4v-5.1A5 5 0 0 1 7 10z"/></svg>Bourré</button>
 </nav>
-<section class="dg" id="dg" aria-label="Dégustations"><div class="dg-wrap" id="dgIn"></div></section>
+<section class="dg" id="dg" aria-label="Dégustations"><div class="dg-wrap" id="dgIn"></div><button class="dg-fab" id="dgFab" type="button" data-dg="cart" aria-label="Ouvrir le panier">🛒<span id="dgFabN"></span></button></section>
 <div class="drunk" id="drunk" role="dialog" aria-modal="true" aria-label="Mode je suis bourré"></div>
 <div class="wc" id="wc" role="dialog" aria-modal="true" aria-labelledby="wcTitle">
   <div class="wc-card">
@@ -1375,7 +1401,7 @@ function renderNow(){
       '<article class="nowcard" style="--c:'+(off === "before" ? COL[1] : COL[3])+'"><span class="eyebrow">'+(off === "before" ? "Patience" : "Terminé")+'</span><div class="big-t" style="font-size:2.2rem">'+esc(o.head)+'</div>'+
       '<h3>'+esc(o.joke)+'</h3><p class="cd">'+esc(o.sub)+'</p></article>'+
       '<div class="quick"><button class="bigbtn alt wide" type="button" data-do="demo">👀 Voir comment ça marchera</button>'+
-      '<button class="bigbtn" type="button" data-do="degust">🍷 Dégustations</button><button class="bigbtn" type="button" data-do="degust" data-dg-open="top">🏆 Classement</button>'+
+      '<button class="bigbtn" type="button" data-do="degust">🍷 Dégustations</button>'+dgCartBtn("bigbtn")+'<button class="bigbtn wide" type="button" data-do="degust" data-dg-open="top">🏆 Classement</button>'+
       '<button class="bigbtn" type="button" data-do="wc">🚽 Toilettes</button><button class="bigbtn drunkbtn" type="button" data-do="drunk">🍷 Mode bourré</button></div>';
     return;
   }
@@ -1414,7 +1440,7 @@ function renderNow(){
   h += '<div class="quick"><button class="bigbtn" type="button" data-do="wc">🚽 Toilettes</button>'+
        (night ? '<a class="bigbtn" target="_blank" rel="noopener" href="'+gmaps(night.addr || night.ll)+'">🏠 Mon hébergement</a>' : '')+
        (here ? '<button class="bigbtn pri wide" type="button" data-do="degust" data-dg-open="'+here.id+'">🍷 Noter un vin chez '+esc(here.name)+'</button>' : '')+
-       '<button class="bigbtn alt" type="button" data-do="degust">🍷 Dégustations</button><button class="bigbtn alt" type="button" data-do="degust" data-dg-open="top">🏆 Classement</button>'+
+       '<button class="bigbtn alt" type="button" data-do="degust">🍷 Dégustations</button>'+dgCartBtn("bigbtn alt")+'<button class="bigbtn wide" type="button" data-do="degust" data-dg-open="top">🏆 Classement</button>'+
        '<button class="bigbtn drunkbtn wide" type="button" data-do="drunk">🍷 Mode « je suis bourré »</button>';
   if (navigator.wakeLock) h += '<button class="bigbtn wide" type="button" data-do="wake" aria-pressed="'+UI.wake+'">'+(UI.wake ? '✅ Écran toujours allumé' : '💡 Garder l’écran allumé')+'</button>';
   h += '</div>';
@@ -1460,12 +1486,16 @@ function renderDrunk(){
     h += '<div class="dk-card" style="--c:'+c+'"><div class="lbl">PLUS RIEN AU PROGRAMME</div><div class="to">'+(d < 4 ? 'VA DORMIR.' : 'BON RETOUR !')+'</div></div>';
   }
   if (night) h += '<a class="dk-btn sleep" target="_blank" rel="noopener" href="'+gmaps(night.addr || night.ll)+'">🏠 JE VEUX DORMIR</a>';
+  var dkHere = dgHere();
+  h += '<div class="dk-two"><button class="dk-btn go" type="button" data-do="degust"'+(dkHere ? ' data-dg-open="'+dkHere.key+'"' : '')+'>🍷 NOTER</button>'+
+       '<button class="dk-btn" type="button" data-do="degust" data-dg-open="cart">🛒 PANIER</button></div>';
   h += '<button class="dk-btn wcb" type="button" data-do="wc">🚽 TOILETTES</button>'+
        '<p class="dk-tip">'+TIPS[Math.floor(Date.now()/60000) % TIPS.length]+'</p>';
   el.innerHTML = h;
 }
 
 function setDrunk(on){
+  if (on && UI.view === "degust") setView("now");
   UI.drunk = on; saveUI();
   document.documentElement.classList.toggle("is-drunk", on);
   $("drunk").classList.toggle("on", on);
@@ -1496,9 +1526,10 @@ function setView(v, noFit){
   if (v !== "map") hideMapCard();
   if (v !== "map") $("side").scrollTop = 0;
   var dgOn = v === "degust";
+  if (dgOn) hideMapCard();
   $("dg").classList.toggle("on", dgOn);
   document.documentElement.classList.toggle("dg-open", dgOn);
-  if (dgOn) { dgRender(); $("dg").scrollTop = 0; dgSync(); }
+  if (dgOn) { dgRender(); $("dg").scrollTop = 0; dgSync(); } else if ($("nowView")) renderNow();
   try {
     if (dgOn && !/^#degust/.test(location.hash)) history.replaceState(null, "", "#degust");
     else if (!dgOn && /^#degust/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search);
@@ -1761,6 +1792,25 @@ function dgSetQty(bid, person, delta){
   dgPut("cart", {id:id, bottleId:bid, person:person, qty:Math.max(0, dgQty(bid, person) + delta), createdAt:old.createdAt || Date.now(), updatedAt:Date.now(),
     domName:b.domName, title:dgTitle(b) + (b.millesime ? " " + b.millesime : ""), prix:b.prix || ""});
 }
+function dgCartCount(){ return dgCartLines().reduce(function(s, c){ return s + c.qty; }, 0); }
+function dgCartBtn(cls){ var n = dgCartCount(); return '<button class="'+cls+'" type="button" data-do="degust" data-dg-open="cart">🛒 Panier'+(n ? ' <span class="dg-badge">'+n+'</span>' : '')+'</button>'; }
+/* Domaine où l’on est d’après le programme : l’étape en cours (moins de 2 h) ou celle qui arrive dans 20 min */
+function dgHere(){
+  if (offTrip()) return null;
+  var d = curDay(), m = curMinutes(), pl = planAt(d, m), cands = [];
+  if (pl.cur >= 0 && m - pl.S[pl.cur].t < 120) cands.push(pl.S[pl.cur]);
+  if (pl.next >= 0 && pl.S[pl.next].t - m <= 20) cands.unshift(pl.S[pl.next]);
+  for (var i = 0; i < cands.length; i++) {
+    var s = byId(cands[i].ref);
+    if (s && s.type === "domaine" && !s.brasserie) return dgDomByKey(s.id);
+  }
+  return null;
+}
+function dgFab(){
+  var f = $("dgFab"); if (!f) return;
+  var n = dgCartCount(), hide = ["bottleForm","noteForm"].indexOf(DG.screen) >= 0 || (DG.screen === "home" && DG.tab === "cart");
+  f.hidden = hide; $("dgFabN").textContent = n || "";
+}
 function dgStepper(bid, person){
   var q = dgQty(bid, person);
   return '<span class="dg-step"><button type="button" data-dg="qty" data-id="'+esc(bid)+'" data-p="'+esc(person)+'" data-d="-1" aria-label="Retirer une bouteille pour '+esc(person)+'"'+(q ? '' : ' disabled')+'>−</button>'+
@@ -1866,7 +1916,11 @@ function dgHome(){
   var h = dgTop("Dégustations", "Vinlo 2026 · notes du groupe");
   h += '<p class="dg-sync" id="dgSync" role="status">'+dgStatusHTML()+'</p>';
   h += dgWhoPick();
-  h += '<div class="quick"><button class="bigbtn pri wide" type="button" data-dg="new">➕ Noter une bouteille<small class="sub">Choisis le domaine, ajoute la bouteille, note-la</small></button></div>';
+  var here = dgHere();
+  h += '<div class="quick">'+(here
+    ? '<button class="bigbtn pri wide" type="button" data-dg="dom" data-k="'+esc(here.key)+'">🍇 Je suis chez '+esc(here.name)+'<small class="sub">Ajouter ou noter une bouteille ici</small></button>'+
+      '<button class="bigbtn wide" type="button" data-dg="new">➕ Un autre domaine</button>'
+    : '<button class="bigbtn pri wide" type="button" data-dg="new">➕ Noter une bouteille<small class="sub">Choisis le domaine, ajoute la bouteille, note-la</small></button>')+'</div>';
   h += '<div class="dg-tabs" role="tablist">'+
     '<button type="button" role="tab" data-dg="tab" data-t="bottles" aria-selected="'+(DG.tab === "bottles")+'"><i>🍾</i>Bouteilles</button>'+
     '<button type="button" role="tab" data-dg="tab" data-t="top" aria-selected="'+(DG.tab === "top")+'"><i>🏆</i>Classement</button>'+
@@ -1898,9 +1952,11 @@ function dgHome(){
 }
 function dgPickDom(){
   var h = dgTop("Quel domaine ?", "Choisis dans la liste");
-  h += '<div class="dg-list">'+dgDomaines().map(function(d){
+  var here = dgHere(), doms = dgDomaines();
+  if (here) doms = [here].concat(doms.filter(function(d){ return d.key !== here.key; }));
+  h += '<div class="dg-list">'+doms.map(function(d){
     var n = dgBottles().filter(function(b){ return b.dom === d.key; }).length;
-    return '<button class="dg-card" type="button" data-dg="dom" data-k="'+esc(d.key)+'"><span class="dg-thumb">🍇</span>'+
+    return '<button class="dg-card'+(here && d.key === here.key ? ' now' : '')+'" type="button" data-dg="dom" data-k="'+esc(d.key)+'"><span class="dg-thumb">'+(here && d.key === here.key ? '📍' : '🍇')+'</span>'+
       '<span class="dg-ct"><b>'+esc(d.name)+'</b><small>'+esc(d.place)+'</small></span>'+
       '<span class="dg-score"><b>'+n+'</b><small>bouteille'+(n > 1 ? 's' : '')+'</small></span></button>';
   }).join("")+'</div>';
@@ -1916,30 +1972,39 @@ function dgDomain(){
                    : '<p class="dg-empty">Aucune bouteille de ce domaine pour l’instant.</p>';
   return h;
 }
+function dgYears(cur){
+  var ys = [];
+  for (var y = 2024; y >= 2015; y--) ys.push(String(y));
+  if (cur && ys.indexOf(String(cur)) < 0) ys.push(String(cur));
+  return ys;
+}
+function dgSaveBar(label){ return '<div class="dg-save"><button class="bigbtn pri wide" type="submit">'+label+'</button></div>'; }
 function dgBottleForm(){
   var b = DG.edit ? DGS.bottles[DG.edit] : {}, ph = DG.photo || dgPhoto(b);
   var h = dgTop(DG.edit ? "Modifier la fiche" : "Nouvelle bouteille", DG.dom.name);
   h += '<form id="dgForm" data-kind="bottle" autocomplete="off">';
-  h += '<section class="dg-sec"><h3>📷 Photo</h3><div class="dg-photo" id="dgPhoto">'+(ph ? '<img src="'+esc(ph)+'" alt="Photo de la bouteille">' : '<span>Pas encore de photo</span>')+'</div>'+
-    '<div class="quick"><label class="bigbtn pri">📷 Prendre une photo<input type="file" accept="image/*" capture="environment" data-dgphoto hidden></label>'+
+  h += '<section class="dg-sec"><div class="dg-photo" id="dgPhoto">'+(ph ? '<img src="'+esc(ph)+'" alt="Photo de la bouteille">' : '<span>📷 Photo de l’étiquette (facultatif)</span>')+'</div>'+
+    '<div class="quick"><label class="bigbtn pri">📷 Photo<input type="file" accept="image/*" capture="environment" data-dgphoto hidden></label>'+
     '<label class="bigbtn">🖼️ Galerie<input type="file" accept="image/*" data-dgphoto hidden></label></div></section>';
-  h += '<section class="dg-sec"><h3>🪪 Fiche d’identité</h3><div class="dg-grid">'+
-    dgField("Nom de la cuvée", dgInput("cuvee", b.cuvee, 'type="text" placeholder="Ex. Cuvée Théo"'), true)+
-    dgGroup("Cépage(s)", dgPills("cepages", DG_CEPAGES, b.cepages, true))+
-    dgField("Millésime", dgInput("millesime", b.millesime, 'type="number" inputmode="numeric" min="1900" max="2026" placeholder="2022"'))+
-    dgField("Couleur", dgSelect("couleur", DG_COULEURS, b.couleur || (DG.edit ? "" : "Blanc")))+
+  h += '<section class="dg-sec"><div class="dg-grid">'+
+    dgGroup("Cépage (un clic)", dgPills("cepages", DG_CEPAGES, b.cepages, true))+
+    dgGroup("Millésime", dgPills("millesime", dgYears(b.millesime), b.millesime ? String(b.millesime) : ""))+
+    dgField("Nom de la cuvée", dgInput("cuvee", b.cuvee, 'type="text" placeholder="Facultatif"'))+
+    dgField("Prix (€)", dgInput("prix", b.prix, 'type="number" inputmode="decimal" step="0.5" min="0" placeholder="Pour le panier"'))+
+    '</div></section>';
+  h += '<details class="dg-more"><summary>➕ Plus de détails (facultatif)</summary><section class="dg-sec"><div class="dg-grid">'+
+    dgField("Couleur", dgSelect("couleur", DG_COULEURS, b.couleur))+
     dgField("Appellation", dgSelect("appellation", DG_APPELLATIONS, b.appellation))+
     dgField("Grand cru ou lieu-dit", dgInput("cru", b.cru, 'type="text" list="dgCrus" placeholder="Ex. Schlossberg"'))+
     dgField("Style", dgSelect("style", DG_STYLES, b.style))+
     dgField("Culture", dgSelect("culture", DG_CULTURES, b.culture))+
     dgField("Alcool (%)", dgInput("alcool", b.alcool, 'type="number" inputmode="decimal" step="0.5" min="0" max="20" placeholder="13"'))+
     dgField("Contenance", dgSelect("contenance", DG_CONTENANCES, b.contenance || (DG.edit ? "" : "75 cl")))+
-    dgField("Prix au domaine (€)", dgInput("prix", b.prix, 'type="number" inputmode="decimal" step="0.5" min="0" placeholder="18"'))+
     dgField("À boire jusqu’en", dgInput("garde", b.garde, 'type="number" inputmode="numeric" min="2026" max="2100" placeholder="2032"'))+
     dgField("Température de service", dgInput("service", b.service, 'type="text" placeholder="Ex. 10 à 12 °C"'))+
     dgField("Sol, vinification, anecdotes", dgText("infos", b.infos, "Ce qu’a raconté le vigneron…"), true)+
-    '</div><datalist id="dgCrus">'+DG_CRUS.map(function(c){ return '<option value="'+esc(c)+'">'; }).join("")+'</datalist></section>';
-  h += '<div class="quick"><button class="bigbtn pri wide" type="submit">'+(DG.edit ? '✅ Enregistrer la fiche' : '✅ Enregistrer et déguster')+'</button></div></form>';
+    '</div><datalist id="dgCrus">'+DG_CRUS.map(function(c){ return '<option value="'+esc(c)+'">'; }).join("")+'</datalist></section></details>';
+  h += dgSaveBar(DG.edit ? '✅ Enregistrer la fiche' : '✅ Ajouter et noter')+'</form>';
   return h;
 }
 function dgSummary(n){
@@ -1981,12 +2046,21 @@ function dgBottle(){
   }).join("") : '<p class="dg-empty">Personne n’a encore noté ce vin.</p>')+'</section>';
   return h;
 }
+function dgScoreHTML(sc){ return '<button type="button" class="dg-sb" data-dg="score" data-d="-0.5" aria-label="Baisser la note">−</button><span class="dg-sv"><b>'+dgFmt(sc)+'</b><small>/20</small><span>'+dgLbl(sc)+'</span></span><button type="button" class="dg-sb" data-dg="score" data-d="0.5" aria-label="Monter la note">+</button>'; }
 function dgNoteForm(){
   var b = DGS.bottles[DG.bottle], n = (DG.edit && DGS.notes[DG.edit]) || {}, r = n.robe || {}, z = n.nez || {}, bo = n.bouche || {};
   var score = n.score || 14, rouge = b.couleur === "Rouge" || (b.cepages || []).indexOf("Pinot Noir") >= 0;
-  var h = dgTop("Ma dégustation", dgTitle(b));
+  var h = dgTop("Ma note", dgTitle(b));
   h += '<form id="dgForm" data-kind="note" autocomplete="off">';
-  h += '<section class="dg-sec"><div class="dg-grid">'+dgGroup("Qui déguste ?", dgPills("author", DG_PEOPLE, n.author || DGS.me))+'</div></section>';
+  h += '<section class="dg-sec dg-quick"><div class="dg-score-big" id="dgScoreOut" style="--s:'+dgCol(score)+'">'+dgScoreHTML(score)+'</div>'+
+    '<input class="dg-range" id="dgScore" name="score" type="range" min="1" max="20" step="0.5" value="'+score+'" aria-label="Note sur 20">'+
+    '<div class="dg-scale"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span></div><div class="dg-grid">'+
+    dgGroup("Qui déguste ?", dgPills("author", DG_PEOPLE, n.author || DGS.me))+
+    dgGroup("Je rachète ?", dgPills("rachat", ["Oui, un carton","Oui, une bouteille","Non"], n.rachat))+
+    (DG_PEOPLE.indexOf(DGS.me) >= 0 ? '<div class="dg-f wide"><span class="dg-l">🛒 J’en prends</span><div class="dg-line me"><span class="dg-lt"><b>'+esc(DGS.me)+'</b></span>'+dgStepper(b.id, DGS.me)+'</div></div>' : '')+
+    dgField("Mon avis en une phrase", dgText("txt", n.txt, "Facultatif"), true)+'</div></section>';
+  var detail = [r.teinte, r.intensite, r.limpidite, r.brillance, r.larmes, r.bulles, r.txt, z.intensite, z.txt, bo.attaque, bo.sucre, bo.acidite, bo.corps, bo.tanins, bo.longueur, bo.txt, n.accords].some(Boolean) || (z.aromes || []).length;
+  h += '<details class="dg-more"'+(detail ? ' open' : '')+'><summary>👁️ 👃 👄 Robe, nez, bouche (facultatif)</summary>';
   h += '<section class="dg-sec"><h3>👁️ La robe</h3><div class="dg-grid">'+
     dgGroup("Teinte", dgPills("r_teinte", DG_TEINTES[b.couleur] || DG_TEINTES.Blanc, r.teinte))+
     dgGroup("Intensité", dgPills("r_intensite", ["Pâle","Moyenne","Soutenue","Profonde"], r.intensite))+
@@ -2006,14 +2080,9 @@ function dgNoteForm(){
     dgGroup("Corps", dgPills("b_corps", ["Léger","Moyen","Ample","Puissant"], bo.corps))+
     (rouge ? dgGroup("Tanins", dgPills("b_tanins", ["Soyeux","Fondus","Fermes","Asséchants"], bo.tanins)) : '')+
     dgGroup("Longueur", dgPills("b_longueur", ["Courte","Moyenne","Longue","Interminable"], bo.longueur))+
-    dgField("Commentaire", dgText("b_txt", bo.txt, "Équilibre, finale…"), true)+'</div></section>';
-  h += '<section class="dg-sec"><h3>⭐ Ma note</h3><div class="dg-score-big" id="dgScoreOut" style="--s:'+dgCol(score)+'"><b>'+dgFmt(score)+'</b><small>/20</small><span>'+dgLbl(score)+'</span></div>'+
-    '<input class="dg-range" id="dgScore" name="score" type="range" min="1" max="20" step="0.5" value="'+score+'" aria-label="Note sur 20">'+
-    '<div class="dg-scale"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span></div><div class="dg-grid">'+
-    dgGroup("Je rachète ?", dgPills("rachat", ["Oui, un carton","Oui, une bouteille","Non"], n.rachat))+
-    dgField("Accords mets et vins", dgInput("accords", n.accords, 'type="text" placeholder="Ex. choucroute, munster…"'), true)+
-    dgField("Mon avis en une phrase", dgText("txt", n.txt, "Le mot de la fin"), true)+'</div></section>';
-  h += '<div class="quick"><button class="bigbtn pri wide" type="submit">✅ Enregistrer ma note</button></div></form>';
+    dgField("Commentaire", dgText("b_txt", bo.txt, "Équilibre, finale…"), true)+
+    dgField("Accords mets et vins", dgInput("accords", n.accords, 'type="text" placeholder="Ex. choucroute, munster…"'), true)+'</div></section></details>';
+  h += dgSaveBar('✅ Enregistrer ma note')+'</form>';
   return h;
 }
 function dgSettings(){
@@ -2032,6 +2101,7 @@ var DG_SCREENS = {home:dgHome, dom:dgPickDom, domain:dgDomain, bottleForm:dgBott
 function dgRender(){
   var el = $("dgIn"); if (!el) return;
   el.innerHTML = (DG_SCREENS[DG.screen] || dgHome)();
+  dgFab();
 }
 /* Un formulaire en cours n’est jamais redessiné par la synchro */
 function dgLive(){ return UI.view === "degust" && ["home","domain","bottle"].indexOf(DG.screen) >= 0; }
@@ -2062,7 +2132,8 @@ function dgSaveBottle(f){
     cru:dgTrim(fd.get("cru")), style:dgTrim(fd.get("style")), culture:dgTrim(fd.get("culture")), alcool:dgTrim(fd.get("alcool")),
     contenance:dgTrim(fd.get("contenance")), prix:dgTrim(fd.get("prix")), garde:dgTrim(fd.get("garde")),
     service:dgTrim(fd.get("service")), infos:dgTrim(fd.get("infos"))};
-  if (!b.cuvee && !b.cepages.length) { toast("Indique au moins le nom de la cuvée ou un cépage"); return; }
+  if (!b.cuvee && !b.cepages.length) { toast("Choisis au moins un cépage"); return; }
+  if (!b.couleur) b.couleur = b.appellation === "Crémant d’Alsace" ? "Effervescent" : b.cepages.length === 1 && b.cepages[0] === "Pinot Noir" ? "Rouge" : "Blanc";
   if (DG.photo) b.photoData = DG.photo;
   else { if (old.photoData) b.photoData = old.photoData; if (old.photo) b.photo = old.photo; }
   var isNew = !DG.edit;
@@ -2184,7 +2255,14 @@ $("dg").addEventListener("click", function(e){
   else if (act === "tab") { DG.tab = b.getAttribute("data-t"); dgRender(); }
   else if (act === "me") { DGS.me = b.getAttribute("data-p"); dgSave(); if (DG.who !== "all") DG.who = DGS.me; dgRender(); toast("Salut " + DGS.me + " !"); }
   else if (act === "who") { DG.who = b.getAttribute("data-p"); dgRender(); }
-  else if (act === "qty") { dgSetQty(b.getAttribute("data-id"), b.getAttribute("data-p"), parseInt(b.getAttribute("data-d"), 10)); dgRender(); }
+  else if (act === "qty") {
+    var qb = b.getAttribute("data-id"), qp = b.getAttribute("data-p");
+    dgSetQty(qb, qp, parseInt(b.getAttribute("data-d"), 10));
+    if (dgLive()) dgRender(); else { b.closest(".dg-step").outerHTML = dgStepper(qb, qp); dgFab(); }   /* dans un formulaire : sans tout redessiner */
+    if (navigator.vibrate) navigator.vibrate(15);
+  }
+  else if (act === "score") dgScoreSet(parseFloat($("dgScore").value) + parseFloat(b.getAttribute("data-d")));
+  else if (act === "cart") { dgReset("home"); DG.tab = "cart"; if (DG_PEOPLE.indexOf(DGS.me) >= 0 && DG.who === "all") DG.who = "all"; dgRender(); $("dg").scrollTop = 0; }
   else if (act === "filter") { DG.filter = b.getAttribute("data-f"); dgRender(); }
   else if (act === "dom") { DG.dom = dgDomByKey(b.getAttribute("data-k")); dgGo("domain"); }
   else if (act === "addbottle") dgGo("bottleForm");
@@ -2231,11 +2309,14 @@ $("dg").addEventListener("change", function(e){
     t.value = "";
   }
 });
+function dgScoreSet(v){
+  v = Math.max(1, Math.min(20, v));
+  var out = $("dgScoreOut"), r = $("dgScore"); if (!out || !r) return;
+  r.value = v; out.style.setProperty("--s", dgCol(v)); out.innerHTML = dgScoreHTML(v);
+}
 $("dg").addEventListener("input", function(e){
   if (e.target.id !== "dgScore") return;
-  var s = parseFloat(e.target.value), out = $("dgScoreOut");
-  out.style.setProperty("--s", dgCol(s));
-  out.innerHTML = '<b>'+dgFmt(s)+'</b><small>/20</small><span>'+dgLbl(s)+'</span>';
+  dgScoreSet(parseFloat(e.target.value));
 });
 if (/^#degust/.test(location.hash)) {
   UI.view = "degust";

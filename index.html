@@ -594,7 +594,7 @@ html.dg-open .drunk{display:none!important}
       </details>
       <details>
         <summary>Les châteaux</summary>
-        <p>Deux châteaux sont sur ta route du samedi : le Hohlandsbourg (la grande montée, annoncé ouvert de Pâques au 11 novembre) et les Trois Châteaux d’Eguisheim (ruines en accès libre). Le Haut-Kœnigsbourg est au programme du vendredi midi, entre Bader et Deiss. Saint-Ulrich se fait à pied depuis Ribeauvillé, environ une heure.</p>
+        <p>Deux châteaux sont sur ta route du samedi : le Hohlandsbourg (la grande montée, annoncé ouvert de Pâques au 11 novembre) et les Trois Châteaux d’Eguisheim (ruines en accès libre). Le Haut-Kœnigsbourg est au programme du vendredi midi, entre Bader et Deiss.</p>
       </details>
       <details>
         <summary>Dates, lumière et affluence</summary>
@@ -748,9 +748,6 @@ var STOPS = [
  {id:"ribeauville",type:"ville",day:2,name:"Ribeauvillé",place:"Ville-étape",ll:[48.1953,7.3197],
   story:"Trois châteaux en ruine s’étagent sur la colline au-dessus de la ville.",
   tip:"Premier vrai village de carte postale de la journée."},
- {id:"stulrich",type:"chateau",day:2,name:"Château de Saint-Ulrich",place:"Au-dessus de Ribeauvillé",ll:[48.2028,7.3053],tags:["Option","À pied"],
-  story:"Résidence principale des puissants seigneurs de Ribeaupierre du XIe au XVIe siècle. Un dicton alsacien de plus de trois siècles résume la région : « Trois châteaux sur une montagne (Ribeauvillé), trois églises dans un enclos (Riquewihr), trois villes dans une vallée (Ammerschwihr, Kaysersberg, Kientzheim) : c’est là toute l’Alsace. »",
-  tip:"Ruine toujours accessible et gratuite. Compte 30 à 60 minutes de marche depuis Ribeauvillé par des sentiers assez raides : laisse les vélos en bas. Tu n’as sans doute pas le temps vendredi."},
  {id:"giteriquewihr",type:"hebergement",day:2,name:"La Maison Bleue",place:"16 rue Saint-Nicolas, 68340 Riquewihr",village:"Riquewihr",ll:[48.1672,7.2962],mll:[48.1672,7.2962],addr:"16 Rue Saint Nicolas, 68340 Riquewihr, France",
   tags:["Nuit 2"],
   facts:[["Séjour","Vendredi 30 octobre, 1 nuit, 4 adultes"],["Adresse","16 rue Saint-Nicolas, 68340 Riquewihr"],["Arrivée","À partir de 15 h"],["Départ","Avant 11 h"]],
@@ -833,7 +830,7 @@ var STOPS = [
 
 var WIKI = {strasbourg:"Strasbourg",molsheim:"Molsheim",obernai:"Obernai",hering:"Barr (Bas-Rhin)",hotelbarr:"Barr (Bas-Rhin)",enfin:"Barr (Bas-Rhin)",
   bader:"Epfig",saintpierre:"Saint-Pierre (Bas-Rhin)",kreydenweiss:"Andlau",ostertag:"Epfig",chatenois:"Châtenois (Bas-Rhin)",lavignette:"Châtenois (Bas-Rhin)",hk:"Château du Haut-Kœnigsbourg",deiss:"Bergheim (Haut-Rhin)",rollygassmann:"Rorschwihr",
-  ribeauville:"Ribeauvillé",stulrich:"Château de Saint-Ulrich",hugel:"Riquewihr",giteriquewihr:"Riquewihr",sarment:"Riquewihr",
+  ribeauville:"Ribeauvillé",giteriquewihr:"Riquewihr",sarment:"Riquewihr",
   weinbach:"Kaysersberg Vignoble",nasti:"Kaysersberg Vignoble",kaysersberg:"Kaysersberg Vignoble",boxler:"Niedermorschwihr",hohland:"Château du Hohlandsbourg",troischateaux:"Châteaux d'Eguisheim",beyer:"Eguisheim",
   hotelcolmar:"Colmar",jys:"Colmar",lastub:"Colmar",bateliers:"Colmar",tablegourmet:"Riquewihr",manoir:"Barr (Bas-Rhin)",tirebouchon:"Riquewihr",colmar:"Colmar"};
 STOPS.forEach(function(s){ s.wiki = WIKI[s.id] || null; });

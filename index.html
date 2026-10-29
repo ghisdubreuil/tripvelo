@@ -398,6 +398,91 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
 @media (min-width:861px){
   .nowview{border-bottom:1px solid var(--line)}
 }
+
+/* ===== Dégustations ===== */
+.dg{position:fixed;inset:0;z-index:1400;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--cave)}
+.dg.on{display:block}
+html.dg-open body{overflow:hidden}
+.dg-wrap{max-width:720px;margin:0 auto;padding:0 1.1rem 2rem}
+.dg-top{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:.6rem;margin:0 -1.1rem .8rem;padding:calc(.6rem + env(safe-area-inset-top)) 1.1rem .6rem;background:var(--cave);border-bottom:1px solid var(--line)}
+.dg-tt{flex:1;min-width:0}
+.dg-tt h2{font:800 1.35rem/1.1 var(--display);margin:0;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dg-tt small{display:block;color:var(--muted);font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dg-ic{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;border:2px solid var(--line);background:transparent;color:var(--text);font:700 1.5rem/1 var(--sans)}
+span.dg-ic{border-color:transparent}
+.dg-sync{margin:0 0 .8rem;padding:.55rem .75rem;border-radius:10px;background:var(--panel);color:var(--muted);font-size:.9rem}
+.dg-tabs{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin:.4rem 0 .8rem;padding:.3rem;border-radius:16px;background:var(--panel)}
+.dg-tabs button{min-height:48px;border:0;border-radius:12px;background:transparent;color:var(--muted);font:800 1rem var(--display)}
+.dg-tabs button[aria-selected="true"]{background:var(--panel-2);color:var(--text)}
+.dg-filters{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;margin:0 0 .8rem;padding-bottom:.1rem}
+.dg-filters::-webkit-scrollbar{display:none}
+.dg-filters .chip{white-space:nowrap;flex:none}
+.dg-list{display:grid;gap:.5rem}
+.dg-card{display:flex;align-items:center;gap:.7rem;width:100%;padding:.55rem .7rem;border-radius:16px;border:2px solid var(--line);background:var(--panel);color:var(--text);text-align:left;font:inherit;min-height:72px}
+.dg-card:active{transform:scale(.98)}
+.dg-rank{flex:none;width:2rem;text-align:center;font:800 1.15rem var(--display);color:var(--muted)}
+.dg-thumb{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:12px;background:var(--panel-2);font-size:1.6rem;overflow:hidden}
+.dg-thumb img{width:100%;height:100%;object-fit:cover}
+.dg-ct{flex:1;min-width:0}
+.dg-ct b{display:block;font-weight:700;line-height:1.2}
+.dg-ct small{display:block;color:var(--muted);font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dg-score{flex:none;text-align:right}
+.dg-score b{display:block;font:800 1.5rem/1 var(--display);color:var(--s,var(--text))}
+.dg-score small{color:var(--muted);font-size:.75rem;white-space:nowrap}
+.dg-empty{color:var(--muted);text-align:center;padding:1rem .5rem}
+.dg-h{font:800 1.05rem var(--display);margin:1.2rem 0 .5rem;color:var(--muted)}
+.dg-doms{list-style:none;margin:0;padding:0}
+.dg-doms li{display:flex;justify-content:space-between;align-items:center;gap:.6rem;padding:.55rem .2rem;border-bottom:1px solid var(--line)}
+.dg-doms small{display:block;color:var(--muted);font-size:.8rem}
+.dg-doms b{font:800 1.25rem var(--display)}
+.dg-foot{text-align:center;margin:1.4rem 0 0}
+.dg-other{display:grid;grid-template-columns:1fr auto;gap:.5rem;margin:.9rem 0 0}
+.dg-other .bigbtn{width:auto}
+.dg-sec{margin:0 0 .9rem;padding:.9rem;border-radius:18px;background:var(--panel);border:1px solid var(--line)}
+.dg-sec h3{font:800 1.15rem var(--display);margin:0 0 .7rem}
+.dg-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem .6rem}
+.dg-f{display:block;min-width:0}
+.dg-f.wide{grid-column:1/-1}
+.dg-l{display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin:0 0 .3rem}
+.dg-inp{width:100%;min-height:48px;padding:.55rem .7rem;border-radius:12px;border:2px solid var(--line);background:var(--panel-2);color:var(--text);font:400 1rem var(--sans);color-scheme:dark}
+textarea.dg-inp{resize:vertical;min-height:64px}
+.dg-inp:focus{outline:0;border-color:var(--hot)}
+.dg-pills{display:flex;flex-wrap:wrap;gap:.35rem}
+.dg-pills label{position:relative}
+.dg-pills input{position:absolute;opacity:0;pointer-events:none}
+.dg-pills span{display:inline-flex;align-items:center;min-height:42px;padding:.35rem .8rem;border-radius:999px;border:2px solid var(--line);font-size:.92rem;cursor:pointer}
+.dg-pills input:checked+span{background:var(--hot);border-color:var(--hot);color:var(--cave);font-weight:700}
+.dg-pills input:focus-visible+span{outline:2px solid var(--text);outline-offset:2px}
+.dg-photo{display:grid;place-items:center;min-height:140px;margin:0 0 .7rem;border-radius:14px;background:var(--panel-2);color:var(--muted);overflow:hidden}
+.dg-photo img{display:block;width:100%;max-height:360px;object-fit:contain}
+.dg-photo.big{margin:0 0 .8rem}
+.dg-photo.big img{max-height:420px}
+.dg-avg{display:flex;align-items:baseline;gap:.8rem;margin:0 0 .8rem}
+.dg-avg b{font:800 3.2rem/1 var(--display);color:var(--s)}
+.dg-avg b small{font-size:1.1rem;color:var(--muted);margin-left:.15rem}
+.dg-avg span{color:var(--muted)}
+.dg-kv{display:grid;grid-template-columns:auto 1fr;gap:.35rem .9rem;margin:0}
+.dg-kv dt{color:var(--muted);font-size:.88rem}
+.dg-kv dd{margin:0;font-weight:600;overflow-wrap:anywhere}
+.dg-row{display:flex;gap:1.2rem;flex-wrap:wrap;margin:.7rem 0 0}
+.dg-note{padding:.7rem 0;border-top:1px solid var(--line)}
+.dg-note:first-of-type{border-top:0;padding-top:0}
+.dg-note header{display:flex;justify-content:space-between;align-items:center;margin:0 0 .3rem}
+.dg-pt{font:800 1.4rem var(--display);color:var(--s)}
+.dg-note p{margin:.15rem 0;font-size:.92rem}
+.dg-note p b{color:var(--muted);font-weight:600;margin-right:.2rem}
+.dg-q{font-style:italic}
+.dg-score-big{display:flex;align-items:baseline;justify-content:center;gap:.3rem;margin:.2rem 0 .4rem}
+.dg-score-big b{font:800 4.2rem/1 var(--display);color:var(--s)}
+.dg-score-big small{font-size:1.2rem;color:var(--muted)}
+.dg-score-big span{margin-left:.6rem;font:800 1.1rem var(--display);color:var(--s)}
+.dg-range{width:100%;height:48px;accent-color:var(--hot);margin:0}
+.dg-scale{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin:-.2rem .3rem .9rem}
+@media (max-width:860px){
+  .dg{bottom:var(--nav)}
+  .dg-top .dg-ic[data-dg="close"]{display:none}
+}
+@media (max-width:420px){ .dg-grid{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -489,10 +574,11 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
   <button type="button" data-tab="now"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 7v5.2l3.6 2.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Étape</button>
   <button type="button" data-tab="plan"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h2v2H4zm4 0h12v2H8zm-4 5h2v2H4zm4 0h12v2H8zm-4 5h2v2H4zm4 0h12v2H8z"/></svg>Jours</button>
   <button type="button" data-tab="map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Carte</button>
-  <a class="tablink" href="https://vinlo2026.netlify.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-3.5L5 21V4a1 1 0 0 1 1-1z"/></svg>Dégust.</a>
+  <button type="button" data-tab="degust"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-3.5L5 21V4a1 1 0 0 1 1-1z"/></svg>Dégust.</button>
   <button type="button" data-tab="more"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>Plus</button>
   <button type="button" data-tab="drunk" class="t-drunk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12l-1 8a5 5 0 0 1-4 4.9V20h4v2H7v-2h4v-5.1A5 5 0 0 1 7 10z"/></svg>Bourré</button>
 </nav>
+<section class="dg" id="dg" aria-label="Dégustations"><div class="dg-wrap" id="dgIn"></div></section>
 <div class="drunk" id="drunk" role="dialog" aria-modal="true" aria-label="Mode je suis bourré"></div>
 <div class="wc" id="wc" role="dialog" aria-modal="true" aria-labelledby="wcTitle">
   <div class="wc-card">
@@ -1167,7 +1253,7 @@ var UI = {view:"now", drunk:false, wake:false, manual:null, nowDay:0, demo:false
 try {
   var savedUI = JSON.parse(localStorage.getItem("vinlo-ui") || "null");
   if (savedUI) {
-    if (["now","plan","map","more"].indexOf(savedUI.view) >= 0) UI.view = savedUI.view;
+    if (["now","plan","map","more","degust"].indexOf(savedUI.view) >= 0) UI.view = savedUI.view;
     UI.drunk = !!savedUI.drunk; UI.wake = !!savedUI.wake;
   }
 } catch(e) {}
@@ -1261,7 +1347,7 @@ function renderNow(){
       '<article class="nowcard" style="--c:'+(off === "before" ? COL[1] : COL[3])+'"><span class="eyebrow">'+(off === "before" ? "Patience" : "Terminé")+'</span><div class="big-t" style="font-size:2.2rem">'+esc(o.head)+'</div>'+
       '<h3>'+esc(o.joke)+'</h3><p class="cd">'+esc(o.sub)+'</p></article>'+
       '<div class="quick"><button class="bigbtn alt wide" type="button" data-do="demo">👀 Voir comment ça marchera</button>'+
-      '<a class="bigbtn wide" target="_blank" rel="noopener" href="https://vinlo2026.netlify.app">🍷 Suivi des dégustations (app de Rémi)<small class="sub">Code d’accès vinlo2026 copié au clic : colle-le</small></a>'+
+      '<button class="bigbtn" type="button" data-do="degust">🍷 Dégustations</button><button class="bigbtn" type="button" data-do="degust" data-dg-open="top">🏆 Classement</button>'+
       '<button class="bigbtn" type="button" data-do="wc">🚽 Toilettes</button><button class="bigbtn drunkbtn" type="button" data-do="drunk">🍷 Mode bourré</button></div>';
     return;
   }
@@ -1294,9 +1380,13 @@ function renderNow(){
       (night && d < 4 ? '<a class="bigbtn pri wide" target="_blank" rel="noopener" href="'+gmaps(night.addr || night.ll)+'">🏠 Aller à l’hébergement</a>' : '')+'</div>'+
       (tom ? '<p class="was" style="margin:.8rem 0 0">Demain, '+tom.time+' : '+esc(shortText(tom.text))+'</p>' : '')+'</article>';
   }
+  /* Étape en cours dans un domaine : accès direct à la notation */
+  var here = pl.cur >= 0 && m - S[pl.cur].t < 120 ? byId(S[pl.cur].ref) : null;
+  if (here && (here.type !== "domaine" || here.brasserie)) here = null;
   h += '<div class="quick"><button class="bigbtn" type="button" data-do="wc">🚽 Toilettes</button>'+
        (night ? '<a class="bigbtn" target="_blank" rel="noopener" href="'+gmaps(night.addr || night.ll)+'">🏠 Mon hébergement</a>' : '')+
-       '<a class="bigbtn alt wide" target="_blank" rel="noopener" href="https://vinlo2026.netlify.app">🍷 Suivi des dégustations (app de Rémi)<small class="sub">Code d’accès vinlo2026 copié au clic : colle-le</small></a>'+
+       (here ? '<button class="bigbtn pri wide" type="button" data-do="degust" data-dg-open="'+here.id+'">🍷 Noter un vin chez '+esc(here.name)+'</button>' : '')+
+       '<button class="bigbtn alt" type="button" data-do="degust">🍷 Dégustations</button><button class="bigbtn alt" type="button" data-do="degust" data-dg-open="top">🏆 Classement</button>'+
        '<button class="bigbtn drunkbtn wide" type="button" data-do="drunk">🍷 Mode « je suis bourré »</button>';
   if (navigator.wakeLock) h += '<button class="bigbtn wide" type="button" data-do="wake" aria-pressed="'+UI.wake+'">'+(UI.wake ? '✅ Écran toujours allumé' : '💡 Garder l’écran allumé')+'</button>';
   h += '</div>';
@@ -1377,6 +1467,14 @@ function setView(v, noFit){
   });
   if (v !== "map") hideMapCard();
   if (v !== "map") $("side").scrollTop = 0;
+  var dgOn = v === "degust";
+  $("dg").classList.toggle("on", dgOn);
+  document.documentElement.classList.toggle("dg-open", dgOn);
+  if (dgOn) { dgRender(); $("dg").scrollTop = 0; dgSync(); }
+  try {
+    if (dgOn && !/^#degust/.test(location.hash)) history.replaceState(null, "", "#degust");
+    else if (!dgOn && /^#degust/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search);
+  } catch(e) {}
   if (v === "map" && map) {
     requestAnimationFrame(function(){ map.invalidateSize(); if (!noFit) fit(state.day); });
   }
@@ -1504,6 +1602,7 @@ document.addEventListener("click", function(e){
   else if (act === "demo") { UI.demo = true; UI.nowDay = 1; UI.manual = 11*60; renderNow(); renderDrunk(); }
   else if (act === "exitdemo") { UI.demo = false; UI.nowDay = 0; UI.manual = null; renderNow(); renderDrunk(); }
   else if (act === "wake") setWake(!UI.wake);
+  else if (act === "degust") { var o = b.getAttribute("data-dg-open"); if (o === "top") dgOpen("top"); else dgOpen(null, o); }
   else if (act === "live") setManual(null);
   else if (act === "adj") setManual(curMinutes() + parseInt(b.getAttribute("data-n"), 10));
   else if (act === "day") {
@@ -1525,17 +1624,512 @@ $("tabbar").addEventListener("click", function(e){
   var t = b.getAttribute("data-tab");
   if (t === "drunk") setDrunk(true); else setView(t);
 });
-/* App de Rémi : le code d’accès est copié au clic (l’app n’accepte pas de code dans le lien) */
-document.addEventListener("click", function(e){
-  var a = e.target.closest('a[href^="https://vinlo2026.netlify.app"]'); if (!a) return;
-  var code = "vinlo2026";
-  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(function(){ toast("Code vinlo2026 copié : colle-le"); }, function(){ toast("Code d’accès : " + code); });
-  else toast("Code d’accès : " + code);
-});
 $("wcClose").addEventListener("click", closeWC);
 $("wcAgain").addEventListener("click", openWC);
 $("locate").addEventListener("click", locateMe);
 if (map) map.on("click", hideMapCard);
+
+/* ---------- Dégustations : domaines, bouteilles, notes, classement ---------- */
+/* Tout est enregistré sur le téléphone, puis synchronisé avec le back Google Apps Script (backend/README.md) */
+var DG_API = "";            // URL « /exec » du déploiement Apps Script, partagée par tout le groupe
+var DG_TOKEN = "vinlo2026"; // identique à TOKEN dans backend/degustations.gs
+var DG_KEY = "vinlo-degust-v1";
+var DG = {screen:"home", tab:"bottles", filter:"all", dom:null, bottle:null, edit:null, photo:null, back:[], busy:false, err:""};
+var DGS = {bottles:{}, notes:{}, queue:[], me:"", api:"", last:0};
+try {
+  var dgSaved = JSON.parse(localStorage.getItem(DG_KEY) || "null");
+  if (dgSaved) Object.keys(DGS).forEach(function(k){ if (dgSaved[k] != null) DGS[k] = dgSaved[k]; });
+} catch(e) {}
+function dgSave(){
+  try { localStorage.setItem(DG_KEY, JSON.stringify(DGS)); return true; }
+  catch(e) { toast("Mémoire du téléphone pleine : synchronise pour libérer les photos"); return false; }
+}
+
+var DG_CEPAGES = ["Riesling","Gewurztraminer","Pinot Gris","Muscat","Sylvaner","Pinot Blanc","Auxerrois","Pinot Noir","Chasselas","Klevener","Assemblage"];
+var DG_APPELLATIONS = ["AOC Alsace","Alsace Grand Cru","Alsace lieu-dit","Alsace communale","Crémant d’Alsace","Vin de France","Autre"];
+var DG_COULEURS = ["Blanc","Rouge","Rosé","Orange","Effervescent"];
+var DG_STYLES = ["Sec","Demi-sec","Moelleux","Liquoreux","Vendanges Tardives","Sélection de Grains Nobles","Brut","Extra-brut"];
+var DG_CULTURES = ["Conventionnelle","Raisonnée","Bio","Biodynamie","Nature"];
+var DG_CONTENANCES = ["37,5 cl","50 cl","75 cl","150 cl"];
+var DG_CRUS = ["Altenberg de Bergheim","Brand","Eichberg","Florimont","Frankstein","Furstentum","Geisberg","Hengst","Kastelberg","Kirchberg de Barr","Kirchberg de Ribeauvillé","Mambourg","Marckrain","Moenchberg","Muenchberg","Osterberg","Pfersigberg","Rosacker","Schlossberg","Schoenenbourg","Sommerberg","Sporen","Wiebelsberg","Zotzenberg"];
+var DG_TEINTES = {
+  "Blanc":["Vert pâle","Jaune pâle","Jaune paille","Doré","Vieil or","Ambré"],
+  "Orange":["Orangé","Ambré","Cuivré"],
+  "Rouge":["Pourpre","Rubis","Cerise","Grenat","Tuilé"],
+  "Rosé":["Gris","Pétale","Pêche","Saumon","Framboise"],
+  "Effervescent":["Blanc argenté","Jaune pâle","Doré","Rosé"]
+};
+var DG_AROMES = [
+  ["Fruits",["Agrumes","Pomme","Poire","Pêche","Abricot","Coing","Fruits exotiques","Litchi","Fruits rouges","Fruits noirs","Fruits secs"]],
+  ["Fleurs",["Fleurs blanches","Acacia","Tilleul","Rose","Violette"]],
+  ["Épices et végétal",["Épices","Gingembre","Poivre","Herbes","Menthe","Fougère"]],
+  ["Minéral",["Pierre à fusil","Silex","Craie","Hydrocarbure","Iodé"]],
+  ["Gourmand",["Miel","Beurre","Brioche","Vanille","Pain grillé","Caramel"]],
+  ["Évolution",["Boisé","Sous-bois","Champignon","Cuir","Fumé"]]
+];
+var DG_FILTERS = [["all","Tous"],["Riesling","Riesling"],["Gewurztraminer","Gewurz"],["Pinot Gris","Pinot Gris"],["rouge","Rouges et rosés"],["bulles","Crémants"],["doux","Moelleux et VT"]];
+
+function dgId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function dgTrim(v){ return v == null ? "" : String(v).trim(); }
+function dgApi(){ return dgTrim(DG_API || DGS.api); }
+function dgKey(kind, id){ return kind + ":" + id; }
+function dgEnqueue(kind, id){ var k = dgKey(kind, id); if (DGS.queue.indexOf(k) < 0) DGS.queue.push(k); }
+function dgDequeue(k){ DGS.queue = DGS.queue.filter(function(q){ return q !== k; }); }
+
+/* Données */
+function dgBottles(){ return Object.keys(DGS.bottles).map(function(k){ return DGS.bottles[k]; }).filter(function(b){ return !b.deleted; }); }
+function dgNotesOf(bid){
+  return Object.keys(DGS.notes).map(function(k){ return DGS.notes[k]; })
+    .filter(function(n){ return n.bottleId === bid && !n.deleted && n.score; })
+    .sort(function(a, b){ return b.score - a.score; });
+}
+function dgAvg(bid){
+  var ns = dgNotesOf(bid); if (!ns.length) return null;
+  return ns.reduce(function(s, n){ return s + n.score; }, 0) / ns.length;
+}
+function dgMyNote(bid){
+  var me = DGS.me.toLowerCase();
+  return me ? dgNotesOf(bid).filter(function(n){ return dgTrim(n.author).toLowerCase() === me; })[0] || null : null;
+}
+function dgDomaines(){
+  var list = STOPS.filter(function(s){ return s.type === "domaine" && !s.brasserie; })
+    .map(function(s){ return {key:s.id, name:s.name, place:s.place + " · " + DAYS[s.day].name, day:s.day}; });
+  var seen = {};
+  list.forEach(function(d){ seen[d.key] = 1; });
+  dgBottles().forEach(function(b){
+    if (b.dom && !seen[b.dom]) { seen[b.dom] = 1; list.push({key:b.dom, name:b.domName, place:"Ajouté par le groupe", day:9}); }
+  });
+  return list;
+}
+function dgDomByKey(key){ return dgDomaines().filter(function(d){ return d.key === key; })[0] || null; }
+function dgTitle(b){ return (b.cuvee || (b.cepages || []).join(" et ") || "Bouteille sans nom") + (b.cru ? " · " + b.cru : ""); }
+function dgFmt(s){ return s == null ? "–" : (Math.round(s * 10) / 10).toString().replace(".", ","); }
+function dgCol(s){ return s == null ? "var(--muted)" : s >= 16 ? "var(--d1)" : s >= 13 ? "var(--d2)" : s >= 10 ? "var(--d4)" : "var(--d3)"; }
+function dgLbl(s){ return s < 8 ? "À oublier" : s < 11 ? "Bof" : s < 13 ? "Correct" : s < 15 ? "Bon" : s < 17 ? "Très bon" : s < 19 ? "Superbe" : "Légendaire"; }
+function dgPhoto(b){ return b.photoData || b.photo || ""; }
+function dgFilterOk(b, f){
+  var c = b.cepages || [];
+  if (f === "all") return true;
+  if (f === "rouge") return b.couleur === "Rouge" || b.couleur === "Rosé" || c.indexOf("Pinot Noir") >= 0;
+  if (f === "bulles") return b.couleur === "Effervescent" || b.appellation === "Crémant d’Alsace";
+  if (f === "doux") return ["Moelleux","Liquoreux","Vendanges Tardives","Sélection de Grains Nobles"].indexOf(b.style) >= 0;
+  return c.indexOf(f) >= 0;
+}
+
+/* Petits composants de formulaire */
+function dgField(label, inner, wide){ return '<label class="dg-f'+(wide ? ' wide' : '')+'"><span class="dg-l">'+label+'</span>'+inner+'</label>'; }
+function dgGroup(label, inner){ return '<div class="dg-f wide"><span class="dg-l">'+label+'</span>'+inner+'</div>'; }
+function dgInput(name, val, attrs){ return '<input class="dg-inp" name="'+name+'" value="'+esc(val == null ? "" : val)+'" '+(attrs || 'type="text"')+'>'; }
+function dgText(name, val, ph){ return '<textarea class="dg-inp" name="'+name+'" rows="2" placeholder="'+esc(ph || "")+'">'+esc(val || "")+'</textarea>'; }
+function dgSelect(name, opts, val){
+  return '<select class="dg-inp" name="'+name+'"><option value="">–</option>'+opts.map(function(o){ return '<option'+(o === val ? ' selected' : '')+'>'+esc(o)+'</option>'; }).join("")+'</select>';
+}
+/* Choix unique (on peut décocher) ou multiple, en pastilles */
+function dgPills(name, opts, val, multi){
+  var vals = multi ? (val || []) : [val];
+  return '<div class="dg-pills'+(multi ? '' : ' one')+'">'+opts.map(function(o){
+    return '<label><input type="checkbox" name="'+name+'" value="'+esc(o)+'"'+(vals.indexOf(o) >= 0 ? ' checked' : '')+'><span>'+esc(o)+'</span></label>';
+  }).join("")+'</div>';
+}
+
+/* Écrans */
+function dgTop(title, sub){
+  return '<div class="dg-top">'+(DG.back.length ? '<button class="dg-ic" type="button" data-dg="back" aria-label="Retour">‹</button>' : '<span class="dg-ic" aria-hidden="true">🍷</span>')+
+    '<div class="dg-tt"><h2>'+esc(title)+'</h2>'+(sub ? '<small>'+esc(sub)+'</small>' : '')+'</div>'+
+    '<button class="dg-ic" type="button" data-dg="close" aria-label="Fermer les dégustations">✕</button></div>';
+}
+function dgCard(b, rank){
+  var avg = dgAvg(b.id), n = dgNotesOf(b.id).length, ph = dgPhoto(b);
+  var medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : rank ? rank + "." : "";
+  return '<button class="dg-card" type="button" data-dg="bottle" data-id="'+esc(b.id)+'">'+
+    (rank ? '<span class="dg-rank">'+medal+'</span>' : '')+
+    '<span class="dg-thumb">'+(ph ? '<img src="'+esc(ph)+'" alt="" loading="lazy">' : '🍾')+'</span>'+
+    '<span class="dg-ct"><b>'+esc(dgTitle(b))+'</b><small>'+esc(b.domName || "")+(b.millesime ? ' · '+esc(b.millesime) : '')+'</small>'+
+    '<small>'+esc([(b.cepages || []).join(", "), b.couleur, b.style].filter(Boolean).join(" · "))+'</small></span>'+
+    '<span class="dg-score" style="--s:'+dgCol(avg)+'"><b>'+dgFmt(avg)+'</b><small>'+(n ? n + ' note' + (n > 1 ? 's' : '') : 'pas notée')+'</small></span></button>';
+}
+function dgStatusHTML(){
+  var n = DGS.queue.length;
+  if (!dgApi()) return '📱 Enregistré sur ce téléphone. Serveur pas encore configuré : <button class="linkbtn" type="button" data-dg="settings">réglages</button>';
+  if (DG.busy) return '🔄 Synchronisation…';
+  if (DG.err) return '⚠️ ' + DG.err + (n ? ' · ' + n + ' en attente' : '') + ' <button class="linkbtn" type="button" data-dg="sync">Réessayer</button>';
+  if (n) return '⏳ ' + n + ' modification' + (n > 1 ? 's' : '') + ' en attente d’envoi';
+  if (!DGS.last) return '☁️ Connexion au serveur…';
+  var d = new Date(DGS.last);
+  return '☁️ Synchronisé avec le groupe à ' + hhmm(d.getHours() * 60 + d.getMinutes());
+}
+function dgStatus(){ var el = $("dgSync"); if (el) el.innerHTML = dgStatusHTML(); }
+
+function dgHome(){
+  var h = dgTop("Dégustations", "Vinlo 2026 · notes du groupe");
+  h += '<p class="dg-sync" id="dgSync" role="status">'+dgStatusHTML()+'</p>';
+  h += '<div class="quick"><button class="bigbtn pri wide" type="button" data-dg="new">➕ Noter une bouteille<small class="sub">Choisis le domaine, ajoute la bouteille, note-la</small></button></div>';
+  h += '<div class="dg-tabs" role="tablist">'+
+    '<button type="button" role="tab" data-dg="tab" data-t="bottles" aria-selected="'+(DG.tab === "bottles")+'">🍾 Bouteilles</button>'+
+    '<button type="button" role="tab" data-dg="tab" data-t="top" aria-selected="'+(DG.tab === "top")+'">🏆 Classement</button></div>';
+  var all = dgBottles();
+  if (DG.tab === "top") {
+    h += '<div class="dg-filters">'+DG_FILTERS.map(function(f){ return '<button class="chip" type="button" data-dg="filter" data-f="'+f[0]+'" aria-pressed="'+(DG.filter === f[0])+'">'+f[1]+'</button>'; }).join("")+'</div>';
+    var rows = all.filter(function(b){ return dgAvg(b.id) != null && dgFilterOk(b, DG.filter); })
+      .sort(function(a, b){ return dgAvg(b.id) - dgAvg(a.id) || dgNotesOf(b.id).length - dgNotesOf(a.id).length; });
+    h += rows.length ? '<div class="dg-list">'+rows.map(function(b, i){ return dgCard(b, i + 1); }).join("")+'</div>'
+                     : '<p class="dg-empty">Aucune bouteille notée'+(DG.filter !== "all" ? ' dans cette catégorie' : '')+' pour l’instant.</p>';
+    var doms = {};
+    rows.forEach(function(b){ var d = doms[b.dom] || (doms[b.dom] = {name:b.domName, sum:0, n:0}); d.sum += dgAvg(b.id); d.n++; });
+    var dl = Object.keys(doms).map(function(k){ return doms[k]; }).sort(function(a, b){ return b.sum / b.n - a.sum / a.n; });
+    if (dl.length > 1) {
+      h += '<h3 class="dg-h">Classement des domaines</h3><ol class="dg-doms">'+dl.map(function(d){
+        var s = d.sum / d.n;
+        return '<li><span>'+esc(d.name)+'<small>'+d.n+' bouteille'+(d.n > 1 ? 's' : '')+'</small></span><b style="color:'+dgCol(s)+'">'+dgFmt(s)+'</b></li>';
+      }).join("")+'</ol>';
+    }
+  } else {
+    all.sort(function(a, b){ return (b.createdAt || 0) - (a.createdAt || 0); });
+    h += all.length ? '<div class="dg-list">'+all.map(function(b){ return dgCard(b); }).join("")+'</div>'
+                    : '<p class="dg-empty">Pas encore de bouteille. Choisis un domaine et ajoute la première !</p>';
+  }
+  h += '<p class="dg-foot"><button class="linkbtn" type="button" data-dg="settings">⚙️ Réglages et sauvegarde</button></p>';
+  return h;
+}
+function dgPickDom(){
+  var h = dgTop("Quel domaine ?", "Choisis dans la liste");
+  h += '<div class="dg-list">'+dgDomaines().map(function(d){
+    var n = dgBottles().filter(function(b){ return b.dom === d.key; }).length;
+    return '<button class="dg-card" type="button" data-dg="dom" data-k="'+esc(d.key)+'"><span class="dg-thumb">🍇</span>'+
+      '<span class="dg-ct"><b>'+esc(d.name)+'</b><small>'+esc(d.place)+'</small></span>'+
+      '<span class="dg-score"><b>'+n+'</b><small>bouteille'+(n > 1 ? 's' : '')+'</small></span></button>';
+  }).join("")+'</div>';
+  h += '<form class="dg-other" id="dgOther"><input class="dg-inp" name="name" placeholder="Autre domaine (nom)" autocomplete="off"><button class="bigbtn" type="submit">Ajouter</button></form>';
+  return h;
+}
+function dgDomain(){
+  var d = DG.dom, list = dgBottles().filter(function(b){ return b.dom === d.key; });
+  list.sort(function(a, b){ return (dgAvg(b.id) || 0) - (dgAvg(a.id) || 0); });
+  var h = dgTop(d.name, d.place);
+  h += '<div class="quick"><button class="bigbtn pri wide" type="button" data-dg="addbottle">➕ Ajouter une bouteille</button></div>';
+  h += list.length ? '<h3 class="dg-h">Déjà goûtées ici</h3><div class="dg-list">'+list.map(function(b){ return dgCard(b); }).join("")+'</div>'
+                   : '<p class="dg-empty">Aucune bouteille de ce domaine pour l’instant.</p>';
+  return h;
+}
+function dgBottleForm(){
+  var b = DG.edit ? DGS.bottles[DG.edit] : {}, ph = DG.photo || dgPhoto(b);
+  var h = dgTop(DG.edit ? "Modifier la fiche" : "Nouvelle bouteille", DG.dom.name);
+  h += '<form id="dgForm" data-kind="bottle" autocomplete="off">';
+  h += '<section class="dg-sec"><h3>📷 Photo</h3><div class="dg-photo" id="dgPhoto">'+(ph ? '<img src="'+esc(ph)+'" alt="Photo de la bouteille">' : '<span>Pas encore de photo</span>')+'</div>'+
+    '<div class="quick"><label class="bigbtn pri">📷 Prendre une photo<input type="file" accept="image/*" capture="environment" data-dgphoto hidden></label>'+
+    '<label class="bigbtn">🖼️ Galerie<input type="file" accept="image/*" data-dgphoto hidden></label></div></section>';
+  h += '<section class="dg-sec"><h3>🪪 Fiche d’identité</h3><div class="dg-grid">'+
+    dgField("Nom de la cuvée", dgInput("cuvee", b.cuvee, 'type="text" placeholder="Ex. Cuvée Théo"'), true)+
+    dgGroup("Cépage(s)", dgPills("cepages", DG_CEPAGES, b.cepages, true))+
+    dgField("Millésime", dgInput("millesime", b.millesime, 'type="number" inputmode="numeric" min="1900" max="2026" placeholder="2022"'))+
+    dgField("Couleur", dgSelect("couleur", DG_COULEURS, b.couleur || (DG.edit ? "" : "Blanc")))+
+    dgField("Appellation", dgSelect("appellation", DG_APPELLATIONS, b.appellation))+
+    dgField("Grand cru ou lieu-dit", dgInput("cru", b.cru, 'type="text" list="dgCrus" placeholder="Ex. Schlossberg"'))+
+    dgField("Style", dgSelect("style", DG_STYLES, b.style))+
+    dgField("Culture", dgSelect("culture", DG_CULTURES, b.culture))+
+    dgField("Alcool (%)", dgInput("alcool", b.alcool, 'type="number" inputmode="decimal" step="0.5" min="0" max="20" placeholder="13"'))+
+    dgField("Contenance", dgSelect("contenance", DG_CONTENANCES, b.contenance || (DG.edit ? "" : "75 cl")))+
+    dgField("Prix au domaine (€)", dgInput("prix", b.prix, 'type="number" inputmode="decimal" step="0.5" min="0" placeholder="18"'))+
+    dgField("À boire jusqu’en", dgInput("garde", b.garde, 'type="number" inputmode="numeric" min="2026" max="2100" placeholder="2032"'))+
+    dgField("Température de service", dgInput("service", b.service, 'type="text" placeholder="Ex. 10 à 12 °C"'))+
+    dgField("Sol, vinification, anecdotes", dgText("infos", b.infos, "Ce qu’a raconté le vigneron…"), true)+
+    '</div><datalist id="dgCrus">'+DG_CRUS.map(function(c){ return '<option value="'+esc(c)+'">'; }).join("")+'</datalist></section>';
+  h += '<div class="quick"><button class="bigbtn pri wide" type="submit">'+(DG.edit ? '✅ Enregistrer la fiche' : '✅ Enregistrer et déguster')+'</button></div></form>';
+  return h;
+}
+function dgSummary(n){
+  var r = n.robe || {}, z = n.nez || {}, b = n.bouche || {};
+  function line(lbl, parts, txt){
+    parts = parts.filter(Boolean);
+    return parts.length || txt ? '<p><b>'+lbl+'</b> '+esc(parts.join(" · "))+(txt ? (parts.length ? ' · ' : '')+'<i>'+esc(txt)+'</i>' : '')+'</p>' : '';
+  }
+  return line("Robe", [r.teinte, r.intensite, r.limpidite, r.brillance, r.larmes, r.bulles], r.txt)+
+    line("Nez", [z.intensite].concat(z.aromes || []), z.txt)+
+    line("Bouche", [b.attaque, b.sucre, b.acidite, b.corps, b.tanins, b.longueur], b.txt)+
+    line("Accords", [n.accords], "")+
+    (n.rachat ? '<p><b>Je rachète</b> '+esc(n.rachat)+'</p>' : '')+
+    (n.txt ? '<p class="dg-q">« '+esc(n.txt)+' »</p>' : '');
+}
+function dgBottle(){
+  var b = DGS.bottles[DG.bottle];
+  if (!b || b.deleted) { DG.screen = "home"; DG.back = []; return dgHome(); }
+  var avg = dgAvg(b.id), notes = dgNotesOf(b.id), mine = dgMyNote(b.id), ph = dgPhoto(b);
+  var h = dgTop(dgTitle(b), b.domName + (b.millesime ? " · " + b.millesime : ""));
+  if (ph) h += '<div class="dg-photo big"><img src="'+esc(ph)+'" alt="Photo de la bouteille"></div>';
+  h += '<div class="dg-avg" style="--s:'+dgCol(avg)+'"><b>'+dgFmt(avg)+'<small>/20</small></b><span>'+(avg != null ? esc(dgLbl(avg))+' · moyenne de '+notes.length+' note'+(notes.length > 1 ? 's' : '') : 'Pas encore notée')+'</span></div>';
+  h += '<div class="quick"><button class="bigbtn pri wide" type="button" data-dg="note">'+(mine ? '✏️ Modifier ma note ('+dgFmt(mine.score)+')' : '🍷 Noter ce vin')+'</button></div>';
+  var kv = [["Domaine", b.domName], ["Cuvée", b.cuvee], ["Cépage(s)", (b.cepages || []).join(", ")], ["Millésime", b.millesime], ["Couleur", b.couleur],
+    ["Appellation", b.appellation], ["Grand cru ou lieu-dit", b.cru], ["Style", b.style], ["Culture", b.culture], ["Alcool", b.alcool ? b.alcool + " %" : ""],
+    ["Contenance", b.contenance], ["Prix", b.prix ? String(b.prix).replace(".", ",") + " €" : ""], ["À boire jusqu’en", b.garde], ["Service", b.service], ["Infos", b.infos],
+    ["Ajoutée par", b.by]];
+  h += '<section class="dg-sec"><h3>🪪 Fiche d’identité</h3><dl class="dg-kv">'+kv.filter(function(r){ return r[1]; }).map(function(r){ return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>'; }).join("")+'</dl>'+
+    '<div class="dg-row"><button class="linkbtn" type="button" data-dg="editbottle">✏️ Modifier la fiche</button><button class="linkbtn" type="button" data-dg="delbottle">🗑️ Supprimer</button></div></section>';
+  h += '<section class="dg-sec"><h3>📝 Notes du groupe</h3>'+(notes.length ? notes.map(function(n){
+    return '<article class="dg-note"><header><b>'+esc(n.author || "Anonyme")+'</b><span class="dg-pt" style="--s:'+dgCol(n.score)+'">'+dgFmt(n.score)+'</span></header>'+dgSummary(n)+
+      (mine && n.id === mine.id ? '<div class="dg-row"><button class="linkbtn" type="button" data-dg="note">✏️ Modifier</button><button class="linkbtn" type="button" data-dg="delnote" data-id="'+esc(n.id)+'">🗑️ Supprimer</button></div>' : '')+'</article>';
+  }).join("") : '<p class="dg-empty">Personne n’a encore noté ce vin.</p>')+'</section>';
+  return h;
+}
+function dgNoteForm(){
+  var b = DGS.bottles[DG.bottle], n = (DG.edit && DGS.notes[DG.edit]) || {}, r = n.robe || {}, z = n.nez || {}, bo = n.bouche || {};
+  var score = n.score || 14, rouge = b.couleur === "Rouge" || (b.cepages || []).indexOf("Pinot Noir") >= 0;
+  var h = dgTop("Ma dégustation", dgTitle(b));
+  h += '<form id="dgForm" data-kind="note" autocomplete="off">';
+  h += '<section class="dg-sec"><div class="dg-grid">'+dgField("Ton prénom", dgInput("author", n.author || DGS.me, 'type="text" required placeholder="Ex. Rémi"'), true)+'</div></section>';
+  h += '<section class="dg-sec"><h3>👁️ La robe</h3><div class="dg-grid">'+
+    dgGroup("Teinte", dgPills("r_teinte", DG_TEINTES[b.couleur] || DG_TEINTES.Blanc, r.teinte))+
+    dgGroup("Intensité", dgPills("r_intensite", ["Pâle","Moyenne","Soutenue","Profonde"], r.intensite))+
+    dgGroup("Limpidité", dgPills("r_limpidite", ["Limpide","Voilée","Trouble"], r.limpidite))+
+    dgGroup("Brillance", dgPills("r_brillance", ["Terne","Brillante","Éclatante"], r.brillance))+
+    dgGroup("Larmes", dgPills("r_larmes", ["Absentes","Légères","Grasses"], r.larmes))+
+    (b.couleur === "Effervescent" || b.appellation === "Crémant d’Alsace" ? dgGroup("Bulles", dgPills("r_bulles", ["Fines","Moyennes","Grossières"], r.bulles)) : '')+
+    dgField("Commentaire", dgText("r_txt", r.txt, "Reflets, éclat…"), true)+'</div></section>';
+  h += '<section class="dg-sec"><h3>👃 Le nez</h3><div class="dg-grid">'+
+    dgGroup("Intensité", dgPills("n_intensite", ["Fermé","Discret","Expressif","Puissant"], z.intensite))+
+    DG_AROMES.map(function(g){ return dgGroup(g[0], dgPills("n_aromes", g[1], z.aromes, true)); }).join("")+
+    dgField("Commentaire", dgText("n_txt", z.txt, "Premier nez, après aération…"), true)+'</div></section>';
+  h += '<section class="dg-sec"><h3>👄 La bouche</h3><div class="dg-grid">'+
+    dgGroup("Attaque", dgPills("b_attaque", ["Vive","Franche","Ronde","Souple"], bo.attaque))+
+    dgGroup("Sucre", dgPills("b_sucre", ["Sec","Demi-sec","Moelleux","Liquoreux"], bo.sucre))+
+    dgGroup("Acidité", dgPills("b_acidite", ["Molle","Fraîche","Vive","Tranchante"], bo.acidite))+
+    dgGroup("Corps", dgPills("b_corps", ["Léger","Moyen","Ample","Puissant"], bo.corps))+
+    (rouge ? dgGroup("Tanins", dgPills("b_tanins", ["Soyeux","Fondus","Fermes","Asséchants"], bo.tanins)) : '')+
+    dgGroup("Longueur", dgPills("b_longueur", ["Courte","Moyenne","Longue","Interminable"], bo.longueur))+
+    dgField("Commentaire", dgText("b_txt", bo.txt, "Équilibre, finale…"), true)+'</div></section>';
+  h += '<section class="dg-sec"><h3>⭐ Ma note</h3><div class="dg-score-big" id="dgScoreOut" style="--s:'+dgCol(score)+'"><b>'+dgFmt(score)+'</b><small>/20</small><span>'+dgLbl(score)+'</span></div>'+
+    '<input class="dg-range" id="dgScore" name="score" type="range" min="1" max="20" step="0.5" value="'+score+'" aria-label="Note sur 20">'+
+    '<div class="dg-scale"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span></div><div class="dg-grid">'+
+    dgGroup("Je rachète ?", dgPills("rachat", ["Oui, un carton","Oui, une bouteille","Non"], n.rachat))+
+    dgField("Accords mets et vins", dgInput("accords", n.accords, 'type="text" placeholder="Ex. choucroute, munster…"'), true)+
+    dgField("Mon avis en une phrase", dgText("txt", n.txt, "Le mot de la fin"), true)+'</div></section>';
+  h += '<div class="quick"><button class="bigbtn pri wide" type="submit">✅ Enregistrer ma note</button></div></form>';
+  return h;
+}
+function dgSettings(){
+  var h = dgTop("Réglages", "Prénom, serveur, sauvegarde");
+  h += '<form id="dgSet" class="dg-sec"><div class="dg-grid">'+
+    dgField("Ton prénom", dgInput("me", DGS.me, 'type="text" placeholder="Ex. Rémi"'), true)+
+    (DG_API ? '' : dgField("Adresse du serveur (URL Apps Script se terminant par /exec)", dgInput("api", DGS.api, 'type="url" placeholder="https://script.google.com/macros/s/…/exec"'), true))+
+    '</div><div class="quick"><button class="bigbtn pri wide" type="submit">Enregistrer</button></div></form>';
+  h += '<p class="dg-sync" id="dgSync">'+dgStatusHTML()+'</p>';
+  h += '<div class="quick">'+(dgApi() ? '<button class="bigbtn" type="button" data-dg="sync">🔄 Synchroniser</button>' : '')+
+    '<button class="bigbtn" type="button" data-dg="export">💾 Exporter (JSON)</button></div>';
+  h += '<p class="dg-empty">'+dgBottles().length+' bouteilles et '+Object.keys(DGS.notes).filter(function(k){ return !DGS.notes[k].deleted; }).length+' notes sur ce téléphone.</p>';
+  return h;
+}
+var DG_SCREENS = {home:dgHome, dom:dgPickDom, domain:dgDomain, bottleForm:dgBottleForm, bottle:dgBottle, noteForm:dgNoteForm, settings:dgSettings};
+function dgRender(){
+  var el = $("dgIn"); if (!el) return;
+  el.innerHTML = (DG_SCREENS[DG.screen] || dgHome)();
+}
+/* Un formulaire en cours n’est jamais redessiné par la synchro */
+function dgLive(){ return UI.view === "degust" && ["home","domain","bottle"].indexOf(DG.screen) >= 0; }
+function dgGo(screen, keep){
+  DG.back.push({screen:DG.screen, dom:DG.dom, bottle:DG.bottle, edit:DG.edit});
+  DG.screen = screen;
+  if (!keep) { DG.edit = null; DG.photo = null; }
+  dgRender(); $("dg").scrollTop = 0;
+}
+function dgBack(){
+  var p = DG.back.pop() || {screen:"home"};
+  DG.screen = p.screen; DG.dom = p.dom; DG.bottle = p.bottle; DG.edit = null; DG.photo = null;
+  dgRender(); $("dg").scrollTop = 0;
+}
+function dgReset(screen){ DG.back = []; DG.screen = screen || "home"; DG.edit = null; DG.photo = null; }
+
+/* Enregistrement */
+function dgPut(kind, item){
+  (kind === "bottle" ? DGS.bottles : DGS.notes)[item.id] = item;
+  dgEnqueue(kind, item.id);
+  dgSave(); dgSync();
+}
+function dgSaveBottle(f){
+  var fd = new FormData(f), id = DG.edit || dgId(), old = DGS.bottles[id] || {};
+  var b = {id:id, createdAt:old.createdAt || Date.now(), updatedAt:Date.now(), by:old.by || DGS.me,
+    dom:DG.dom.key, domName:DG.dom.name, cuvee:dgTrim(fd.get("cuvee")), cepages:fd.getAll("cepages"),
+    millesime:dgTrim(fd.get("millesime")), couleur:dgTrim(fd.get("couleur")), appellation:dgTrim(fd.get("appellation")),
+    cru:dgTrim(fd.get("cru")), style:dgTrim(fd.get("style")), culture:dgTrim(fd.get("culture")), alcool:dgTrim(fd.get("alcool")),
+    contenance:dgTrim(fd.get("contenance")), prix:dgTrim(fd.get("prix")), garde:dgTrim(fd.get("garde")),
+    service:dgTrim(fd.get("service")), infos:dgTrim(fd.get("infos"))};
+  if (!b.cuvee && !b.cepages.length) { toast("Indique au moins le nom de la cuvée ou un cépage"); return; }
+  if (DG.photo) b.photoData = DG.photo;
+  else { if (old.photoData) b.photoData = old.photoData; if (old.photo) b.photo = old.photo; }
+  var isNew = !DG.edit;
+  dgPut("bottle", b);
+  DG.bottle = id;
+  if (isNew) {
+    /* Bouteille créée : on passe directement à la dégustation, le retour mène à sa fiche */
+    DG.screen = "bottle"; dgGo("noteForm");
+    toast("Bouteille ajoutée : à toi de la noter");
+  } else { dgBack(); toast("Fiche enregistrée"); }
+}
+function dgSaveNote(f){
+  var fd = new FormData(f), me = dgTrim(fd.get("author"));
+  if (!me) { toast("Indique ton prénom"); return; }
+  DGS.me = me;
+  var old = (DG.edit && DGS.notes[DG.edit]) || dgMyNote(DG.bottle) || {}, id = old.id || dgId();
+  function g(k){ return dgTrim(fd.get(k)); }
+  var n = {id:id, bottleId:DG.bottle, author:me, createdAt:old.createdAt || Date.now(), updatedAt:Date.now(),
+    score:parseFloat(fd.get("score")) || 0,
+    robe:{teinte:g("r_teinte"), intensite:g("r_intensite"), limpidite:g("r_limpidite"), brillance:g("r_brillance"), larmes:g("r_larmes"), bulles:g("r_bulles"), txt:g("r_txt")},
+    nez:{intensite:g("n_intensite"), aromes:fd.getAll("n_aromes"), txt:g("n_txt")},
+    bouche:{attaque:g("b_attaque"), sucre:g("b_sucre"), acidite:g("b_acidite"), corps:g("b_corps"), tanins:g("b_tanins"), longueur:g("b_longueur"), txt:g("b_txt")},
+    rachat:g("rachat"), accords:g("accords"), txt:g("txt")};
+  dgPut("note", n);
+  dgBack();
+  toast("Note enregistrée : " + dgFmt(n.score) + "/20");
+}
+function dgRemove(kind, id){
+  var store = kind === "bottle" ? DGS.bottles : DGS.notes, it = store[id]; if (!it) return;
+  var copy = JSON.parse(JSON.stringify(it));
+  copy.deleted = true; copy.updatedAt = Date.now(); delete copy.photoData;
+  dgPut(kind, copy);
+}
+
+/* Photo : réduite à 1000 px avant stockage et envoi */
+function dgResize(file){
+  return new Promise(function(res, rej){
+    var url = URL.createObjectURL(file), img = new Image();
+    img.onload = function(){
+      var w = img.naturalWidth, h = img.naturalHeight, r = Math.min(1, 1000 / Math.max(w, h)), c = document.createElement("canvas");
+      c.width = Math.round(w * r); c.height = Math.round(h * r);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg", 0.7));
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); rej(new Error("image")); };
+    img.src = url;
+  });
+}
+
+/* Synchronisation avec le back */
+function dgPost(body){
+  body.token = DG_TOKEN;
+  return fetch(dgApi(), {method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(body)})
+    .then(function(r){ return r.json(); }).then(function(j){ if (!j.ok) throw new Error(j.error || "erreur"); return j; });
+}
+function dgPush(){
+  return DGS.queue.slice().reduce(function(chain, key){
+    return chain.then(function(){
+      var kind = key.split(":")[0], id = key.slice(kind.length + 1), store = kind === "bottle" ? DGS.bottles : DGS.notes, item = store[id];
+      if (!item) { dgDequeue(key); return; }
+      var send = JSON.parse(JSON.stringify(item)), photo = send.photoData;
+      delete send.photoData;
+      return dgPost({action:"upsert", kind:kind, item:send, photo:photo}).then(function(j){
+        var cur = store[id];
+        if (cur && photo && cur.photoData === photo && j.item.photo) { cur.photo = j.item.photo; delete cur.photoData; }
+        if (cur && cur.updatedAt > item.updatedAt) return;   // modifié pendant l’envoi : repartira au prochain tour
+        store[id] = j.item; dgDequeue(key);
+      });
+    });
+  }, Promise.resolve());
+}
+function dgMerge(store, list, kind){
+  (list || []).forEach(function(it){
+    if (!it || !it.id || DGS.queue.indexOf(dgKey(kind, it.id)) >= 0) return;
+    var cur = store[it.id];
+    if (!cur || (it.updatedAt || 0) >= (cur.updatedAt || 0)) store[it.id] = it;
+  });
+}
+function dgPull(){
+  var api = dgApi();
+  return fetch(api + (api.indexOf("?") >= 0 ? "&" : "?") + "token=" + encodeURIComponent(DG_TOKEN) + "&t=" + Date.now())
+    .then(function(r){ return r.json(); }).then(function(j){
+      if (!j.ok) throw new Error(j.error || "erreur");
+      dgMerge(DGS.bottles, j.bottles, "bottle"); dgMerge(DGS.notes, j.notes, "note");
+    });
+}
+function dgSync(){
+  if (!dgApi() || DG.busy || navigator.onLine === false) { dgStatus(); return; }
+  DG.busy = true; dgStatus();
+  dgPush().then(dgPull).then(function(){ DGS.last = Date.now(); DG.err = ""; }, function(){ DG.err = "Synchro impossible pour l’instant"; })
+    .then(function(){ DG.busy = false; dgSave(); if (dgLive()) dgRender(); else dgStatus(); });
+}
+setInterval(function(){ if (UI.view === "degust" && document.visibilityState === "visible") dgSync(); }, 45000);
+window.addEventListener("online", dgSync);
+document.addEventListener("visibilitychange", function(){ if (document.visibilityState === "visible" && DGS.queue.length) dgSync(); });
+
+/* Ouverture depuis l’étape, la barre d’onglets ou l’adresse …#degust (accès direct) */
+function dgOpen(screen, domKey){
+  dgReset("home");
+  if (screen === "top") DG.tab = "top";
+  else if (domKey && dgDomByKey(domKey)) { DG.back = [{screen:"home"}]; DG.dom = dgDomByKey(domKey); DG.screen = "domain"; }
+  else DG.tab = "bottles";
+  setView("degust");
+}
+function dgFromHash(){
+  var m = /^#degust(?:\/(top|[\w-]+))?/.exec(location.hash);
+  if (!m) return false;
+  if (m[1] === "top") dgOpen("top"); else dgOpen(null, m[1]);
+  return true;
+}
+window.addEventListener("hashchange", dgFromHash);
+
+$("dg").addEventListener("click", function(e){
+  var b = e.target.closest("[data-dg]"); if (!b) return;
+  var act = b.getAttribute("data-dg");
+  if (act === "back") dgBack();
+  else if (act === "close") setView("now");
+  else if (act === "new") dgGo("dom");
+  else if (act === "tab") { DG.tab = b.getAttribute("data-t"); dgRender(); }
+  else if (act === "filter") { DG.filter = b.getAttribute("data-f"); dgRender(); }
+  else if (act === "dom") { DG.dom = dgDomByKey(b.getAttribute("data-k")); dgGo("domain"); }
+  else if (act === "addbottle") dgGo("bottleForm");
+  else if (act === "bottle") {
+    var bt = DGS.bottles[b.getAttribute("data-id")]; if (!bt) return;
+    DG.bottle = bt.id; DG.dom = dgDomByKey(bt.dom) || {key:bt.dom, name:bt.domName, place:""}; dgGo("bottle");
+  }
+  else if (act === "editbottle") { var eb = DGS.bottles[DG.bottle]; DG.dom = {key:eb.dom, name:eb.domName, place:""}; DG.edit = DG.bottle; DG.photo = null; dgGo("bottleForm", true); }
+  else if (act === "delbottle") { if (confirm("Supprimer cette bouteille et ses notes du classement ?")) { dgRemove("bottle", DG.bottle); dgBack(); toast("Bouteille supprimée"); } }
+  else if (act === "note") { var mn = dgMyNote(DG.bottle); DG.edit = mn ? mn.id : null; dgGo("noteForm", true); }
+  else if (act === "delnote") { if (confirm("Supprimer ta note ?")) { dgRemove("note", b.getAttribute("data-id")); dgRender(); toast("Note supprimée"); } }
+  else if (act === "settings") dgGo("settings");
+  else if (act === "sync") dgSync();
+  else if (act === "export") {
+    var blob = new Blob([JSON.stringify({bottles:DGS.bottles, notes:DGS.notes}, null, 1)], {type:"application/json"});
+    var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "vinlo-degustations.json";
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+});
+$("dg").addEventListener("submit", function(e){
+  e.preventDefault();
+  var f = e.target;
+  if (f.id === "dgOther") {
+    var name = dgTrim(new FormData(f).get("name")); if (!name) return;
+    var key = "x-" + name.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    DG.dom = dgDomByKey(key) || {key:key, name:name, place:"Ajouté par le groupe"}; dgGo("domain");
+  }
+  else if (f.id === "dgSet") {
+    var fd = new FormData(f); DGS.me = dgTrim(fd.get("me")); if (fd.has("api")) DGS.api = dgTrim(fd.get("api"));
+    DG.err = ""; dgSave(); dgSync(); dgRender(); toast("Réglages enregistrés");
+  }
+  else if (f.getAttribute("data-kind") === "bottle") dgSaveBottle(f);
+  else if (f.getAttribute("data-kind") === "note") dgSaveNote(f);
+});
+$("dg").addEventListener("change", function(e){
+  var t = e.target;
+  if (t.matches(".dg-pills.one input") && t.checked) {
+    Array.prototype.forEach.call(t.closest(".dg-pills").querySelectorAll("input"), function(i){ if (i !== t) i.checked = false; });
+  }
+  if (t.hasAttribute("data-dgphoto") && t.files && t.files[0]) {
+    dgResize(t.files[0]).then(function(data){
+      DG.photo = data; $("dgPhoto").innerHTML = '<img src="'+data+'" alt="Photo de la bouteille">';
+    }, function(){ toast("Photo illisible, réessaie"); });
+    t.value = "";
+  }
+});
+$("dg").addEventListener("input", function(e){
+  if (e.target.id !== "dgScore") return;
+  var s = parseFloat(e.target.value), out = $("dgScoreOut");
+  out.style.setProperty("--s", dgCol(s));
+  out.innerHTML = '<b>'+dgFmt(s)+'</b><small>/20</small><span>'+dgLbl(s)+'</span>';
+});
+if (/^#degust/.test(location.hash)) {
+  UI.view = "degust";
+  var dgH = /^#degust\/(.+)$/.exec(location.hash);
+  if (dgH && dgH[1] === "top") DG.tab = "top";
+  else if (dgH && dgDomByKey(dgH[1])) { DG.back = [{screen:"home"}]; DG.dom = dgDomByKey(dgH[1]); DG.screen = "domain"; }
+}
+setTimeout(dgSync, 1500);
 
 /* Démarrage de l’interface mobile */
 renderNow();

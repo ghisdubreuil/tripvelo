@@ -33,13 +33,22 @@ var SHEETS = {
               [b.attaque, b.sucre, b.acidite, b.corps, b.tanins, b.longueur, b.txt].filter(Boolean).join(" · "),
               n.rachat || "", n.txt || ""];
     }
+  },
+  cart: {
+    name: "Panier",
+    cols: ["id", "updatedAt", "deleted", "domaine", "bouteille", "personne", "quantité", "prix unitaire", "total", "json"],
+    row: function (c) {
+      var prix = parseFloat(String(c.prix || "").replace(",", ".")) || "";
+      return [c.id, c.updatedAt, !!c.deleted, c.domName || "", c.title || "", c.person || "", c.qty || 0,
+              prix, prix ? prix * (c.qty || 0) : ""];
+    }
   }
 };
 
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.token !== TOKEN) return out({ ok: false, error: "token" });
-  return out({ ok: true, bottles: readAll("bottle"), notes: readAll("note"), now: Date.now() });
+  return out({ ok: true, bottles: readAll("bottle"), notes: readAll("note"), cart: readAll("cart"), now: Date.now() });
 }
 
 function doPost(e) {
@@ -128,6 +137,6 @@ function savePhoto(id, dataUrl) {
 
 /** À lancer une fois depuis l’éditeur pour accorder les autorisations et créer la Sheet. */
 function setup() {
-  sheet("bottle"); sheet("note"); folder();
+  sheet("bottle"); sheet("note"); sheet("cart"); folder();
   Logger.log("Sheet : " + ss().getUrl());
 }

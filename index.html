@@ -482,6 +482,34 @@ textarea.dg-inp{resize:vertical;min-height:64px}
   .dg{bottom:var(--nav)}
   .dg-top .dg-ic[data-dg="close"]{display:none}
 }
+.dg-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
+.dg-tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;min-height:58px;font-size:.88rem;padding:.3rem .2rem;white-space:nowrap}
+.dg-tabs button i{font-style:normal;font-size:1.15rem;line-height:1}
+.dg-tabs .dg-badge{position:absolute;margin:-2.2rem 0 0 3.2rem}
+.dg-tabs button{position:relative}
+.dg-badge{display:inline-grid;place-items:center;min-width:1.4rem;height:1.4rem;padding:0 .3rem;border-radius:999px;background:var(--hot);color:var(--cave);font:800 .78rem/1 var(--sans);vertical-align:1px}
+.dg-who{margin:0 0 .8rem}
+.dg-who .chip{min-height:44px}
+.dg-who .chip[aria-pressed="true"],.dg-filters .chip[aria-pressed="true"]{background:var(--hot);border-color:var(--hot);color:var(--cave)}
+.dg-sub{margin:-.4rem 0 .6rem;color:var(--muted);font-size:.9rem}
+.dg-line{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;border-top:1px solid var(--line)}
+.dg-sub+.dg-line,h3+.dg-line{border-top:0}
+.dg-line.me .dg-lt b{color:var(--hot)}
+.dg-lt{flex:1;min-width:0;background:none;border:0;padding:0;color:var(--text);text-align:left;font:inherit}
+.dg-lt b{display:block;font-weight:700;overflow-wrap:anywhere}
+.dg-lt small{display:block;color:var(--muted);font-size:.84rem}
+.dg-lq{flex:none;text-align:right;font:800 1.15rem var(--display)}
+.dg-lq small{display:block;font:500 .8rem var(--sans);color:var(--muted)}
+.dg-step{flex:none;display:inline-flex;align-items:center;gap:.25rem}
+.dg-step button{width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--panel-2);color:var(--text);font:800 1.3rem/1 var(--sans)}
+.dg-step button:disabled{opacity:.35}
+.dg-step b{min-width:1.8rem;text-align:center;font:800 1.2rem var(--display);font-variant-numeric:tabular-nums}
+.dg-per{display:flex;flex-wrap:wrap;gap:.3rem 1rem;margin:.5rem 0 0;padding-top:.5rem;border-top:1px dashed var(--line);font-size:.88rem;color:var(--muted)}
+.dg-per b{color:var(--text)}
+.dg-tab{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.dg-tab th,.dg-tab td{padding:.4rem 0;border-bottom:1px solid var(--line);text-align:left}
+.dg-tab td{text-align:right;white-space:nowrap;padding-left:.8rem}
+.dg-tab tr.tot th,.dg-tab tr.tot td{font-weight:800;border-bottom:0}
 @media (max-width:420px){ .dg-grid{grid-template-columns:minmax(0,1fr)} }
 </style>
 </head>
@@ -1602,7 +1630,7 @@ document.addEventListener("click", function(e){
   else if (act === "demo") { UI.demo = true; UI.nowDay = 1; UI.manual = 11*60; renderNow(); renderDrunk(); }
   else if (act === "exitdemo") { UI.demo = false; UI.nowDay = 0; UI.manual = null; renderNow(); renderDrunk(); }
   else if (act === "wake") setWake(!UI.wake);
-  else if (act === "degust") { var o = b.getAttribute("data-dg-open"); if (o === "top") dgOpen("top"); else dgOpen(null, o); }
+  else if (act === "degust") { var o = b.getAttribute("data-dg-open"); if (o === "top" || o === "cart") dgOpen(o); else dgOpen(null, o); }
   else if (act === "live") setManual(null);
   else if (act === "adj") setManual(curMinutes() + parseInt(b.getAttribute("data-n"), 10));
   else if (act === "day") {
@@ -1634,8 +1662,8 @@ if (map) map.on("click", hideMapCard);
 var DG_API = "https://script.google.com/macros/s/AKfycbwPNYtE48RV2lpjZJqa-vr-094McPwANiJhYBGgEUt4PuZCHt5EjpJCrzuLvLtyJ1mR/exec";            // URL « /exec » du déploiement Apps Script, partagée par tout le groupe
 var DG_TOKEN = "vinlo2026"; // identique à TOKEN dans backend/degustations.gs
 var DG_KEY = "vinlo-degust-v1";
-var DG = {screen:"home", tab:"bottles", filter:"all", dom:null, bottle:null, edit:null, photo:null, back:[], busy:false, err:""};
-var DGS = {bottles:{}, notes:{}, queue:[], me:"", api:"", last:0};
+var DG = {screen:"home", tab:"bottles", filter:"all", who:"all", dom:null, bottle:null, edit:null, photo:null, back:[], busy:false, err:""};
+var DGS = {bottles:{}, notes:{}, cart:{}, queue:[], me:"", api:"", last:0};
 try {
   var dgSaved = JSON.parse(localStorage.getItem(DG_KEY) || "null");
   if (dgSaved) Object.keys(DGS).forEach(function(k){ if (dgSaved[k] != null) DGS[k] = dgSaved[k]; });
@@ -1673,6 +1701,7 @@ function dgId(){ return Date.now().toString(36) + Math.random().toString(36).sli
 function dgTrim(v){ return v == null ? "" : String(v).trim(); }
 function dgApi(){ return dgTrim(DG_API || DGS.api); }
 function dgKey(kind, id){ return kind + ":" + id; }
+function dgStore(kind){ return kind === "bottle" ? DGS.bottles : kind === "cart" ? DGS.cart : DGS.notes; }
 function dgEnqueue(kind, id){ var k = dgKey(kind, id); if (DGS.queue.indexOf(k) < 0) DGS.queue.push(k); }
 function dgDequeue(k){ DGS.queue = DGS.queue.filter(function(q){ return q !== k; }); }
 
@@ -1714,6 +1743,79 @@ function dgFilterOk(b, f){
   if (f === "bulles") return b.couleur === "Effervescent" || b.appellation === "Crémant d’Alsace";
   if (f === "doux") return ["Moelleux","Liquoreux","Vendanges Tardives","Sélection de Grains Nobles"].indexOf(b.style) >= 0;
   return c.indexOf(f) >= 0;
+}
+
+/* Panier : une ligne par bouteille et par personne, regroupée par domaine */
+var DG_PEOPLE = ["Vivien","Rémi","Kevin","Ghislain"];
+function dgPrice(b){ var p = parseFloat(String(b && b.prix || "").replace(",", ".")); return isNaN(p) ? null : p; }
+function dgEur(v){ return (Math.round(v * 100) / 100).toFixed(2).replace(".", ",").replace(",00", "") + " €"; }
+function dgQty(bid, person){ var c = DGS.cart[bid + "~" + person]; return c && !c.deleted ? c.qty || 0 : 0; }
+function dgCartLines(){
+  return Object.keys(DGS.cart).map(function(k){ return DGS.cart[k]; }).filter(function(c){
+    var b = DGS.bottles[c.bottleId]; return !c.deleted && c.qty > 0 && b && !b.deleted;
+  });
+}
+function dgSetQty(bid, person, delta){
+  var b = DGS.bottles[bid]; if (!b || DG_PEOPLE.indexOf(person) < 0) return;
+  var id = bid + "~" + person, old = DGS.cart[id] || {};
+  dgPut("cart", {id:id, bottleId:bid, person:person, qty:Math.max(0, dgQty(bid, person) + delta), createdAt:old.createdAt || Date.now(), updatedAt:Date.now(),
+    domName:b.domName, title:dgTitle(b) + (b.millesime ? " " + b.millesime : ""), prix:b.prix || ""});
+}
+function dgStepper(bid, person){
+  var q = dgQty(bid, person);
+  return '<span class="dg-step"><button type="button" data-dg="qty" data-id="'+esc(bid)+'" data-p="'+esc(person)+'" data-d="-1" aria-label="Retirer une bouteille pour '+esc(person)+'"'+(q ? '' : ' disabled')+'>−</button>'+
+    '<b>'+q+'</b><button type="button" data-dg="qty" data-id="'+esc(bid)+'" data-p="'+esc(person)+'" data-d="1" aria-label="Ajouter une bouteille pour '+esc(person)+'">+</button></span>';
+}
+function dgWhoPick(){
+  return '<div class="dg-who" role="group" aria-label="Qui es-tu ?"><span class="dg-l">Qui es-tu ?</span><div class="dg-pills">'+DG_PEOPLE.map(function(p){
+    return '<button type="button" class="chip" data-dg="me" data-p="'+esc(p)+'" aria-pressed="'+(DGS.me === p)+'">'+esc(p)+'</button>';
+  }).join("")+'</div></div>';
+}
+function dgCart(){
+  var who = DG.who, lines = dgCartLines().filter(function(c){ return who === "all" || c.person === who; });
+  var h = '<div class="dg-filters">'+[["all","Panier commun"]].concat(DG_PEOPLE.map(function(p){ return [p, p]; })).map(function(f){
+    return '<button class="chip" type="button" data-dg="who" data-p="'+esc(f[0])+'" aria-pressed="'+(who === f[0])+'">'+esc(f[1])+'</button>';
+  }).join("")+'</div>';
+  if (!lines.length) return h + '<p class="dg-empty">'+(who === "all" ? 'Le panier est vide.' : esc(who)+' n’a encore rien choisi.')+' Ouvre la fiche d’une bouteille et ajoute-la avec 🛒.</p>';
+  /* Récapitulatif par personne */
+  var per = {}, total = {n:0, eur:0, unk:false};
+  lines.forEach(function(c){
+    var pr = dgPrice(DGS.bottles[c.bottleId]), r = per[c.person] || (per[c.person] = {n:0, eur:0, unk:false});
+    r.n += c.qty; total.n += c.qty;
+    if (pr == null) { r.unk = total.unk = true; } else { r.eur += pr * c.qty; total.eur += pr * c.qty; }
+  });
+  function money(r){ return r.eur || !r.unk ? dgEur(r.eur) + (r.unk ? ' + ?' : '') : 'prix ?'; }
+  h += '<section class="dg-sec"><h3>'+(who === "all" ? '🧾 Qui paie quoi' : '🧾 Total de '+esc(who))+'</h3><table class="dg-tab"><tbody>'+
+    DG_PEOPLE.filter(function(p){ return per[p]; }).map(function(p){
+      return '<tr><th>'+esc(p)+'</th><td>'+per[p].n+' bt.</td><td>'+money(per[p])+'</td></tr>';
+    }).join("")+
+    (who === "all" ? '<tr class="tot"><th>Total</th><td>'+total.n+' bt.</td><td>'+money(total)+'</td></tr>' : '')+'</tbody></table></section>';
+  /* Un panier par domaine */
+  var doms = {}, order = [];
+  lines.forEach(function(c){
+    var b = DGS.bottles[c.bottleId], d = doms[b.dom];
+    if (!d) { d = doms[b.dom] = {name:b.domName, bottles:{}, ids:[], per:{}}; order.push(b.dom); }
+    if (!d.bottles[b.id]) { d.bottles[b.id] = []; d.ids.push(b.id); }
+    d.bottles[b.id].push(c);
+    var pr = dgPrice(b), r = d.per[c.person] || (d.per[c.person] = {n:0, eur:0, unk:false});
+    r.n += c.qty; if (pr == null) r.unk = true; else r.eur += pr * c.qty;
+  });
+  order.forEach(function(k){
+    var d = doms[k], n = 0, eur = 0, unk = false;
+    DG_PEOPLE.forEach(function(p){ var r = d.per[p]; if (r) { n += r.n; eur += r.eur; unk = unk || r.unk; } });
+    h += '<section class="dg-sec"><h3>🍇 '+esc(d.name)+'</h3><p class="dg-sub">'+n+' bouteille'+(n > 1 ? 's' : '')+' · '+money({eur:eur, unk:unk})+'</p>';
+    h += d.ids.map(function(bid){
+      var b = DGS.bottles[bid], pr = dgPrice(b), cs = d.bottles[bid], q = cs.reduce(function(s, c){ return s + c.qty; }, 0);
+      return '<div class="dg-line"><button class="dg-lt" type="button" data-dg="bottle" data-id="'+esc(bid)+'"><b>'+esc(dgTitle(b))+(b.millesime ? ' '+esc(b.millesime) : '')+'</b>'+
+        '<small>'+(pr != null ? dgEur(pr)+' l’unité' : 'prix ?')+(who === "all" ? ' · '+cs.map(function(c){ return esc(c.person)+' ×'+c.qty; }).join(", ") : '')+'</small></button>'+
+        (who === "all" ? '<span class="dg-lq">×'+q+(pr != null ? '<small>'+dgEur(pr * q)+'</small>' : '')+'</span>' : dgStepper(bid, who))+'</div>';
+    }).join("");
+    if (who === "all") h += '<p class="dg-per">'+DG_PEOPLE.filter(function(p){ return d.per[p]; }).map(function(p){
+      return '<span><b>'+esc(p)+'</b> '+d.per[p].n+' bt. · '+money(d.per[p])+'</span>';
+    }).join("")+'</p>';
+    h += '</section>';
+  });
+  return h;
 }
 
 /* Petits composants de formulaire */
@@ -1763,12 +1865,15 @@ function dgStatus(){ var el = $("dgSync"); if (el) el.innerHTML = dgStatusHTML()
 function dgHome(){
   var h = dgTop("Dégustations", "Vinlo 2026 · notes du groupe");
   h += '<p class="dg-sync" id="dgSync" role="status">'+dgStatusHTML()+'</p>';
+  h += dgWhoPick();
   h += '<div class="quick"><button class="bigbtn pri wide" type="button" data-dg="new">➕ Noter une bouteille<small class="sub">Choisis le domaine, ajoute la bouteille, note-la</small></button></div>';
   h += '<div class="dg-tabs" role="tablist">'+
-    '<button type="button" role="tab" data-dg="tab" data-t="bottles" aria-selected="'+(DG.tab === "bottles")+'">🍾 Bouteilles</button>'+
-    '<button type="button" role="tab" data-dg="tab" data-t="top" aria-selected="'+(DG.tab === "top")+'">🏆 Classement</button></div>';
+    '<button type="button" role="tab" data-dg="tab" data-t="bottles" aria-selected="'+(DG.tab === "bottles")+'"><i>🍾</i>Bouteilles</button>'+
+    '<button type="button" role="tab" data-dg="tab" data-t="top" aria-selected="'+(DG.tab === "top")+'"><i>🏆</i>Classement</button>'+
+    '<button type="button" role="tab" data-dg="tab" data-t="cart" aria-selected="'+(DG.tab === "cart")+'"><i>🛒</i>Panier'+(function(){ var n = dgCartLines().reduce(function(s, c){ return s + c.qty; }, 0); return n ? ' <span class="dg-badge">'+n+'</span>' : ''; })()+'</button></div>';
   var all = dgBottles();
-  if (DG.tab === "top") {
+  if (DG.tab === "cart") h += dgCart();
+  else if (DG.tab === "top") {
     h += '<div class="dg-filters">'+DG_FILTERS.map(function(f){ return '<button class="chip" type="button" data-dg="filter" data-f="'+f[0]+'" aria-pressed="'+(DG.filter === f[0])+'">'+f[1]+'</button>'; }).join("")+'</div>';
     var rows = all.filter(function(b){ return dgAvg(b.id) != null && dgFilterOk(b, DG.filter); })
       .sort(function(a, b){ return dgAvg(b.id) - dgAvg(a.id) || dgNotesOf(b.id).length - dgNotesOf(a.id).length; });
@@ -1858,6 +1963,12 @@ function dgBottle(){
   if (ph) h += '<div class="dg-photo big"><img src="'+esc(ph)+'" alt="Photo de la bouteille"></div>';
   h += '<div class="dg-avg" style="--s:'+dgCol(avg)+'"><b>'+dgFmt(avg)+'<small>/20</small></b><span>'+(avg != null ? esc(dgLbl(avg))+' · moyenne de '+notes.length+' note'+(notes.length > 1 ? 's' : '') : 'Pas encore notée')+'</span></div>';
   h += '<div class="quick"><button class="bigbtn pri wide" type="button" data-dg="note">'+(mine ? '✏️ Modifier ma note ('+dgFmt(mine.score)+')' : '🍷 Noter ce vin')+'</button></div>';
+  var pr = dgPrice(b), cq = DG_PEOPLE.reduce(function(s, p){ return s + dgQty(b.id, p); }, 0);
+  h += '<section class="dg-sec"><h3>🛒 Panier</h3><p class="dg-sub">'+(pr != null ? dgEur(pr)+' la bouteille' : 'Prix inconnu : ajoute-le dans la fiche pour les totaux')+(cq ? ' · '+cq+' au total' : '')+'</p>'+
+    DG_PEOPLE.slice().sort(function(x, y){ return (y === DGS.me) - (x === DGS.me); }).map(function(p){
+      var q = dgQty(b.id, p);
+      return '<div class="dg-line'+(p === DGS.me ? ' me' : '')+'"><span class="dg-lt"><b>'+esc(p)+(p === DGS.me ? ' (moi)' : '')+'</b>'+(q && pr != null ? '<small>'+dgEur(pr * q)+'</small>' : '')+'</span>'+dgStepper(b.id, p)+'</div>';
+    }).join("")+'</section>';
   var kv = [["Domaine", b.domName], ["Cuvée", b.cuvee], ["Cépage(s)", (b.cepages || []).join(", ")], ["Millésime", b.millesime], ["Couleur", b.couleur],
     ["Appellation", b.appellation], ["Grand cru ou lieu-dit", b.cru], ["Style", b.style], ["Culture", b.culture], ["Alcool", b.alcool ? b.alcool + " %" : ""],
     ["Contenance", b.contenance], ["Prix", b.prix ? String(b.prix).replace(".", ",") + " €" : ""], ["À boire jusqu’en", b.garde], ["Service", b.service], ["Infos", b.infos],
@@ -1875,7 +1986,7 @@ function dgNoteForm(){
   var score = n.score || 14, rouge = b.couleur === "Rouge" || (b.cepages || []).indexOf("Pinot Noir") >= 0;
   var h = dgTop("Ma dégustation", dgTitle(b));
   h += '<form id="dgForm" data-kind="note" autocomplete="off">';
-  h += '<section class="dg-sec"><div class="dg-grid">'+dgField("Ton prénom", dgInput("author", n.author || DGS.me, 'type="text" required placeholder="Ex. Rémi"'), true)+'</div></section>';
+  h += '<section class="dg-sec"><div class="dg-grid">'+dgGroup("Qui déguste ?", dgPills("author", DG_PEOPLE, n.author || DGS.me))+'</div></section>';
   h += '<section class="dg-sec"><h3>👁️ La robe</h3><div class="dg-grid">'+
     dgGroup("Teinte", dgPills("r_teinte", DG_TEINTES[b.couleur] || DG_TEINTES.Blanc, r.teinte))+
     dgGroup("Intensité", dgPills("r_intensite", ["Pâle","Moyenne","Soutenue","Profonde"], r.intensite))+
@@ -1906,10 +2017,10 @@ function dgNoteForm(){
   return h;
 }
 function dgSettings(){
-  var h = dgTop("Réglages", "Prénom, serveur, sauvegarde");
-  h += '<form id="dgSet" class="dg-sec"><div class="dg-grid">'+
-    dgField("Ton prénom", dgInput("me", DGS.me, 'type="text" placeholder="Ex. Rémi"'), true)+
-    (DG_API ? '' : dgField("Adresse du serveur (URL Apps Script se terminant par /exec)", dgInput("api", DGS.api, 'type="url" placeholder="https://script.google.com/macros/s/…/exec"'), true))+
+  var h = dgTop("Réglages", "Serveur et sauvegarde");
+  h += dgWhoPick();
+  if (!DG_API) h += '<form id="dgSet" class="dg-sec"><div class="dg-grid">'+
+    dgField("Adresse du serveur (URL Apps Script se terminant par /exec)", dgInput("api", DGS.api, 'type="url" placeholder="https://script.google.com/macros/s/…/exec"'), true)+
     '</div><div class="quick"><button class="bigbtn pri wide" type="submit">Enregistrer</button></div></form>';
   h += '<p class="dg-sync" id="dgSync">'+dgStatusHTML()+'</p>';
   h += '<div class="quick">'+(dgApi() ? '<button class="bigbtn" type="button" data-dg="sync">🔄 Synchroniser</button>' : '')+
@@ -1939,7 +2050,7 @@ function dgReset(screen){ DG.back = []; DG.screen = screen || "home"; DG.edit = 
 
 /* Enregistrement */
 function dgPut(kind, item){
-  (kind === "bottle" ? DGS.bottles : DGS.notes)[item.id] = item;
+  dgStore(kind)[item.id] = item;
   dgEnqueue(kind, item.id);
   dgSave(); dgSync();
 }
@@ -1965,7 +2076,7 @@ function dgSaveBottle(f){
 }
 function dgSaveNote(f){
   var fd = new FormData(f), me = dgTrim(fd.get("author"));
-  if (!me) { toast("Indique ton prénom"); return; }
+  if (!me) { toast("Choisis qui déguste"); return; }
   DGS.me = me;
   var old = (DG.edit && DGS.notes[DG.edit]) || dgMyNote(DG.bottle) || {}, id = old.id || dgId();
   function g(k){ return dgTrim(fd.get(k)); }
@@ -1980,7 +2091,7 @@ function dgSaveNote(f){
   toast("Note enregistrée : " + dgFmt(n.score) + "/20");
 }
 function dgRemove(kind, id){
-  var store = kind === "bottle" ? DGS.bottles : DGS.notes, it = store[id]; if (!it) return;
+  var store = dgStore(kind), it = store[id]; if (!it) return;
   var copy = JSON.parse(JSON.stringify(it));
   copy.deleted = true; copy.updatedAt = Date.now(); delete copy.photoData;
   dgPut(kind, copy);
@@ -2010,7 +2121,7 @@ function dgPost(body){
 function dgPush(){
   return DGS.queue.slice().reduce(function(chain, key){
     return chain.then(function(){
-      var kind = key.split(":")[0], id = key.slice(kind.length + 1), store = kind === "bottle" ? DGS.bottles : DGS.notes, item = store[id];
+      var kind = key.split(":")[0], id = key.slice(kind.length + 1), store = dgStore(kind), item = store[id];
       if (!item) { dgDequeue(key); return; }
       var send = JSON.parse(JSON.stringify(item)), photo = send.photoData;
       delete send.photoData;
@@ -2035,7 +2146,7 @@ function dgPull(){
   return fetch(api + (api.indexOf("?") >= 0 ? "&" : "?") + "token=" + encodeURIComponent(DG_TOKEN) + "&t=" + Date.now())
     .then(function(r){ return r.json(); }).then(function(j){
       if (!j.ok) throw new Error(j.error || "erreur");
-      dgMerge(DGS.bottles, j.bottles, "bottle"); dgMerge(DGS.notes, j.notes, "note");
+      dgMerge(DGS.bottles, j.bottles, "bottle"); dgMerge(DGS.notes, j.notes, "note"); dgMerge(DGS.cart, j.cart, "cart");
     });
 }
 function dgSync(){
@@ -2051,15 +2162,15 @@ document.addEventListener("visibilitychange", function(){ if (document.visibilit
 /* Ouverture depuis l’étape, la barre d’onglets ou l’adresse …#degust (accès direct) */
 function dgOpen(screen, domKey){
   dgReset("home");
-  if (screen === "top") DG.tab = "top";
+  if (screen === "top" || screen === "cart") DG.tab = screen;
   else if (domKey && dgDomByKey(domKey)) { DG.back = [{screen:"home"}]; DG.dom = dgDomByKey(domKey); DG.screen = "domain"; }
   else DG.tab = "bottles";
   setView("degust");
 }
 function dgFromHash(){
-  var m = /^#degust(?:\/(top|[\w-]+))?/.exec(location.hash);
+  var m = /^#degust(?:\/([\w-]+))?/.exec(location.hash);
   if (!m) return false;
-  if (m[1] === "top") dgOpen("top"); else dgOpen(null, m[1]);
+  if (m[1] === "top" || m[1] === "panier") dgOpen(m[1] === "top" ? "top" : "cart"); else dgOpen(null, m[1]);
   return true;
 }
 window.addEventListener("hashchange", dgFromHash);
@@ -2071,6 +2182,9 @@ $("dg").addEventListener("click", function(e){
   else if (act === "close") setView("now");
   else if (act === "new") dgGo("dom");
   else if (act === "tab") { DG.tab = b.getAttribute("data-t"); dgRender(); }
+  else if (act === "me") { DGS.me = b.getAttribute("data-p"); dgSave(); if (DG.who !== "all") DG.who = DGS.me; dgRender(); toast("Salut " + DGS.me + " !"); }
+  else if (act === "who") { DG.who = b.getAttribute("data-p"); dgRender(); }
+  else if (act === "qty") { dgSetQty(b.getAttribute("data-id"), b.getAttribute("data-p"), parseInt(b.getAttribute("data-d"), 10)); dgRender(); }
   else if (act === "filter") { DG.filter = b.getAttribute("data-f"); dgRender(); }
   else if (act === "dom") { DG.dom = dgDomByKey(b.getAttribute("data-k")); dgGo("domain"); }
   else if (act === "addbottle") dgGo("bottleForm");
@@ -2099,7 +2213,7 @@ $("dg").addEventListener("submit", function(e){
     DG.dom = dgDomByKey(key) || {key:key, name:name, place:"Ajouté par le groupe"}; dgGo("domain");
   }
   else if (f.id === "dgSet") {
-    var fd = new FormData(f); DGS.me = dgTrim(fd.get("me")); if (fd.has("api")) DGS.api = dgTrim(fd.get("api"));
+    var fd = new FormData(f); if (fd.has("api")) DGS.api = dgTrim(fd.get("api"));
     DG.err = ""; dgSave(); dgSync(); dgRender(); toast("Réglages enregistrés");
   }
   else if (f.getAttribute("data-kind") === "bottle") dgSaveBottle(f);
@@ -2127,6 +2241,7 @@ if (/^#degust/.test(location.hash)) {
   UI.view = "degust";
   var dgH = /^#degust\/(.+)$/.exec(location.hash);
   if (dgH && dgH[1] === "top") DG.tab = "top";
+  else if (dgH && dgH[1] === "panier") DG.tab = "cart";
   else if (dgH && dgDomByKey(dgH[1])) { DG.back = [{screen:"home"}]; DG.dom = dgDomByKey(dgH[1]); DG.screen = "domain"; }
 }
 setTimeout(dgSync, 1500);

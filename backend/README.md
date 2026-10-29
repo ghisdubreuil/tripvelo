@@ -4,7 +4,7 @@ L’onglet **Dégust.** de `index.html` enregistre tout sur le téléphone, puis
 avec ce back dès qu’il est configuré : tout le groupe voit alors les mêmes bouteilles,
 les mêmes notes et le même classement.
 
-- Données : une Google Sheet, onglets « Bouteilles » et « Notes » (lisibles directement).
+- Données : une Google Sheet, onglets « Bouteilles », « Notes » et « Panier » (lisibles directement).
 - Photos : un dossier Google Drive « Vinlo 2026 · Photos des bouteilles ».
 
 ## Installation (5 minutes)

@@ -400,7 +400,7 @@ html.is-drunk .bigbtn{min-height:72px;font-size:1.2rem}
 }
 
 /* ===== Dégustations ===== */
-.dg{position:fixed;inset:0;z-index:1400;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--cave)}
+.dg{position:fixed;inset:0;z-index:1400;display:none;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--cave)}
 .dg.on{display:block}
 html.dg-open body{overflow:hidden}
 .dg-wrap{max-width:720px;margin:0 auto;padding:0 1.1rem 2rem}
@@ -414,17 +414,17 @@ span.dg-ic{border-color:transparent}
 .dg-tabs{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin:.4rem 0 .8rem;padding:.3rem;border-radius:16px;background:var(--panel)}
 .dg-tabs button{min-height:48px;border:0;border-radius:12px;background:transparent;color:var(--muted);font:800 1rem var(--display)}
 .dg-tabs button[aria-selected="true"]{background:var(--panel-2);color:var(--text)}
-.dg-filters{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;margin:0 0 .8rem;padding-bottom:.1rem}
-.dg-filters::-webkit-scrollbar{display:none}
-.dg-filters .chip{white-space:nowrap;flex:none}
-.dg-list{display:grid;gap:.5rem}
-.dg-card{display:flex;align-items:center;gap:.7rem;width:100%;padding:.55rem .7rem;border-radius:16px;border:2px solid var(--line);background:var(--panel);color:var(--text);text-align:left;font:inherit;min-height:72px}
+.dg-filters{display:flex;flex-wrap:wrap;gap:.4rem;margin:0 0 .8rem}
+.dg-filters .chip{white-space:nowrap;min-height:42px;padding:.3rem .85rem}
+.dg-list{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem}
+.dg-card{min-width:0;display:flex;align-items:center;gap:.7rem;width:100%;padding:.55rem .7rem;border-radius:16px;border:2px solid var(--line);background:var(--panel);color:var(--text);text-align:left;font:inherit;min-height:72px}
 .dg-card:active{transform:scale(.98)}
 .dg-rank{flex:none;width:2rem;text-align:center;font:800 1.15rem var(--display);color:var(--muted)}
 .dg-thumb{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:12px;background:var(--panel-2);font-size:1.6rem;overflow:hidden}
 .dg-thumb img{width:100%;height:100%;object-fit:cover}
 .dg-ct{flex:1;min-width:0}
 .dg-ct b{display:block;font-weight:700;line-height:1.2}
+.dg-ct b{overflow-wrap:anywhere}
 .dg-ct small{display:block;color:var(--muted);font-size:.85rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dg-score{flex:none;text-align:right}
 .dg-score b{display:block;font:800 1.5rem/1 var(--display);color:var(--s,var(--text))}
@@ -436,11 +436,11 @@ span.dg-ic{border-color:transparent}
 .dg-doms small{display:block;color:var(--muted);font-size:.8rem}
 .dg-doms b{font:800 1.25rem var(--display)}
 .dg-foot{text-align:center;margin:1.4rem 0 0}
-.dg-other{display:grid;grid-template-columns:1fr auto;gap:.5rem;margin:.9rem 0 0}
+.dg-other{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.5rem;margin:.9rem 0 0}
 .dg-other .bigbtn{width:auto}
 .dg-sec{margin:0 0 .9rem;padding:.9rem;border-radius:18px;background:var(--panel);border:1px solid var(--line)}
 .dg-sec h3{font:800 1.15rem var(--display);margin:0 0 .7rem}
-.dg-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem .6rem}
+.dg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem .6rem}
 .dg-f{display:block;min-width:0}
 .dg-f.wide{grid-column:1/-1}
 .dg-l{display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin:0 0 .3rem}
@@ -482,7 +482,7 @@ textarea.dg-inp{resize:vertical;min-height:64px}
   .dg{bottom:var(--nav)}
   .dg-top .dg-ic[data-dg="close"]{display:none}
 }
-@media (max-width:420px){ .dg-grid{grid-template-columns:1fr} }
+@media (max-width:420px){ .dg-grid{grid-template-columns:minmax(0,1fr)} }
 </style>
 </head>
 <body>

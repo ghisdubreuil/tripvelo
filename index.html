@@ -482,10 +482,10 @@ textarea.dg-inp{resize:vertical;min-height:64px}
   .dg{bottom:var(--nav)}
   .dg-top .dg-ic[data-dg="close"]{display:none}
 }
-.dg-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
-.dg-tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;min-height:58px;font-size:.88rem;padding:.3rem .2rem;white-space:nowrap}
+.dg-tabs{grid-template-columns:repeat(4,minmax(0,1fr));gap:.25rem;padding:.25rem}
+.dg-tabs button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;min-height:58px;font-size:.8rem;padding:.3rem .1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dg-tabs button i{font-style:normal;font-size:1.15rem;line-height:1}
-.dg-tabs .dg-badge{position:absolute;margin:-2.2rem 0 0 3.2rem}
+.dg-tabs .dg-badge{position:absolute;top:3px;right:3px;margin:0}
 .dg-tabs button{position:relative}
 .dg-badge{display:inline-grid;place-items:center;min-width:1.4rem;height:1.4rem;padding:0 .3rem;border-radius:999px;background:var(--hot);color:var(--cave);font:800 .78rem/1 var(--sans);vertical-align:1px}
 .dg-who{margin:0 0 .8rem}
@@ -1788,11 +1788,47 @@ function dgWhoPick(){
     return '<button type="button" class="chip" data-dg="me" data-p="'+esc(p)+'" aria-pressed="'+(DGS.me === p)+'">'+esc(p)+'</button>';
   }).join("")+'</div></div>';
 }
+/* Vue domaines : chaque domaine avec ses bouteilles, sa moyenne et ce qu’il y a au panier */
+function dgDomList(){
+  var all = dgBottles(), cart = dgCartLines();
+  var rows = dgDomaines().map(function(d){
+    var bs = all.filter(function(b){ return b.dom === d.key; }), avgs = bs.map(function(b){ return dgAvg(b.id); }).filter(function(a){ return a != null; });
+    var q = cart.filter(function(c){ var b = DGS.bottles[c.bottleId]; return b && b.dom === d.key; }).reduce(function(s, c){ return s + c.qty; }, 0);
+    return {d:d, n:bs.length, avg:avgs.length ? avgs.reduce(function(s, a){ return s + a; }, 0) / avgs.length : null, q:q};
+  });
+  rows.sort(function(a, b){ return (b.n > 0) - (a.n > 0); });
+  return '<div class="dg-list">'+rows.map(function(r){
+    return '<button class="dg-card" type="button" data-dg="dom" data-k="'+esc(r.d.key)+'"><span class="dg-thumb">🍇</span>'+
+      '<span class="dg-ct"><b>'+esc(r.d.name)+'</b><small>'+r.n+' bouteille'+(r.n > 1 ? 's' : '')+(r.q ? ' · 🛒 '+r.q : '')+'</small><small>'+esc(r.d.place)+'</small></span>'+
+      '<span class="dg-score" style="--s:'+dgCol(r.avg)+'"><b>'+dgFmt(r.avg)+'</b><small>moyenne</small></span></button>';
+  }).join("")+'</div>';
+}
+/* Modifier un panier : toutes les bouteilles, domaine par domaine, avec les quantités du dégustateur choisi */
+function dgCartEdit(){
+  var who = DG.editWho, all = dgBottles();
+  var h = '<div class="dg-who"><span class="dg-l">Panier de qui ?</span><div class="dg-pills">'+DG_PEOPLE.map(function(p){
+    return '<button type="button" class="chip" data-dg="editwho" data-p="'+esc(p)+'" aria-pressed="'+(who === p)+'">'+esc(p)+'</button>';
+  }).join("")+'</div></div>';
+  if (!all.length) return h + '<p class="dg-empty">Aucune bouteille pour l’instant : ajoute-les depuis « Noter une bouteille ».</p>';
+  dgDomaines().forEach(function(d){
+    var bs = all.filter(function(b){ return b.dom === d.key; }); if (!bs.length) return;
+    var n = 0, eur = 0, unk = false;
+    bs.forEach(function(b){ var q = dgQty(b.id, who), pr = dgPrice(b); n += q; if (q) { if (pr == null) unk = true; else eur += pr * q; } });
+    h += '<section class="dg-sec"><h3>🍇 '+esc(d.name)+'</h3><p class="dg-sub">'+esc(who)+' : '+n+' bouteille'+(n > 1 ? 's' : '')+(n ? ' · '+dgEur(eur)+(unk ? ' + ?' : '') : '')+'</p>'+
+      bs.map(function(b){
+        var pr = dgPrice(b);
+        return '<div class="dg-line"><span class="dg-lt"><b>'+esc(dgTitle(b))+(b.millesime ? ' '+esc(b.millesime) : '')+'</b><small>'+(pr != null ? dgEur(pr) : 'prix ?')+'</small></span>'+dgStepper(b.id, who)+'</div>';
+      }).join("")+'</section>';
+  });
+  return h + '<div class="dg-save"><button class="bigbtn pri wide" type="button" data-dg="cartdone">✅ Terminé</button></div>';
+}
 function dgCart(){
+  if (DG.cartEdit) return dgCartEdit();
   var who = DG.who, lines = dgCartLines().filter(function(c){ return who === "all" || c.person === who; });
   var h = '<div class="dg-filters">'+[["all","Panier commun"]].concat(DG_PEOPLE.map(function(p){ return [p, p]; })).map(function(f){
     return '<button class="chip" type="button" data-dg="who" data-p="'+esc(f[0])+'" aria-pressed="'+(who === f[0])+'">'+esc(f[1])+'</button>';
   }).join("")+'</div>';
+  h += '<div class="quick"><button class="bigbtn alt wide" type="button" data-dg="cartedit">✏️ Modifier un panier</button></div>';
   if (!lines.length) return h + '<p class="dg-empty">'+(who === "all" ? 'Le panier est vide.' : esc(who)+' n’a encore rien choisi.')+' Ouvre la fiche d’une bouteille et ajoute-la avec 🛒.</p>';
   /* Récapitulatif par personne */
   var per = {}, total = {n:0, eur:0, unk:false};
@@ -1890,10 +1926,12 @@ function dgHome(){
     : '<button class="bigbtn pri wide" type="button" data-dg="new">➕ Noter une bouteille<small class="sub">Choisis le domaine, ajoute la bouteille, note-la</small></button>')+'</div>';
   h += '<div class="dg-tabs" role="tablist">'+
     '<button type="button" role="tab" data-dg="tab" data-t="bottles" aria-selected="'+(DG.tab === "bottles")+'"><i>🍾</i>Bouteilles</button>'+
-    '<button type="button" role="tab" data-dg="tab" data-t="top" aria-selected="'+(DG.tab === "top")+'"><i>🏆</i>Classement</button>'+
+    '<button type="button" role="tab" data-dg="tab" data-t="doms" aria-selected="'+(DG.tab === "doms")+'"><i>🍇</i>Domaines</button>'+
+    '<button type="button" role="tab" data-dg="tab" data-t="top" aria-selected="'+(DG.tab === "top")+'" aria-label="Classement"><i>🏆</i>Top</button>'+
     '<button type="button" role="tab" data-dg="tab" data-t="cart" aria-selected="'+(DG.tab === "cart")+'"><i>🛒</i>Panier'+(function(){ var n = dgCartLines().reduce(function(s, c){ return s + c.qty; }, 0); return n ? ' <span class="dg-badge">'+n+'</span>' : ''; })()+'</button></div>';
   var all = dgBottles();
   if (DG.tab === "cart") h += dgCart();
+  else if (DG.tab === "doms") h += dgDomList();
   else if (DG.tab === "top") {
     h += '<div class="dg-filters">'+DG_FILTERS.map(function(f){ return '<button class="chip" type="button" data-dg="filter" data-f="'+f[0]+'" aria-pressed="'+(DG.filter === f[0])+'">'+f[1]+'</button>'; }).join("")+'</div>';
     var rows = all.filter(function(b){ return dgAvg(b.id) != null && dgFilterOk(b, DG.filter); })
@@ -2238,7 +2276,8 @@ document.addEventListener("visibilitychange", function(){ if (document.visibilit
 /* Ouverture depuis l’étape, la barre d’onglets ou l’adresse …#degust (accès direct) */
 function dgOpen(screen, domKey){
   dgReset("home");
-  if (screen === "top" || screen === "cart") DG.tab = screen;
+  DG.cartEdit = false;
+  if (screen === "top" || screen === "cart" || screen === "doms") DG.tab = screen;
   else if (domKey && dgDomByKey(domKey)) { DG.back = [{screen:"home"}]; DG.dom = dgDomByKey(domKey); DG.screen = "domain"; }
   else DG.tab = "bottles";
   setView("degust");
@@ -2246,7 +2285,7 @@ function dgOpen(screen, domKey){
 function dgFromHash(){
   var m = /^#degust(?:\/([\w-]+))?/.exec(location.hash);
   if (!m) return false;
-  if (m[1] === "top" || m[1] === "panier") dgOpen(m[1] === "top" ? "top" : "cart"); else dgOpen(null, m[1]);
+  if (m[1] === "top" || m[1] === "panier" || m[1] === "domaines") dgOpen({top:"top", panier:"cart", domaines:"doms"}[m[1]]); else dgOpen(null, m[1]);
   return true;
 }
 window.addEventListener("hashchange", dgFromHash);
@@ -2257,9 +2296,12 @@ $("dg").addEventListener("click", function(e){
   if (act === "back") dgBack();
   else if (act === "close") setView("now");
   else if (act === "new") dgGo("dom");
-  else if (act === "tab") { DG.tab = b.getAttribute("data-t"); dgRender(); }
+  else if (act === "tab") { DG.tab = b.getAttribute("data-t"); DG.cartEdit = false; dgRender(); }
   else if (act === "me") { DGS.me = b.getAttribute("data-p"); dgSave(); if (DG.who !== "all") DG.who = DGS.me; dgRender(); toast("Salut " + DGS.me + " !"); }
   else if (act === "who") { DG.who = b.getAttribute("data-p"); dgRender(); }
+  else if (act === "cartedit") { DG.cartEdit = true; DG.editWho = DG.who !== "all" ? DG.who : DG_PEOPLE.indexOf(DGS.me) >= 0 ? DGS.me : DG_PEOPLE[0]; dgRender(); $("dg").scrollTop = 0; }
+  else if (act === "editwho") { DG.editWho = b.getAttribute("data-p"); dgRender(); }
+  else if (act === "cartdone") { DG.cartEdit = false; dgRender(); $("dg").scrollTop = 0; toast("Panier enregistré"); }
   else if (act === "qty") {
     var qb = b.getAttribute("data-id"), qp = b.getAttribute("data-p");
     dgSetQty(qb, qp, parseInt(b.getAttribute("data-d"), 10));
@@ -2267,7 +2309,7 @@ $("dg").addEventListener("click", function(e){
     if (navigator.vibrate) navigator.vibrate(15);
   }
   else if (act === "score") dgScoreSet(parseFloat($("dgScore").value) + parseFloat(b.getAttribute("data-d")));
-  else if (act === "cart") { dgReset("home"); DG.tab = "cart"; if (DG_PEOPLE.indexOf(DGS.me) >= 0 && DG.who === "all") DG.who = "all"; dgRender(); $("dg").scrollTop = 0; }
+  else if (act === "cart") { dgReset("home"); DG.tab = "cart"; DG.cartEdit = false; dgRender(); $("dg").scrollTop = 0; }
   else if (act === "filter") { DG.filter = b.getAttribute("data-f"); dgRender(); }
   else if (act === "dom") { DG.dom = dgDomByKey(b.getAttribute("data-k")); dgGo("domain"); }
   else if (act === "addbottle") dgGo("bottleForm");
@@ -2328,6 +2370,7 @@ if (/^#degust/.test(location.hash)) {
   var dgH = /^#degust\/(.+)$/.exec(location.hash);
   if (dgH && dgH[1] === "top") DG.tab = "top";
   else if (dgH && dgH[1] === "panier") DG.tab = "cart";
+  else if (dgH && dgH[1] === "domaines") DG.tab = "doms";
   else if (dgH && dgDomByKey(dgH[1])) { DG.back = [{screen:"home"}]; DG.dom = dgDomByKey(dgH[1]); DG.screen = "domain"; }
 }
 setTimeout(dgSync, 1500);

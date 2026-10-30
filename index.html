@@ -1727,6 +1727,7 @@ function dgDomaines(){
   });
   return list;
 }
+function dgSlug(name){ return "x-" + name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
 function dgDomByKey(key){ return dgDomaines().filter(function(d){ return d.key === key; })[0] || null; }
 function dgTitle(b){ return (b.cuvee || (b.cepages || []).join(" et ") || "Bouteille sans nom") + (b.cru ? " · " + b.cru : ""); }
 function dgFmt(s){ return s == null ? "–" : (Math.round(s * 10) / 10).toString().replace(".", ","); }
@@ -1952,7 +1953,11 @@ function dgBottleForm(){
   h += '<section class="dg-sec"><div class="dg-photo" id="dgPhoto">'+(ph ? '<img src="'+esc(ph)+'" alt="Photo de la bouteille">' : '<span>📷 Photo de l’étiquette (facultatif)</span>')+'</div>'+
     '<div class="quick"><label class="bigbtn pri">📷 Photo<input type="file" accept="image/*" capture="environment" data-dgphoto hidden></label>'+
     '<label class="bigbtn">🖼️ Galerie<input type="file" accept="image/*" data-dgphoto hidden></label></div></section>';
+  var doms = dgDomaines();
+  if (!doms.some(function(d){ return d.key === DG.dom.key; })) doms.push(DG.dom);
   h += '<section class="dg-sec"><div class="dg-grid">'+
+    dgField("Domaine", '<select class="dg-inp" name="dom">'+doms.map(function(d){ return '<option value="'+esc(d.key)+'"'+(d.key === DG.dom.key ? ' selected' : '')+'>'+esc(d.name)+'</option>'; }).join("")+'</select>')+
+    dgField("Ou un autre domaine", dgInput("domOther", "", 'type="text" placeholder="Nom du domaine"'))+
     dgGroup("Cépage (un clic)", dgPills("cepages", DG_CEPAGES, b.cepages, true))+
     dgGroup("Millésime", dgPills("millesime", dgYears(b.millesime), b.millesime ? String(b.millesime) : ""))+
     dgField("Nom de la cuvée", dgInput("cuvee", b.cuvee, 'type="text" placeholder="Facultatif"'))+
@@ -2094,6 +2099,9 @@ function dgPut(kind, item){
 }
 function dgSaveBottle(f){
   var fd = new FormData(f), id = DG.edit || dgId(), old = DGS.bottles[id] || {};
+  var other = dgTrim(fd.get("domOther")), sel = fd.get("dom");
+  if (other) DG.dom = dgDomByKey(dgSlug(other)) || {key:dgSlug(other), name:other, place:"Ajouté par le groupe"};
+  else if (sel && sel !== DG.dom.key) DG.dom = dgDomByKey(sel) || DG.dom;
   var b = {id:id, createdAt:old.createdAt || Date.now(), updatedAt:Date.now(), by:old.by || DGS.me,
     dom:DG.dom.key, domName:DG.dom.name, cuvee:dgTrim(fd.get("cuvee")), cepages:fd.getAll("cepages"),
     millesime:dgTrim(fd.get("millesime")), couleur:dgTrim(fd.get("couleur")), appellation:dgTrim(fd.get("appellation")),
@@ -2105,6 +2113,10 @@ function dgSaveBottle(f){
   if (DG.photo) b.photoData = DG.photo;
   else { if (old.photoData) b.photoData = old.photoData; if (old.photo) b.photo = old.photo; }
   var isNew = !DG.edit;
+  if (old.dom && old.dom !== b.dom) Object.keys(DGS.cart).forEach(function(k){
+    var c = DGS.cart[k];
+    if (c.bottleId === id) { c.domName = b.domName; c.updatedAt = Date.now(); dgEnqueue("cart", k); }
+  });
   dgPut("bottle", b);
   DG.bottle = id;
   if (isNew) {
@@ -2279,7 +2291,7 @@ $("dg").addEventListener("submit", function(e){
   var f = e.target;
   if (f.id === "dgOther") {
     var name = dgTrim(new FormData(f).get("name")); if (!name) return;
-    var key = "x-" + name.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    var key = dgSlug(name);
     DG.dom = dgDomByKey(key) || {key:key, name:name, place:"Ajouté par le groupe"}; dgGo("domain");
   }
   else if (f.id === "dgSet") {

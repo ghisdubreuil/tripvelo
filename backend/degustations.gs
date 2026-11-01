@@ -42,13 +42,20 @@ var SHEETS = {
       return [c.id, c.updatedAt, !!c.deleted, c.domName || "", c.title || "", c.person || "", c.qty || 0,
               prix, prix ? prix * (c.qty || 0) : ""];
     }
+  },
+  order: {
+    name: "Commandes",
+    cols: ["id", "updatedAt", "deleted", "domaine", "commandé et payé", "expédié", "réceptionné", "par", "json"],
+    row: function (o) {
+      return [o.id, o.updatedAt, !!o.deleted, o.domName || "", o.paid || "", o.shipped || "", o.received || "", o.by || ""];
+    }
   }
 };
 
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.token !== TOKEN) return out({ ok: false, error: "token" });
-  return out({ ok: true, bottles: readAll("bottle"), notes: readAll("note"), cart: readAll("cart"), now: Date.now() });
+  return out({ ok: true, bottles: readAll("bottle"), notes: readAll("note"), cart: readAll("cart"), orders: readAll("order"), now: Date.now() });
 }
 
 function doPost(e) {
@@ -137,6 +144,6 @@ function savePhoto(id, dataUrl) {
 
 /** À lancer une fois depuis l’éditeur pour accorder les autorisations et créer la Sheet. */
 function setup() {
-  sheet("bottle"); sheet("note"); sheet("cart"); folder();
+  sheet("bottle"); sheet("note"); sheet("cart"); sheet("order"); folder();
   Logger.log("Sheet : " + ss().getUrl());
 }

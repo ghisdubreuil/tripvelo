@@ -537,6 +537,19 @@ html.dg-open .drunk{display:none!important}
 .dg-step button{width:52px;height:52px}
 .dk-two .dk-btn{margin:0 0 .6rem}
 @media (max-width:860px){ .dg-fab{bottom:calc(var(--nav) + 14px)} .dg-save{padding-bottom:.7rem} html.dg-open .toast{bottom:calc(var(--nav) + 6.2rem)} }
+.dg-order{margin:.8rem 0 0;padding:.75rem;border-radius:14px;background:var(--panel-2)}
+.dg-ordh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.4rem;margin:0 0 .5rem}
+.dg-ost{font-size:.85rem;font-weight:700;color:var(--muted)}
+.dg-ost.on{color:var(--d1)}
+.dg-steps{list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.dg-steps li{display:grid;grid-template-columns:2.2rem minmax(0,1fr) auto;grid-template-areas:"i l l" "i d b";align-items:center;gap:.3rem .5rem}
+.dg-si{grid-area:i;display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;border:2px solid var(--line);font-size:1rem}
+.dg-steps li.done .dg-si{background:var(--d1);border-color:var(--d1);color:var(--cave);font-weight:800}
+.dg-sl{grid-area:l;font-weight:700;font-size:.92rem}
+.dg-date{grid-area:d;min-height:44px;padding:.3rem .5rem;font-size:.95rem}
+.dg-st,.dg-sx{grid-area:b;min-height:44px;padding:0 .8rem;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--text);font:700 .88rem var(--sans);white-space:nowrap}
+.dg-st{background:var(--hot);border-color:var(--hot);color:var(--cave)}
+.dg-sx{width:44px;padding:0}
 @media (max-width:420px){ .dg-grid{grid-template-columns:minmax(0,1fr)} }
 
 /* ===== Mot de passe ===== */
@@ -1700,7 +1713,7 @@ var DG_API = "https://script.google.com/macros/s/AKfycbwPNYtE48RV2lpjZJqa-vr-094
 function dgToken(){ try { return localStorage.getItem("vinlo-pass") || ""; } catch(e) { return ""; } }
 var DG_KEY = "vinlo-degust-v1";
 var DG = {screen:"home", tab:"bottles", filter:"all", who:"all", dom:null, bottle:null, edit:null, photo:null, back:[], busy:false, err:""};
-var DGS = {bottles:{}, notes:{}, cart:{}, queue:[], me:"", api:"", last:0};
+var DGS = {bottles:{}, notes:{}, cart:{}, orders:{}, queue:[], me:"", api:"", last:0};
 try {
   var dgSaved = JSON.parse(localStorage.getItem(DG_KEY) || "null");
   if (dgSaved) Object.keys(DGS).forEach(function(k){ if (dgSaved[k] != null) DGS[k] = dgSaved[k]; });
@@ -1738,7 +1751,7 @@ function dgId(){ return Date.now().toString(36) + Math.random().toString(36).sli
 function dgTrim(v){ return v == null ? "" : String(v).trim(); }
 function dgApi(){ return dgTrim(DG_API || DGS.api); }
 function dgKey(kind, id){ return kind + ":" + id; }
-function dgStore(kind){ return kind === "bottle" ? DGS.bottles : kind === "cart" ? DGS.cart : DGS.notes; }
+function dgStore(kind){ return kind === "bottle" ? DGS.bottles : kind === "cart" ? DGS.cart : kind === "order" ? DGS.orders : DGS.notes; }
 function dgEnqueue(kind, id){ var k = dgKey(kind, id); if (DGS.queue.indexOf(k) < 0) DGS.queue.push(k); }
 function dgDequeue(k){ DGS.queue = DGS.queue.filter(function(q){ return q !== k; }); }
 
@@ -1828,6 +1841,34 @@ function dgWhoPick(){
     return '<button type="button" class="chip" data-dg="me" data-p="'+esc(p)+'" aria-pressed="'+(DGS.me === p)+'">'+esc(p)+'</button>';
   }).join("")+'</div></div>';
 }
+/* Suivi de commande : une commande par domaine, statuts déclarés à la main avec leur date */
+var DG_STEPS = [["paid","💳","Commandé et payé"],["shipped","🚚","Expédié"],["received","📦","Réceptionné"]];
+var DG_MOIS = ["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+function dgDate(iso){ var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || ""); return m ? parseInt(m[3], 10) + " " + DG_MOIS[parseInt(m[2], 10) - 1] : ""; }
+function dgOrder(dk){ var o = DGS.orders[dk]; return o && !o.deleted ? o : {}; }
+function dgOrderState(dk){
+  var o = dgOrder(dk), cur = null;
+  DG_STEPS.forEach(function(st){ if (o[st[0]]) cur = st; });
+  return cur ? {icon:cur[1], label:cur[2], date:o[cur[0]]} : null;
+}
+function dgSetOrder(dk, name, step, date){
+  var old = DGS.orders[dk] || {}, o = {id:dk, dom:dk, domName:name, paid:old.paid || "", shipped:old.shipped || "", received:old.received || "",
+    createdAt:old.createdAt || Date.now(), updatedAt:Date.now(), by:DGS.me};
+  o[step] = date || "";
+  dgPut("order", o);
+}
+function dgOrderHTML(dk, name){
+  var o = dgOrder(dk), st = dgOrderState(dk);
+  return '<div class="dg-order"><div class="dg-ordh"><b>Suivi de commande</b><span class="dg-ost'+(st ? ' on' : '')+'">'+
+    (st ? st.icon+' '+esc(st.label)+' le '+dgDate(st.date) : '⏳ Pas encore commandé')+'</span></div><ol class="dg-steps">'+
+    DG_STEPS.map(function(sp){
+      var v = o[sp[0]] || "", attrs = ' data-s="'+sp[0]+'" data-k="'+esc(dk)+'" data-n="'+esc(name)+'"';
+      return '<li class="'+(v ? 'done' : '')+'"><span class="dg-si">'+(v ? '✓' : sp[1])+'</span><span class="dg-sl">'+sp[2]+'</span>'+
+        '<input class="dg-inp dg-date" type="date" value="'+esc(v)+'" data-dgorder'+attrs+' aria-label="Date : '+sp[2]+' ('+esc(name)+')">'+
+        (v ? '<button type="button" class="dg-sx" data-dg="ordclear"'+attrs+' aria-label="Effacer : '+sp[2]+'">✕</button>'
+           : '<button type="button" class="dg-st" data-dg="ordset"'+attrs+'>Aujourd’hui</button>')+'</li>';
+    }).join("")+'</ol></div>';
+}
 /* Vue domaines : chaque domaine avec ses bouteilles, sa moyenne et ce qu’il y a au panier */
 function dgDomList(){
   var all = dgBottles(), cart = dgCartLines();
@@ -1839,7 +1880,7 @@ function dgDomList(){
   rows.sort(function(a, b){ return (b.n > 0) - (a.n > 0); });
   return '<div class="dg-list">'+rows.map(function(r){
     return '<button class="dg-card" type="button" data-dg="dom" data-k="'+esc(r.d.key)+'"><span class="dg-thumb">🍇</span>'+
-      '<span class="dg-ct"><b>'+esc(r.d.name)+'</b><small>'+r.n+' bouteille'+(r.n > 1 ? 's' : '')+(r.q ? ' · 🛒 '+r.q : '')+'</small><small>'+esc(r.d.place)+'</small></span>'+
+      '<span class="dg-ct"><b>'+esc(r.d.name)+'</b><small>'+r.n+' bouteille'+(r.n > 1 ? 's' : '')+(r.q ? ' · 🛒 '+r.q : '')+'</small><small>'+(function(){ var st = dgOrderState(r.d.key); return st ? st.icon+' '+esc(st.label)+' le '+dgDate(st.date) : esc(r.d.place); })()+'</small></span>'+
       '<span class="dg-score" style="--s:'+dgCol(r.avg)+'"><b>'+dgFmt(r.avg)+'</b><small>moyenne</small></span></button>';
   }).join("")+'</div>';
 }
@@ -1906,6 +1947,7 @@ function dgCart(){
     if (who === "all") h += '<p class="dg-per">'+DG_PEOPLE.filter(function(p){ return d.per[p]; }).map(function(p){
       return '<span><b>'+esc(p)+'</b> '+d.per[p].n+' bt. · '+money(d.per[p])+'</span>';
     }).join("")+'</p>';
+    if (who === "all") h += dgOrderHTML(k, d.name);
     h += '</section>';
   });
   return h;
@@ -2297,7 +2339,7 @@ function dgPull(){
   var api = dgApi();
   return fetch(api + (api.indexOf("?") >= 0 ? "&" : "?") + "token=" + encodeURIComponent(dgToken()) + "&t=" + Date.now())
     .then(dgJson).then(function(j){
-      dgMerge(DGS.bottles, j.bottles, "bottle"); dgMerge(DGS.notes, j.notes, "note"); dgMerge(DGS.cart, j.cart, "cart");
+      dgMerge(DGS.bottles, j.bottles, "bottle"); dgMerge(DGS.notes, j.notes, "note"); dgMerge(DGS.cart, j.cart, "cart"); dgMerge(DGS.orders, j.orders, "order");
     });
 }
 function dgSync(){
@@ -2341,6 +2383,8 @@ $("dg").addEventListener("click", function(e){
   else if (act === "who") { DG.who = b.getAttribute("data-p"); dgRender(); }
   else if (act === "cartedit") { DG.cartEdit = true; DG.editWho = DG.who !== "all" ? DG.who : DG_PEOPLE.indexOf(DGS.me) >= 0 ? DGS.me : DG_PEOPLE[0]; dgRender(); $("dg").scrollTop = 0; }
   else if (act === "editwho") { DG.editWho = b.getAttribute("data-p"); dgRender(); }
+  else if (act === "ordset") { dgSetOrder(b.getAttribute("data-k"), b.getAttribute("data-n"), b.getAttribute("data-s"), todayKey()); dgRender(); toast("Statut enregistré"); }
+  else if (act === "ordclear") { dgSetOrder(b.getAttribute("data-k"), b.getAttribute("data-n"), b.getAttribute("data-s"), ""); dgRender(); }
   else if (act === "cartdone") { DG.cartEdit = false; dgRender(); $("dg").scrollTop = 0; toast("Panier enregistré"); }
   else if (act === "qty") {
     var qb = b.getAttribute("data-id"), qp = b.getAttribute("data-p");
@@ -2389,6 +2433,7 @@ $("dg").addEventListener("change", function(e){
   if (t.matches(".dg-pills.one input") && t.checked) {
     Array.prototype.forEach.call(t.closest(".dg-pills").querySelectorAll("input"), function(i){ if (i !== t) i.checked = false; });
   }
+  if (t.hasAttribute("data-dgorder")) { dgSetOrder(t.getAttribute("data-k"), t.getAttribute("data-n"), t.getAttribute("data-s"), t.value); dgRender(); return; }
   if (t.hasAttribute("data-dgphoto") && t.files && t.files[0]) {
     dgResize(t.files[0]).then(function(data){
       DG.photo = data; $("dgPhoto").innerHTML = '<img src="'+data+'" alt="Photo de la bouteille">';

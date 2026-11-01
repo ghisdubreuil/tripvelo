@@ -2196,6 +2196,8 @@ function dgRender(){
   el.innerHTML = (DG_SCREENS[DG.screen] || dgHome)();
   dgFab();
 }
+/* Un champ en cours de saisie (calendrier ouvert, clavier) n’est jamais redessiné */
+function dgEditing(){ var a = document.activeElement; return !!(a && $("dg").contains(a) && /^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName)); }
 /* Un formulaire en cours n’est jamais redessiné par la synchro */
 function dgLive(){ return UI.view === "degust" && ["home","domain","bottle"].indexOf(DG.screen) >= 0; }
 function dgGo(screen, keep){
@@ -2349,7 +2351,7 @@ function dgSync(){
   dgPush().catch(function(e){ pushErr = e; }).then(dgPull)
     .then(function(){ if (pushErr) throw pushErr; DGS.last = Date.now(); DG.err = ""; DG.detail = ""; },
           function(e){ DG.err = dgErrText(e); DG.detail = (e && e.detail) || (e && e.message) || ""; })
-    .then(function(){ DG.busy = false; dgSave(); if (dgLive()) dgRender(); else dgStatus(); });
+    .then(function(){ DG.busy = false; dgSave(); if (dgLive() && !dgEditing()) dgRender(); else { if (dgLive()) DG.redraw = true; dgStatus(); } });
 }
 setInterval(function(){ if (UI.view === "degust" && document.visibilityState === "visible") dgSync(); }, 45000);
 window.addEventListener("online", dgSync);
@@ -2433,7 +2435,7 @@ $("dg").addEventListener("change", function(e){
   if (t.matches(".dg-pills.one input") && t.checked) {
     Array.prototype.forEach.call(t.closest(".dg-pills").querySelectorAll("input"), function(i){ if (i !== t) i.checked = false; });
   }
-  if (t.hasAttribute("data-dgorder")) { dgSetOrder(t.getAttribute("data-k"), t.getAttribute("data-n"), t.getAttribute("data-s"), t.value); dgRender(); return; }
+  if (t.hasAttribute("data-dgorder")) { dgSetOrder(t.getAttribute("data-k"), t.getAttribute("data-n"), t.getAttribute("data-s"), t.value); DG.redraw = true; return; }
   if (t.hasAttribute("data-dgphoto") && t.files && t.files[0]) {
     dgResize(t.files[0]).then(function(data){
       DG.photo = data; $("dgPhoto").innerHTML = '<img src="'+data+'" alt="Photo de la bouteille">';
@@ -2446,6 +2448,11 @@ function dgScoreSet(v){
   var out = $("dgScoreOut"), r = $("dgScore"); if (!out || !r) return;
   r.value = v; out.style.setProperty("--s", dgCol(v)); out.innerHTML = dgScoreHTML(v);
 }
+$("dg").addEventListener("focusout", function(){
+  setTimeout(function(){
+    if (DG.redraw && !dgEditing() && dgLive()) { DG.redraw = false; var y = $("dg").scrollTop; dgRender(); $("dg").scrollTop = y; }
+  }, 250);
+});
 $("dg").addEventListener("input", function(e){
   if (e.target.id !== "dgScore") return;
   dgScoreSet(parseFloat(e.target.value));

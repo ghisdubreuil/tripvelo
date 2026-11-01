@@ -559,6 +559,52 @@ html.dg-open .drunk{display:none!important}
 .dg-obadge.s-received{background:var(--d2)}
 .dg-obadge+.dg-sub{margin-top:0}
 .dg-lock{margin:-.3rem 0 .6rem;padding:.45rem .65rem;border-radius:10px;background:var(--panel-2);color:var(--d2);font-size:.88rem;font-weight:700}
+/* Dégustation avancée */
+.pro-entry{padding:1rem 1.25rem 0}
+.pt-prog{list-style:none;display:flex;justify-content:space-between;gap:.25rem;margin:0 0 .6rem;padding:0}
+.pt-prog button{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:transparent;color:var(--muted);font:800 .95rem var(--display)}
+.pt-prog button.done{background:var(--panel-2);color:var(--text)}
+.pt-prog button.on{background:var(--hot);border-color:var(--hot);color:var(--cave)}
+.pt-prog button:disabled{opacity:.35}
+.pt-title{font:800 1.6rem/1.1 var(--display);margin:0 0 .8rem}
+.pt-types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin:0 0 .6rem}
+.pt-type{display:flex;flex-direction:column;align-items:center;gap:.3rem;min-height:104px;justify-content:center;border-radius:18px;border:2px solid var(--line);background:var(--panel);color:var(--text);font:800 1rem var(--display)}
+.pt-type i{font-style:normal;font-size:2.2rem;line-height:1}
+.pt-type[aria-pressed="true"]{border-color:var(--hot);background:var(--panel-2);box-shadow:0 0 0 2px var(--hot) inset}
+.pt-fams,.pt-colors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem}
+.pt-fam,.pt-col{position:relative}
+.pt-fam input,.pt-col input{position:absolute;opacity:0;pointer-events:none}
+.pt-fam span,.pt-col span{display:flex;align-items:center;gap:.55rem;min-height:54px;padding:.4rem .7rem;border-radius:14px;border:2px solid var(--line);font-weight:700;font-size:.95rem;cursor:pointer}
+.pt-fam i,.pt-col i{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.35)}
+.pt-col i{width:34px;height:34px}
+.pt-fam input:checked+span,.pt-col input:checked+span{border-color:var(--hot);background:var(--panel-2);box-shadow:0 0 0 2px var(--hot) inset}
+.pt-fam input:focus-visible+span,.pt-col input:focus-visible+span{outline:2px solid var(--text);outline-offset:2px}
+.pf-list{display:grid;gap:.5rem;margin:0 0 .9rem}
+.pf{border-radius:16px;border:2px solid var(--line);background:var(--panel);overflow:hidden}
+.pf:has(.pfh input:checked){border-color:var(--hot)}
+.pfh{display:block;position:relative}
+.pfh input{position:absolute;opacity:0;pointer-events:none}
+.pfh span{display:flex;align-items:center;min-height:54px;padding:.4rem .9rem;font-weight:800;cursor:pointer}
+.pfh input:checked+span{background:var(--panel-2)}
+.pfh input:checked+span::after{content:"✓";margin-left:auto;color:var(--hot)}
+.pfp{display:none;padding:.6rem .8rem .8rem}
+.pf:has(.pfh input:checked) .pfp{display:block}
+.pfr{display:grid;grid-template-columns:auto minmax(0,1fr) 4.6rem;align-items:center;gap:.6rem;margin:.6rem 0 0;font-size:.88rem;font-weight:700;color:var(--muted)}
+.pfr input{width:100%;height:40px;accent-color:var(--hot)}
+.pfr output{color:var(--text);text-align:right}
+.ps{display:block;padding:.4rem 0 .6rem;border-bottom:1px solid var(--line)}
+.ps:last-child{border-bottom:0}
+.psl{display:flex;justify-content:space-between;font-weight:800}
+.psl b{color:var(--hot);font-weight:800}
+.ps input{width:100%;height:44px;accent-color:var(--hot)}
+.pse{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-top:-.3rem}
+.pse i{font-style:normal}
+.pt-nav{display:grid;grid-template-columns:1fr 1.6fr;gap:.5rem}
+.pt-sw{display:inline-block;width:18px;height:18px;border-radius:50%;vertical-align:-3px;margin-right:.4rem;border:2px solid rgba(255,255,255,.35)}
+.pt-bar{display:grid;grid-template-columns:6.5rem minmax(0,1fr) 2.6rem;align-items:center;gap:.6rem;padding:.3rem 0;font-size:.9rem}
+.pt-bar i{display:block;height:10px;border-radius:999px;background:var(--panel-2);overflow:hidden}
+.pt-bar b{display:block;height:100%;background:var(--hot);border-radius:999px}
+.pt-bar em{font-style:normal;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
 @media (max-width:420px){ .dg-grid{grid-template-columns:minmax(0,1fr)} }
 
 /* ===== Mot de passe ===== */
@@ -607,6 +653,9 @@ html:not(.auth) body{overflow:hidden}
     <ul class="stops" id="stops"></ul>
     </div>
 
+    <section class="pro-entry" data-v="more">
+      <button class="bigbtn pri wide" type="button" data-do="pro">🧪 Dégustation avancée (bêta)<small class="sub">Vin, bière, spiritueux : couleur, arômes, saveurs, structure</small></button>
+    </section>
     <section class="practical" aria-labelledby="prat" data-v="more">
       <h3 id="prat">À réserver cette semaine</h3>
       <p class="bk-intro" id="bkIntro"></p>
@@ -1688,6 +1737,7 @@ document.addEventListener("click", function(e){
   else if (act === "demo") { UI.demo = true; UI.nowDay = 1; UI.manual = 11*60; renderNow(); renderDrunk(); }
   else if (act === "exitdemo") { UI.demo = false; UI.nowDay = 0; UI.manual = null; renderNow(); renderDrunk(); }
   else if (act === "wake") setWake(!UI.wake);
+  else if (act === "pro") proOpen();
   else if (act === "degust") { var o = b.getAttribute("data-dg-open"); if (o === "top" || o === "cart") dgOpen(o); else dgOpen(null, o); }
   else if (act === "live") setManual(null);
   else if (act === "adj") setManual(curMinutes() + parseInt(b.getAttribute("data-n"), 10));
@@ -1722,7 +1772,7 @@ var DG_API = "https://script.google.com/macros/s/AKfycbwPNYtE48RV2lpjZJqa-vr-094
 function dgToken(){ try { return localStorage.getItem("vinlo-pass") || ""; } catch(e) { return ""; } }
 var DG_KEY = "vinlo-degust-v1";
 var DG = {screen:"home", tab:"bottles", filter:"all", who:"all", dom:null, bottle:null, edit:null, photo:null, back:[], busy:false, err:""};
-var DGS = {bottles:{}, notes:{}, cart:{}, orders:{}, queue:[], me:"", api:"", last:0};
+var DGS = {bottles:{}, notes:{}, cart:{}, orders:{}, pro:{}, proDraft:null, queue:[], me:"", api:"", last:0};
 try {
   var dgSaved = JSON.parse(localStorage.getItem(DG_KEY) || "null");
   if (dgSaved) Object.keys(DGS).forEach(function(k){ if (dgSaved[k] != null) DGS[k] = dgSaved[k]; });
@@ -1759,7 +1809,7 @@ function dgId(){ return Date.now().toString(36) + Math.random().toString(36).sli
 function dgTrim(v){ return v == null ? "" : String(v).trim(); }
 function dgApi(){ return dgTrim(DG_API || DGS.api); }
 function dgKey(kind, id){ return kind + ":" + id; }
-function dgStore(kind){ return kind === "bottle" ? DGS.bottles : kind === "cart" ? DGS.cart : kind === "order" ? DGS.orders : DGS.notes; }
+function dgStore(kind){ return kind === "bottle" ? DGS.bottles : kind === "cart" ? DGS.cart : kind === "order" ? DGS.orders : kind === "pro" ? DGS.pro : DGS.notes; }
 function dgEnqueue(kind, id){ var k = dgKey(kind, id); if (DGS.queue.indexOf(k) < 0) DGS.queue.push(k); }
 function dgDequeue(k){ DGS.queue = DGS.queue.filter(function(q){ return q !== k; }); }
 
@@ -1836,7 +1886,7 @@ function dgHere(){
 }
 function dgFab(){
   var f = $("dgFab"); if (!f) return;
-  var n = dgCartCount(), hide = ["bottleForm","noteForm"].indexOf(DG.screen) >= 0 || (DG.screen === "home" && DG.tab === "cart");
+  var n = dgCartCount(), hide = ["bottleForm","noteForm","pro","proWiz","proView"].indexOf(DG.screen) >= 0 || (DG.screen === "home" && DG.tab === "cart");
   f.hidden = hide; $("dgFabN").textContent = n || "";
 }
 function dgStepper(bid, person){
@@ -2066,6 +2116,7 @@ function dgHome(){
     h += all.length ? '<div class="dg-list">'+all.map(function(b){ return dgCard(b); }).join("")+'</div>'
                     : '<p class="dg-empty">Pas encore de bouteille. Choisis un domaine et ajoute la première !</p>';
   }
+  h += '<div class="quick" style="margin-top:1rem"><button class="bigbtn wide" type="button" data-pro="open">🧪 Bêta : saisie avancée d’une bouteille</button></div>';
   h += '<p class="dg-foot"><button class="linkbtn" type="button" data-dg="settings">⚙️ Réglages et sauvegarde</button></p>';
   return h;
 }
@@ -2231,7 +2282,7 @@ function dgRender(){
 /* Un champ en cours de saisie (calendrier ouvert, clavier) n’est jamais redessiné */
 function dgEditing(){ var a = document.activeElement; return !!(a && $("dg").contains(a) && /^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName)); }
 /* Un formulaire en cours n’est jamais redessiné par la synchro */
-function dgLive(){ return UI.view === "degust" && ["home","domain","bottle"].indexOf(DG.screen) >= 0; }
+function dgLive(){ return UI.view === "degust" && ["home","domain","bottle","pro","proView"].indexOf(DG.screen) >= 0; }
 function dgGo(screen, keep){
   DG.back.push({screen:DG.screen, dom:DG.dom, bottle:DG.bottle, edit:DG.edit});
   DG.screen = screen;
@@ -2376,7 +2427,7 @@ function dgPull(){
   var api = dgApi();
   return fetch(api + (api.indexOf("?") >= 0 ? "&" : "?") + "token=" + encodeURIComponent(dgToken()) + "&t=" + Date.now())
     .then(dgJson).then(function(j){
-      dgMerge(DGS.bottles, j.bottles, "bottle"); dgMerge(DGS.notes, j.notes, "note"); dgMerge(DGS.cart, j.cart, "cart"); dgMerge(DGS.orders, j.orders, "order");
+      dgMerge(DGS.bottles, j.bottles, "bottle"); dgMerge(DGS.notes, j.notes, "note"); dgMerge(DGS.cart, j.cart, "cart"); dgMerge(DGS.orders, j.orders, "order"); dgMerge(DGS.pro, j.pro, "pro");
     });
 }
 function dgSync(){
@@ -2404,6 +2455,7 @@ function dgOpen(screen, domKey){
 function dgFromHash(){
   var m = /^#degust(?:\/([\w-]+))?/.exec(location.hash);
   if (!m) return false;
+  if (m[1] === "avance") { proOpen(); return true; }
   if (m[1] === "top" || m[1] === "panier" || m[1] === "domaines") dgOpen({top:"top", panier:"cart", domaines:"doms"}[m[1]]); else dgOpen(null, m[1]);
   return true;
 }
@@ -2501,8 +2553,282 @@ if (/^#degust/.test(location.hash)) {
   if (dgH && dgH[1] === "top") DG.tab = "top";
   else if (dgH && dgH[1] === "panier") DG.tab = "cart";
   else if (dgH && dgH[1] === "domaines") DG.tab = "doms";
+  else if (dgH && dgH[1] === "avance") DG.screen = "pro";
   else if (dgH && dgDomByKey(dgH[1])) { DG.back = [{screen:"home"}]; DG.dom = dgDomByKey(dgH[1]); DG.screen = "domain"; }
 }
+/* ---------- Dégustation avancée (bêta) : base séparée « pro », saisie en 7 écrans ---------- */
+/* Les bouteilles, notes et paniers existants ne sont pas touchés : tout va dans DGS.pro et l’onglet « Dégustations avancées » du serveur */
+var PRO_TYPES = {
+  vin:{icon:"🍷", label:"Vin", fams:[["Blanc","#EBD77A"],["Rouge","#9B1B30"],["Rosé","#F4B092"],["Orange","#E59A3A"],["Effervescent","#F3E9A0"],["Moelleux / liquoreux","#C8963A"]]},
+  biere:{icon:"🍺", label:"Bière", fams:[["Blonde","#ECC14A"],["Blanche","#F0E2A6"],["Ambrée","#B9672A"],["Brune","#6B3A1E"],["Stout / porter","#2A1A12"],["IPA","#D9A33A"],["Lager / pils","#F6E27F"],["Triple / abbaye","#D49A3A"],["Sour / gueuze","#E8B86A"]]},
+  spiritueux:{icon:"🥃", label:"Spiritueux", fams:[["Whisky","#C27A2C"],["Rhum","#9A5420"],["Cognac / armagnac","#8A4A1C"],["Eau-de-vie de fruit","#F4F6F8"],["Gin","#EEF3F5"],["Vodka","#F4F6F8"],["Liqueur","#7FA34A"],["Marc","#E7D9A6"]]}
+};
+var PRO_COLORS = {
+  "vin:Blanc":[["Vert pâle","#E8EBB0"],["Jaune pâle","#F3E9A0"],["Jaune paille","#EBD77A"],["Doré","#DDB84A"],["Vieil or","#C8963A"],["Ambré","#A86A2A"]],
+  "vin:Rouge":[["Pourpre","#5B1640"],["Violacé","#6E1F4F"],["Rubis","#9B1B30"],["Cerise","#B0243A"],["Grenat","#7A1F2B"],["Tuilé","#8F3E2A"],["Brique","#A0522D"]],
+  "vin:Rosé":[["Gris","#F2D9D0"],["Pétale","#F5C3C2"],["Pêche","#F4B092"],["Saumon","#EE9779"],["Framboise","#D9536B"]],
+  "vin:Orange":[["Orangé","#E59A3A"],["Cuivré","#C0702F"],["Ambré","#A86A2A"]],
+  "vin:Effervescent":[["Blanc argenté","#F1EFD8"],["Jaune pâle","#F3E9A0"],["Doré","#DDB84A"],["Rosé","#F5C3C2"]],
+  "vin:Moelleux / liquoreux":[["Doré","#DDB84A"],["Vieil or","#C8963A"],["Topaze","#B57B2C"],["Ambré","#A86A2A"]],
+  biere:[["Paille","#F6E27F"],["Blonde","#ECC14A"],["Dorée","#D9A33A"],["Voilée","#F0E2A6"],["Ambrée","#B9672A"],["Cuivrée","#A0522D"],["Brune","#6B3A1E"],["Noire","#2A1A12"]],
+  spiritueux:[["Incolore","#F4F6F8"],["Paille","#EBD77A"],["Or","#D9A33A"],["Ambre","#B9672A"],["Acajou","#7A3B1C"],["Cuivré","#A0522D"],["Vert","#9BBF4A"]]
+};
+var PRO_ASPECT = {
+  base:["Limpide","Brillant","Voilé","Trouble","Soyeux","Huileux","Crémeux","Pétillant","Larmes fines","Larmes grasses"],
+  biere:["Mousse fine","Mousse épaisse","Mousse tenace","Bulles fines","Bulles grossières"],
+  spiritueux:["Jambes lentes","Jambes rapides"]
+};
+var PRO_AROMES = [
+  ["fruite","🍓","Fruité",["Agrumes","Pomme","Poire","Pêche","Abricot","Fruits exotiques","Litchi","Fruits rouges","Fruits noirs","Fruits secs","Fruits confits"]],
+  ["floral","🌸","Floral",["Fleurs blanches","Acacia","Rose","Violette","Tilleul","Sureau"]],
+  ["vegetal","🌿","Végétal",["Herbe coupée","Foin","Poivron","Fougère","Menthe","Thé","Tabac"]],
+  ["epice","🌶️","Épicé",["Poivre","Cannelle","Clou de girofle","Vanille","Réglisse","Gingembre","Muscade"]],
+  ["boise","🪵","Boisé",["Chêne","Cèdre","Fumé","Toasté","Sous-bois","Résineux"]],
+  ["mineral","🪨","Minéral",["Pierre à fusil","Silex","Craie","Iodé","Hydrocarbure","Graphite"]],
+  ["fermentaire","🍞","Fermentaire",["Levure","Brioche","Pain","Beurre","Lacté","Fromage"]],
+  ["torrefie","☕","Torréfié",["Café","Cacao","Caramel","Grillé","Pain grillé","Moka"]],
+  ["cereale","🌾","Céréales et houblon",["Malt","Biscuit","Céréales","Houblon herbacé","Houblon résineux","Houblon agrumes"]],
+  ["gourmand","🍯","Gourmand",["Miel","Vanille","Nougat","Frangipane","Pâte d’amande"]],
+  ["animal","🐾","Animal",["Cuir","Musc","Gibier","Écurie"]],
+  ["chimique","⚗️","Chimique",["Soufre","Solvant","Vernis","Bouchonné","Oxydé","Acétique"]]
+];
+var PRO_SAVEURS = [
+  ["sucre","🍬","Sucré",["Léger","Mielleux","Sirupeux","Confit","Caramélisé"]],
+  ["acide","🍋","Acide",["Frais","Vif","Citronné","Acidulé","Tranchant"]],
+  ["amer","🌱","Amer",["Zeste","Houblon","Quinine","Cacao","Végétal"]],
+  ["sale","🧂","Salé",["Salin","Iodé","Minéral"]],
+  ["umami","🍄","Umami",["Bouillon","Champignon","Sauce soja"]]
+].concat(PRO_AROMES.filter(function(f){ return ["fruite","floral","epice","boise","torrefie","gourmand"].indexOf(f[0]) >= 0; }));
+var PRO_POWER = ["Discret","Léger","Moyen","Marqué","Puissant"];
+var PRO_STRUCT = [
+  ["acidite","Acidité","Molle","Tranchante"],["sucre","Sucre","Sec","Liquoreux"],["corps","Corps","Léger","Puissant"],
+  ["attaque","Attaque","Discrète","Explosive"],["longueur","Longueur","Courte","Interminable"],["alcool","Alcool","Léger","Chaud"],
+  ["amertume","Amertume","Absente","Intense",function(d){ return d.type !== "vin"; }],
+  ["tanins","Tanins","Soyeux","Asséchants",function(d){ return d.type === "vin" && d.famille === "Rouge"; }],
+  ["bulles","Effervescence","Fine","Explosive",function(d){ return d.type === "biere" || d.famille === "Effervescent"; }],
+  ["equilibre","Équilibre","Bancal","Parfait"]
+];
+var PRO_STEPS = ["Boisson","Détails","L’œil","Le nez","La bouche","Structure","Note"];
+
+function proNew(){ return {type:"", famille:"", aspect:[], aromes:{}, saveurs:{}, structure:{}, cepages:[], date:todayKey(), author:DGS.me}; }
+function proList(){ return Object.keys(DGS.pro).map(function(k){ return DGS.pro[k]; }).filter(function(p){ return !p.deleted; }); }
+function proTitle(d){ return d.nom || d.famille || (PRO_TYPES[d.type] || {}).label || "Dégustation"; }
+function proPalette(d){ return PRO_COLORS[d.type === "vin" ? "vin:" + d.famille : d.type] || PRO_COLORS["vin:Blanc"]; }
+function proHex(d){ return d.couleur ? d.couleur.split("|")[1] : (((PRO_TYPES[d.type] || {}).fams || []).filter(function(f){ return f[0] === d.famille; })[0] || [])[1] || "var(--panel-2)"; }
+
+/* Lit l’écran en cours dans le brouillon (un seul écran est affiché à la fois) */
+function proCollect(){
+  var f = $("proForm"); if (!f) return;
+  var d = DG.pd, fd = new FormData(f), step = parseInt(f.getAttribute("data-step"), 10);
+  function g(k){ return dgTrim(fd.get(k)); }
+  if (step === 0) { d.famille = g("famille") || d.famille; }
+  else if (step === 1) {
+    var other = g("domOther"), sel = g("dom");
+    if (other) { d.dom = dgSlug(other); d.domName = other; }
+    else if (sel) { var dm = dgDomByKey(sel); d.dom = sel; d.domName = dm ? dm.name : sel; }
+    ["nom","millesime","parcelle","degre","prix","appellation","elevage","infos"].forEach(function(k){ if (fd.has(k)) d[k] = g(k); });
+    if (fd.has("cep_present")) d.cepages = fd.getAll("cepages");
+    if (DG.photo) { d.photoData = DG.photo; DG.photo = null; }
+  }
+  else if (step === 2) { d.couleur = g("couleur"); d.intensite = parseInt(fd.get("intensite"), 10) || 0; d.aspect = fd.getAll("aspect"); }
+  else if (step === 3 || step === 4) {
+    var key = step === 3 ? "aromes" : "saveurs", pre = step === 3 ? "a" : "s", out = {};
+    (step === 3 ? PRO_AROMES : PRO_SAVEURS).forEach(function(fam){
+      if (fd.get(pre + "f_" + fam[0])) out[fam[0]] = {sub:fd.getAll(pre + "s_" + fam[0]), p:parseInt(fd.get(pre + "p_" + fam[0]), 10) || 3};
+    });
+    d[key] = out;
+  }
+  else if (step === 5) { var st = {}; PRO_STRUCT.forEach(function(s){ if (fd.has("st_" + s[0])) st[s[0]] = parseInt(fd.get("st_" + s[0]), 10) || 0; }); d.structure = st; }
+  else if (step === 6) {
+    d.score = parseFloat(fd.get("score")) || d.score; d.author = g("author"); d.date = g("date") || d.date;
+    d.rachat = g("rachat"); d.accords = g("accords"); d.txt = g("txt");
+  }
+  DGS.proDraft = d; dgSave();
+}
+
+/* Écrans de saisie */
+function proFam(pre, fam, cur){
+  var c = cur && cur[fam[0]], p = c ? c.p : 3;
+  return '<div class="pf"><label class="pfh"><input type="checkbox" name="'+pre+'f_'+fam[0]+'" value="1"'+(c ? ' checked' : '')+'><span>'+fam[1]+' '+esc(fam[2])+'</span></label>'+
+    '<div class="pfp">'+dgPills(pre+'s_'+fam[0], fam[3], c ? c.sub : [], true)+
+    '<label class="pfr"><span>Puissance</span><input type="range" min="1" max="5" step="1" name="'+pre+'p_'+fam[0]+'" value="'+p+'" data-pw><output>'+PRO_POWER[p - 1]+'</output></label></div></div>';
+}
+function proStep(i){
+  var d = DG.pd, h = '';
+  if (i === 0) {
+    h += '<div class="pt-types">'+Object.keys(PRO_TYPES).map(function(k){
+      var t = PRO_TYPES[k];
+      return '<button type="button" class="pt-type" data-pro="type" data-v="'+k+'" aria-pressed="'+(d.type === k)+'"><i>'+t.icon+'</i>'+t.label+'</button>';
+    }).join("")+'</div>';
+    if (d.type) h += '<h3 class="dg-h">Famille</h3><div class="pt-fams">'+PRO_TYPES[d.type].fams.map(function(f){
+      return '<label class="pt-fam"><input type="radio" name="famille" value="'+esc(f[0])+'"'+(d.famille === f[0] ? ' checked' : '')+'><span><i style="background:'+f[1]+'"></i>'+esc(f[0])+'</span></label>';
+    }).join("")+'</div>';
+    else h += '<p class="dg-empty">Choisis d’abord le type de boisson.</p>';
+  }
+  else if (i === 1) {
+    var ph = DG.photo || d.photoData || d.photo, doms = dgDomaines(), year = d.type === "vin" ? "Millésime" : "Année";
+    h += '<section class="dg-sec"><div class="dg-photo" id="dgPhoto">'+(ph ? '<img src="'+esc(ph)+'" alt="Photo">' : '<span>📷 Photo de l’étiquette</span>')+'</div>'+
+      '<div class="quick"><label class="bigbtn pri">📷 Photo<input type="file" accept="image/*" capture="environment" data-dgphoto hidden></label>'+
+      '<label class="bigbtn">🖼️ Galerie<input type="file" accept="image/*" data-dgphoto hidden></label></div></section>';
+    h += '<section class="dg-sec"><div class="dg-grid">'+
+      dgField(d.type === "vin" ? "Domaine" : "Producteur", '<select class="dg-inp" name="dom"><option value="">–</option>'+doms.map(function(m){ return '<option value="'+esc(m.key)+'"'+(m.key === d.dom ? ' selected' : '')+'>'+esc(m.name)+'</option>'; }).join("")+'</select>')+
+      dgField("Ou un autre", dgInput("domOther", d.dom && !dgDomByKey(d.dom) ? d.domName : "", 'type="text" placeholder="Nom du producteur"'))+
+      dgField("Nom / cuvée", dgInput("nom", d.nom, 'type="text" placeholder="Ex. Cuvée Théo"'), true)+
+      dgGroup(year, dgPills("millesime", dgYears(d.millesime), d.millesime ? String(d.millesime) : ""))+
+      '</div></section>';
+    h += '<details class="dg-more"'+(DG.proAdv ? ' open' : '')+' data-pro-adv><summary>⚙️ Mode avancé : parcelle, cépages, degré…</summary><section class="dg-sec"><div class="dg-grid">'+
+      dgField("Parcelle / lieu-dit", dgInput("parcelle", d.parcelle, 'type="text" list="dgCrus" placeholder="Ex. Schlossberg"'), true)+
+      (d.type === "vin" ? '<input type="hidden" name="cep_present" value="1">'+dgGroup("Cépages", dgPills("cepages", DG_CEPAGES.filter(function(c){ return c !== "Crémant"; }), d.cepages, true)) : '')+
+      dgField("Degré (%)", dgInput("degre", d.degre, 'type="number" inputmode="decimal" step="0.1" min="0" max="80"'))+
+      dgField("Prix (€)", dgInput("prix", d.prix, 'type="number" inputmode="decimal" step="0.5" min="0"'))+
+      dgField(d.type === "vin" ? "Appellation" : "Style / origine", dgInput("appellation", d.appellation, 'type="text"'))+
+      dgField("Élevage / fût", dgInput("elevage", d.elevage, 'type="text" placeholder="Ex. foudre, barrique, 12 ans"'))+
+      dgField("Infos", dgText("infos", d.infos, "Ce qu’a raconté le producteur…"), true)+
+      '</div><datalist id="dgCrus">'+DG_CRUS.map(function(c){ return '<option value="'+esc(c)+'">'; }).join("")+'</datalist></section></details>';
+  }
+  else if (i === 2) {
+    h += '<section class="dg-sec"><h3>🎨 Couleur</h3><div class="pt-colors">'+proPalette(d).map(function(c){
+      var v = c[0] + "|" + c[1];
+      return '<label class="pt-col"><input type="radio" name="couleur" value="'+esc(v)+'"'+(d.couleur === v ? ' checked' : '')+'><span><i style="background:'+c[1]+'"></i>'+esc(c[0])+'</span></label>';
+    }).join("")+'</div><label class="pfr"><span>Intensité</span><input type="range" min="1" max="5" step="1" name="intensite" value="'+(d.intensite || 3)+'" data-pw><output>'+PRO_POWER[(d.intensite || 3) - 1]+'</output></label></section>';
+    h += '<section class="dg-sec"><h3>✨ Aspect et texture</h3>'+dgPills("aspect", PRO_ASPECT.base.concat(PRO_ASPECT[d.type] || []), d.aspect, true)+'</section>';
+  }
+  else if (i === 3 || i === 4) {
+    h += '<p class="dg-sub">Touche une famille, puis précise et règle la puissance.</p>';
+    h += '<div class="pf-list">'+(i === 3 ? PRO_AROMES : PRO_SAVEURS).map(function(f){ return proFam(i === 3 ? "a" : "s", f, i === 3 ? d.aromes : d.saveurs); }).join("")+'</div>';
+  }
+  else if (i === 5) {
+    h += '<section class="dg-sec">'+PRO_STRUCT.filter(function(s){ return !s[4] || s[4](d); }).map(function(s){
+      var v = d.structure[s[0]] || 0;
+      return '<label class="ps"><span class="psl">'+s[1]+' <b>'+(v ? v + '/5' : 'non évalué')+'</b></span>'+
+        '<input type="range" min="0" max="5" step="1" name="st_'+s[0]+'" value="'+v+'" data-st><span class="pse"><i>'+s[2]+'</i><i>'+s[3]+'</i></span></label>';
+    }).join("")+'</section>';
+  }
+  else {
+    var sc = d.score || 14;
+    h += '<section class="dg-sec dg-quick"><div class="dg-score-big" id="dgScoreOut" style="--s:'+dgCol(sc)+'">'+dgScoreHTML(sc)+'</div>'+
+      '<input class="dg-range" id="dgScore" name="score" type="range" min="1" max="20" step="0.5" value="'+sc+'" aria-label="Note sur 20">'+
+      '<div class="dg-scale"><span>1</span><span>5</span><span>10</span><span>15</span><span>20</span></div><div class="dg-grid">'+
+      dgGroup("Qui déguste ?", dgPills("author", DG_PEOPLE, d.author || DGS.me))+
+      dgField("Date", dgInput("date", d.date || todayKey(), 'type="date"'))+
+      dgGroup("Je rachète ?", dgPills("rachat", ["Oui, un carton","Oui, une bouteille","Non"], d.rachat))+
+      dgField("Accords", dgInput("accords", d.accords, 'type="text" placeholder="Ex. munster, tarte flambée"'), true)+
+      dgField("Commentaire", dgText("txt", d.txt, "Mon avis"), true)+'</div></section>';
+  }
+  return h;
+}
+function proWizard(){
+  var i = DG.ps, d = DG.pd, last = PRO_STEPS.length - 1;
+  var h = dgTop("Dégustation avancée", (i + 1)+'/'+PRO_STEPS.length+' · '+PRO_STEPS[i]+(d.type ? ' · '+PRO_TYPES[d.type].label+(d.famille ? ' '+d.famille.toLowerCase() : '') : ''));
+  h += '<ol class="pt-prog">'+PRO_STEPS.map(function(s, k){
+    return '<li><button type="button" data-pro="go" data-i="'+k+'" class="'+(k === i ? 'on' : k < i ? 'done' : '')+'"'+(k > 0 && !d.type ? ' disabled' : '')+' aria-label="'+esc(s)+'">'+(k + 1)+'</button></li>';
+  }).join("")+'</ol>';
+  h += '<h2 class="pt-title">'+PRO_STEPS[i]+'</h2>';
+  h += '<form id="proForm" data-step="'+i+'" autocomplete="off">'+proStep(i)+
+    '<div class="dg-save pt-nav">'+(i > 0 ? '<button type="button" class="bigbtn" data-pro="prev">‹ Retour</button>' : '<span></span>')+
+    (i < last ? '<button type="button" class="bigbtn pri" data-pro="next">Suivant ›</button>' : '<button type="submit" class="bigbtn pri">✅ Enregistrer</button>')+'</div></form>';
+  return h;
+}
+function proHome(){
+  var h = dgTop("Dégustation avancée", "Bêta · base de données séparée");
+  h += '<p class="dg-sync" id="dgSync">'+dgStatusHTML()+'</p>';
+  h += '<div class="quick"><button class="bigbtn pri wide" type="button" data-pro="new">➕ Nouvelle dégustation<small class="sub">Vin, bière ou spiritueux, en 7 écrans</small></button>'+
+    (DGS.proDraft ? '<button class="bigbtn wide" type="button" data-pro="resume">↩️ Reprendre la saisie en cours</button>' : '')+'</div>';
+  var list = proList().sort(function(a, b){ return (b.score || 0) - (a.score || 0); });
+  h += list.length ? '<h3 class="dg-h">Classées par note</h3><div class="dg-list">'+list.map(function(d, k){
+    var ph = d.photoData || d.photo;
+    return '<button class="dg-card" type="button" data-pro="view" data-id="'+esc(d.id)+'"><span class="dg-rank">'+(k < 3 ? ["🥇","🥈","🥉"][k] : (k + 1)+'.')+'</span>'+
+      '<span class="dg-thumb" style="background:'+proHex(d)+'">'+(ph ? '<img src="'+esc(ph)+'" alt="" loading="lazy">' : (PRO_TYPES[d.type] || {}).icon || '🍷')+'</span>'+
+      '<span class="dg-ct"><b>'+esc(proTitle(d))+'</b><small>'+esc([d.domName, d.millesime].filter(Boolean).join(" · "))+'</small><small>'+esc([(PRO_TYPES[d.type] || {}).label, d.famille, d.author].filter(Boolean).join(" · "))+'</small></span>'+
+      '<span class="dg-score" style="--s:'+dgCol(d.score)+'"><b>'+dgFmt(d.score)+'</b><small>/20</small></span></button>';
+  }).join("")+'</div>' : '<p class="dg-empty">Aucune dégustation avancée pour l’instant.</p>';
+  h += '<p class="dg-empty" style="font-size:.85rem">Les bouteilles, notes et paniers de l’onglet Dégust. restent à part et ne changent pas.</p>';
+  return h;
+}
+function proFamText(obj, list){
+  return list.filter(function(f){ return obj && obj[f[0]]; }).map(function(f){
+    var c = obj[f[0]];
+    return '<p><b>'+f[1]+' '+esc(f[2])+'</b> '+PRO_POWER[(c.p || 3) - 1].toLowerCase()+(c.sub.length ? ' · '+esc(c.sub.join(", ")) : '')+'</p>';
+  }).join("");
+}
+function proView(){
+  var d = DGS.pro[DG.proId];
+  if (!d || d.deleted) { DG.screen = "pro"; DG.back = []; return proHome(); }
+  var ph = d.photoData || d.photo, col = d.couleur ? d.couleur.split("|") : null;
+  var h = dgTop(proTitle(d), [(PRO_TYPES[d.type] || {}).label, d.famille].filter(Boolean).join(" · "));
+  if (ph) h += '<div class="dg-photo big"><img src="'+esc(ph)+'" alt="Photo"></div>';
+  h += '<div class="dg-avg" style="--s:'+dgCol(d.score)+'"><b>'+dgFmt(d.score)+'<small>/20</small></b><span>'+(d.score ? esc(dgLbl(d.score)) : '')+(d.author ? ' · '+esc(d.author) : '')+(d.date ? ' · '+dgDate(d.date) : '')+'</span></div>';
+  var kv = [["Producteur", d.domName], ["Nom", d.nom], [d.type === "vin" ? "Millésime" : "Année", d.millesime], ["Parcelle", d.parcelle], ["Cépages", (d.cepages || []).join(", ")],
+    ["Degré", d.degre ? d.degre + " %" : ""], ["Prix", d.prix ? d.prix + " €" : ""], ["Appellation", d.appellation], ["Élevage", d.elevage], ["Infos", d.infos]];
+  h += '<section class="dg-sec"><h3>🪪 Détails</h3><dl class="dg-kv">'+kv.filter(function(r){ return r[1]; }).map(function(r){ return '<dt>'+r[0]+'</dt><dd>'+esc(r[1])+'</dd>'; }).join("")+'</dl></section>';
+  h += '<section class="dg-sec dg-note"><h3>👁️ L’œil</h3>'+(col ? '<p><span class="pt-sw" style="background:'+col[1]+'"></span><b>'+esc(col[0])+'</b> · intensité '+PRO_POWER[(d.intensite || 3) - 1].toLowerCase()+'</p>' : '')+
+    ((d.aspect || []).length ? '<p>'+esc(d.aspect.join(", "))+'</p>' : '')+'</section>';
+  h += '<section class="dg-sec dg-note"><h3>👃 Le nez</h3>'+(proFamText(d.aromes, PRO_AROMES) || '<p>–</p>')+'</section>';
+  h += '<section class="dg-sec dg-note"><h3>👄 La bouche</h3>'+(proFamText(d.saveurs, PRO_SAVEURS) || '<p>–</p>')+'</section>';
+  var st = PRO_STRUCT.filter(function(s){ return d.structure && d.structure[s[0]]; });
+  if (st.length) h += '<section class="dg-sec"><h3>📊 Structure</h3>'+st.map(function(s){
+    var v = d.structure[s[0]];
+    return '<div class="pt-bar"><span>'+s[1]+'</span><i><b style="width:'+(v * 20)+'%"></b></i><em>'+v+'/5</em></div>';
+  }).join("")+'</section>';
+  if (d.txt || d.accords || d.rachat) h += '<section class="dg-sec dg-note"><h3>💬 Avis</h3>'+(d.txt ? '<p class="dg-q">« '+esc(d.txt)+' »</p>' : '')+
+    (d.accords ? '<p><b>Accords</b> '+esc(d.accords)+'</p>' : '')+(d.rachat ? '<p><b>Je rachète</b> '+esc(d.rachat)+'</p>' : '')+'</section>';
+  h += '<div class="quick"><button class="bigbtn pri" type="button" data-pro="edit">✏️ Modifier</button><button class="bigbtn" type="button" data-pro="del">🗑️ Supprimer</button></div>';
+  return h;
+}
+DG_SCREENS.pro = proHome; DG_SCREENS.proWiz = proWizard; DG_SCREENS.proView = proView;
+
+function proGoStep(i){
+  proCollect();
+  if (i > 0 && !DG.pd.type) { toast("Choisis d’abord le type de boisson"); return; }
+  DG.ps = Math.max(0, Math.min(PRO_STEPS.length - 1, i));
+  dgRender(); $("dg").scrollTop = 0;
+}
+function proSaveEntry(){
+  proCollect();
+  var d = DG.pd;
+  if (!d.type) { DG.ps = 0; dgRender(); toast("Choisis le type de boisson"); return; }
+  if (!d.author) { toast("Choisis qui déguste"); return; }
+  if (DG_PEOPLE.indexOf(d.author) >= 0) DGS.me = d.author;
+  var old = d.id ? DGS.pro[d.id] || {} : {};
+  var e = JSON.parse(JSON.stringify(d));
+  e.id = d.id || dgId(); e.createdAt = old.createdAt || Date.now(); e.updatedAt = Date.now();
+  if (!e.photoData && old.photo) e.photo = old.photo;
+  DGS.proDraft = null;
+  dgPut("pro", e);
+  DG.proId = e.id; DG.back = [{screen:"pro"}]; DG.screen = "proView"; dgRender(); $("dg").scrollTop = 0;
+  toast("Dégustation enregistrée : " + dgFmt(e.score) + "/20");
+}
+function proOpen(){ dgReset("pro"); setView("degust"); }
+
+$("dg").addEventListener("click", function(e){
+  var b = e.target.closest("[data-pro]"); if (!b) return;
+  var act = b.getAttribute("data-pro");
+  if (act === "open") dgGo("pro", true);
+  else if (act === "new") { DG.pd = proNew(); DGS.proDraft = DG.pd; DG.ps = 0; DG.photo = null; dgGo("proWiz", true); }
+  else if (act === "resume") { DG.pd = DGS.proDraft; DG.ps = 0; DG.photo = null; dgGo("proWiz", true); }
+  else if (act === "type") { proCollect(); var t = b.getAttribute("data-v"); if (DG.pd.type !== t) { DG.pd.type = t; DG.pd.famille = ""; DG.pd.couleur = ""; } DGS.proDraft = DG.pd; dgSave(); dgRender(); }
+  else if (act === "next") proGoStep(DG.ps + 1);
+  else if (act === "prev") proGoStep(DG.ps - 1);
+  else if (act === "go") proGoStep(parseInt(b.getAttribute("data-i"), 10));
+  else if (act === "view") { DG.proId = b.getAttribute("data-id"); dgGo("proView", true); }
+  else if (act === "edit") { DG.pd = JSON.parse(JSON.stringify(DGS.pro[DG.proId])); DG.ps = 0; DG.photo = null; dgGo("proWiz", true); }
+  else if (act === "del") {
+    if (b.getAttribute("data-sure")) { dgRemove("pro", DG.proId); dgReset("pro"); dgRender(); toast("Dégustation supprimée"); }
+    else { b.setAttribute("data-sure", "1"); b.textContent = "Confirmer la suppression"; }
+  }
+});
+$("dg").addEventListener("submit", function(e){
+  if (e.target.id !== "proForm") return;
+  e.preventDefault();
+  if (DG.ps < PRO_STEPS.length - 1) proGoStep(DG.ps + 1); else proSaveEntry();
+}, true);
+$("dg").addEventListener("input", function(e){
+  var t = e.target;
+  if (t.hasAttribute("data-pw")) t.nextElementSibling.textContent = PRO_POWER[parseInt(t.value, 10) - 1];
+  else if (t.hasAttribute("data-st")) { var v = parseInt(t.value, 10); t.parentNode.querySelector(".psl b").textContent = v ? v + "/5" : "non évalué"; }
+});
+$("dg").addEventListener("toggle", function(e){ if (e.target.hasAttribute && e.target.hasAttribute("data-pro-adv")) DG.proAdv = e.target.open; }, true);
+
 setTimeout(dgSync, 1500);
 
 /* Démarrage de l’interface mobile */

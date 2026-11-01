@@ -49,13 +49,23 @@ var SHEETS = {
     row: function (o) {
       return [o.id, o.updatedAt, !!o.deleted, o.domName || "", o.paid || "", o.shipped || "", o.received || "", o.by || ""];
     }
+  },
+  pro: {
+    name: "Dégustations avancées",
+    cols: ["id", "updatedAt", "deleted", "type", "famille", "producteur", "nom", "millésime", "parcelle", "couleur",
+           "arômes", "saveurs", "dégustateur", "date", "note /20", "commentaire", "photo", "json"],
+    row: function (d) {
+      function fams(o) { return Object.keys(o || {}).map(function (k) { return k + " " + (o[k].p || "") + "/5" + (o[k].sub && o[k].sub.length ? " (" + o[k].sub.join(", ") + ")" : ""); }).join(" · "); }
+      return [d.id, d.updatedAt, !!d.deleted, d.type || "", d.famille || "", d.domName || "", d.nom || "", d.millesime || "", d.parcelle || "",
+              (d.couleur || "").split("|")[0], fams(d.aromes), fams(d.saveurs), d.author || "", d.date || "", d.score || "", d.txt || "", d.photo || ""];
+    }
   }
 };
 
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.token !== TOKEN) return out({ ok: false, error: "token" });
-  return out({ ok: true, bottles: readAll("bottle"), notes: readAll("note"), cart: readAll("cart"), orders: readAll("order"), now: Date.now() });
+  return out({ ok: true, bottles: readAll("bottle"), notes: readAll("note"), cart: readAll("cart"), orders: readAll("order"), pro: readAll("pro"), now: Date.now() });
 }
 
 function doPost(e) {
@@ -68,7 +78,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var item = body.item;
-    if (body.kind === "bottle" && body.photo) item.photo = savePhoto(item.id, body.photo);
+    if ((body.kind === "bottle" || body.kind === "pro") && body.photo) item.photo = savePhoto(item.id, body.photo);
     delete item.photoData;
     var sh = sheet(body.kind), def = SHEETS[body.kind];
     var current = findRow(sh, item.id);
@@ -144,6 +154,6 @@ function savePhoto(id, dataUrl) {
 
 /** À lancer une fois depuis l’éditeur pour accorder les autorisations et créer la Sheet. */
 function setup() {
-  sheet("bottle"); sheet("note"); sheet("cart"); sheet("order"); folder();
+  sheet("bottle"); sheet("note"); sheet("cart"); sheet("order"); sheet("pro"); folder();
   Logger.log("Sheet : " + ss().getUrl());
 }

@@ -1754,7 +1754,6 @@ var DG_AROMES = [
   ["Gourmand",["Miel","Beurre","Brioche","Vanille","Pain grillé","Caramel"]],
   ["Évolution",["Boisé","Sous-bois","Champignon","Cuir","Fumé"]]
 ];
-var DG_FILTERS = [["all","Tous"],["Riesling","Riesling"],["Gewurztraminer","Gewurz"],["Pinot Gris","Pinot Gris"],["rouge","Rouges et rosés"],["bulles","Crémants"],["doux","Moelleux et VT"]];
 
 function dgId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 function dgTrim(v){ return v == null ? "" : String(v).trim(); }
@@ -1774,6 +1773,10 @@ function dgNotesOf(bid){
 function dgAvg(bid){
   var ns = dgNotesOf(bid); if (!ns.length) return null;
   return ns.reduce(function(s, n){ return s + n.score; }, 0) / ns.length;
+}
+function dgNoteBy(bid, person){
+  var p = dgTrim(person).toLowerCase();
+  return dgNotesOf(bid).filter(function(n){ return dgTrim(n.author).toLowerCase() === p; })[0] || null;
 }
 function dgMyNote(bid){
   var me = DGS.me.toLowerCase();
@@ -1796,14 +1799,6 @@ function dgFmt(s){ return s == null ? "–" : (Math.round(s * 10) / 10).toString
 function dgCol(s){ return s == null ? "var(--muted)" : s >= 16 ? "var(--d1)" : s >= 13 ? "var(--d2)" : s >= 10 ? "var(--d4)" : "var(--d3)"; }
 function dgLbl(s){ return s < 8 ? "À oublier" : s < 11 ? "Bof" : s < 13 ? "Correct" : s < 15 ? "Bon" : s < 17 ? "Très bon" : s < 19 ? "Superbe" : "Légendaire"; }
 function dgPhoto(b){ return b.photoData || b.photo || ""; }
-function dgFilterOk(b, f){
-  var c = b.cepages || [];
-  if (f === "all") return true;
-  if (f === "rouge") return b.couleur === "Rouge" || b.couleur === "Rosé" || c.indexOf("Pinot Noir") >= 0;
-  if (f === "bulles") return b.couleur === "Effervescent" || b.appellation === "Crémant d’Alsace" || c.indexOf("Crémant") >= 0;
-  if (f === "doux") return ["Moelleux","Liquoreux","Vendanges Tardives","Sélection de Grains Nobles"].indexOf(b.style) >= 0;
-  return c.indexOf(f) >= 0;
-}
 
 /* Panier : une ligne par bouteille et par personne, regroupée par domaine */
 var DG_PEOPLE = ["Vivien","Rémi","Kevin","Ghislain"];
@@ -2007,15 +2002,15 @@ function dgTop(title, sub){
     '<div class="dg-tt"><h2>'+esc(title)+'</h2>'+(sub ? '<small>'+esc(sub)+'</small>' : '')+'</div>'+
     '<button class="dg-ic" type="button" data-dg="close" aria-label="Fermer les dégustations">✕</button></div>';
 }
-function dgCard(b, rank){
-  var avg = dgAvg(b.id), n = dgNotesOf(b.id).length, ph = dgPhoto(b);
+function dgCard(b, rank, own){
+  var avg = own ? own.score : dgAvg(b.id), n = dgNotesOf(b.id).length, ph = dgPhoto(b);
   var medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : rank ? rank + "." : "";
   return '<button class="dg-card" type="button" data-dg="bottle" data-id="'+esc(b.id)+'">'+
     (rank ? '<span class="dg-rank">'+medal+'</span>' : '')+
     '<span class="dg-thumb">'+(ph ? '<img src="'+esc(ph)+'" alt="" loading="lazy">' : '🍾')+'</span>'+
     '<span class="dg-ct"><b>'+esc(dgTitle(b))+'</b><small>'+esc(b.domName || "")+(b.millesime ? ' · '+esc(b.millesime) : '')+'</small>'+
     '<small>'+esc([(b.cepages || []).join(", "), b.couleur, b.style].filter(Boolean).join(" · "))+'</small></span>'+
-    '<span class="dg-score" style="--s:'+dgCol(avg)+'"><b>'+dgFmt(avg)+'</b><small>'+(n ? n + ' note' + (n > 1 ? 's' : '') : 'pas notée')+'</small></span></button>';
+    '<span class="dg-score" style="--s:'+dgCol(avg)+'"><b>'+dgFmt(avg)+'</b><small>'+(own ? 'moy. '+dgFmt(dgAvg(b.id)) : n ? n + ' note' + (n > 1 ? 's' : '') : 'pas notée')+'</small></span></button>';
 }
 function dgStatusHTML(){
   var n = DGS.queue.length;
@@ -2047,18 +2042,23 @@ function dgHome(){
   if (DG.tab === "cart") h += dgCart();
   else if (DG.tab === "doms") h += dgDomList();
   else if (DG.tab === "top") {
-    h += '<div class="dg-filters">'+DG_FILTERS.map(function(f){ return '<button class="chip" type="button" data-dg="filter" data-f="'+f[0]+'" aria-pressed="'+(DG.filter === f[0])+'">'+f[1]+'</button>'; }).join("")+'</div>';
-    var rows = all.filter(function(b){ return dgAvg(b.id) != null && dgFilterOk(b, DG.filter); })
-      .sort(function(a, b){ return dgAvg(b.id) - dgAvg(a.id) || dgNotesOf(b.id).length - dgNotesOf(a.id).length; });
-    h += rows.length ? '<div class="dg-list">'+rows.map(function(b, i){ return dgCard(b, i + 1); }).join("")+'</div>'
-                     : '<p class="dg-empty">Aucune bouteille notée'+(DG.filter !== "all" ? ' dans cette catégorie' : '')+' pour l’instant.</p>';
+    var who = DG_PEOPLE.indexOf(DG.filter) >= 0 ? DG.filter : "all";
+    h += '<div class="dg-filters">'+[["all","Tous (moyenne)"]].concat(DG_PEOPLE.map(function(p){ return [p, p]; })).map(function(f){
+      return '<button class="chip" type="button" data-dg="filter" data-f="'+esc(f[0])+'" aria-pressed="'+(who === f[0])+'">'+esc(f[1])+'</button>';
+    }).join("")+'</div>';
+    /* « Tous » : moyenne du groupe ; un prénom : uniquement ses propres notes */
+    var scoreOf = who === "all" ? function(b){ return dgAvg(b.id); } : function(b){ var n = dgNoteBy(b.id, who); return n ? n.score : null; };
+    var rows = all.filter(function(b){ return scoreOf(b) != null; })
+      .sort(function(a, b){ return scoreOf(b) - scoreOf(a) || dgNotesOf(b.id).length - dgNotesOf(a.id).length; });
+    h += rows.length ? '<div class="dg-list">'+rows.map(function(b, i){ return dgCard(b, i + 1, who === "all" ? null : dgNoteBy(b.id, who)); }).join("")+'</div>'
+                     : '<p class="dg-empty">'+(who === "all" ? 'Aucune bouteille notée pour l’instant.' : esc(who)+' n’a encore rien noté.')+'</p>';
     var doms = {};
-    rows.forEach(function(b){ var d = doms[b.dom] || (doms[b.dom] = {name:b.domName, sum:0, n:0}); d.sum += dgAvg(b.id); d.n++; });
+    rows.forEach(function(b){ var d = doms[b.dom] || (doms[b.dom] = {name:b.domName, sum:0, n:0}); d.sum += scoreOf(b); d.n++; });
     var dl = Object.keys(doms).map(function(k){ return doms[k]; }).sort(function(a, b){ return b.sum / b.n - a.sum / a.n; });
     if (dl.length > 1) {
-      h += '<h3 class="dg-h">Classement des domaines</h3><ol class="dg-doms">'+dl.map(function(d){
-        var s = d.sum / d.n;
-        return '<li><span>'+esc(d.name)+'<small>'+d.n+' bouteille'+(d.n > 1 ? 's' : '')+'</small></span><b style="color:'+dgCol(s)+'">'+dgFmt(s)+'</b></li>';
+      h += '<h3 class="dg-h">Classement des domaines'+(who === "all" ? '' : ' selon '+esc(who))+'</h3><ol class="dg-doms">'+dl.map(function(d){
+        var sc = d.sum / d.n;
+        return '<li><span>'+esc(d.name)+'<small>'+d.n+' bouteille'+(d.n > 1 ? 's' : '')+'</small></span><b style="color:'+dgCol(sc)+'">'+dgFmt(sc)+'</b></li>';
       }).join("")+'</ol>';
     }
   } else {
@@ -2284,7 +2284,10 @@ function dgSaveNote(f){
   var fd = new FormData(f), me = dgTrim(fd.get("author"));
   if (!me) { toast("Choisis qui déguste"); return; }
   DGS.me = me;
-  var old = (DG.edit && DGS.notes[DG.edit]) || dgMyNote(DG.bottle) || {}, id = old.id || dgId();
+  /* Une note par dégustateur : si on change de prénom, on ne touche pas à la note de l’autre */
+  var old = (DG.edit && DGS.notes[DG.edit]) || {};
+  if (dgTrim(old.author).toLowerCase() !== me.toLowerCase()) old = dgNoteBy(DG.bottle, me) || {};
+  var id = old.id || dgId();
   function g(k){ return dgTrim(fd.get(k)); }
   var n = {id:id, bottleId:DG.bottle, author:me, createdAt:old.createdAt || Date.now(), updatedAt:Date.now(),
     score:parseFloat(fd.get("score")) || 0,

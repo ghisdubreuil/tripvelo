@@ -550,6 +550,11 @@ html.dg-open .drunk{display:none!important}
 .dg-st,.dg-sx{grid-area:b;min-height:44px;padding:0 .8rem;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--text);font:700 .88rem var(--sans);white-space:nowrap}
 .dg-st{background:var(--hot);border-color:var(--hot);color:var(--cave)}
 .dg-sx{width:44px;padding:0}
+.dg-st:disabled,.dg-sx:disabled,.dg-date:disabled{opacity:.35}
+.dg-steps li.off .dg-sl{color:var(--muted)}
+.dg-sl small{display:block;font-weight:500;font-size:.78rem;color:var(--muted)}
+.dg-step.locked{gap:.4rem;padding:0 .4rem;color:var(--muted)}
+.dg-lock{margin:-.3rem 0 .6rem;padding:.45rem .65rem;border-radius:10px;background:var(--panel-2);color:var(--d2);font-size:.88rem;font-weight:700}
 @media (max-width:420px){ .dg-grid{grid-template-columns:minmax(0,1fr)} }
 
 /* ===== Mot de passe ===== */
@@ -1806,8 +1811,12 @@ function dgCartLines(){
     var b = DGS.bottles[c.bottleId]; return !c.deleted && c.qty > 0 && b && !b.deleted;
   });
 }
+/* Commande du domaine payée : les quantités de ses bouteilles sont figées */
+function dgLocked(bid){ var b = DGS.bottles[bid]; return !!(b && dgOrder(b.dom).paid); }
+function dgLockNote(dk){ var o = dgOrder(dk); return o.paid ? '🔒 Commande payée le '+dgDate(o.paid)+' : quantités figées' : ''; }
 function dgSetQty(bid, person, delta){
   var b = DGS.bottles[bid]; if (!b || DG_PEOPLE.indexOf(person) < 0) return;
+  if (dgLocked(bid)) { toast("Commande payée : quantités figées"); return; }
   var id = bid + "~" + person, old = DGS.cart[id] || {};
   dgPut("cart", {id:id, bottleId:bid, person:person, qty:Math.max(0, dgQty(bid, person) + delta), createdAt:old.createdAt || Date.now(), updatedAt:Date.now(),
     domName:b.domName, title:dgTitle(b) + (b.millesime ? " " + b.millesime : ""), prix:b.prix || ""});
@@ -1833,6 +1842,7 @@ function dgFab(){
 }
 function dgStepper(bid, person){
   var q = dgQty(bid, person);
+  if (dgLocked(bid)) return '<span class="dg-step locked" title="Commande payée"><span aria-hidden="true">🔒</span><b>'+q+'</b></span>';
   return '<span class="dg-step"><button type="button" data-dg="qty" data-id="'+esc(bid)+'" data-p="'+esc(person)+'" data-d="-1" aria-label="Retirer une bouteille pour '+esc(person)+'"'+(q ? '' : ' disabled')+'>−</button>'+
     '<b>'+q+'</b><button type="button" data-dg="qty" data-id="'+esc(bid)+'" data-p="'+esc(person)+'" data-d="1" aria-label="Ajouter une bouteille pour '+esc(person)+'">+</button></span>';
 }
@@ -1852,21 +1862,32 @@ function dgOrderState(dk){
   return cur ? {icon:cur[1], label:cur[2], date:o[cur[0]]} : null;
 }
 function dgSetOrder(dk, name, step, date){
+  var i = DG_STEPS.map(function(x){ return x[0]; }).indexOf(step), cur = dgOrder(dk);
+  var prev = i > 0 ? DG_STEPS[i - 1] : null, next = DG_STEPS[i + 1];
+  if (date && prev && !cur[prev[0]]) { toast("Indique d’abord : " + prev[2].toLowerCase()); return false; }
+  if (date && prev && date < cur[prev[0]]) { toast("Date avant « " + prev[2].toLowerCase() + " » (" + dgDate(cur[prev[0]]) + ")"); return false; }
+  if (!date && next && cur[next[0]]) { toast("Efface d’abord : " + next[2].toLowerCase()); return false; }
+  if (date && next && cur[next[0]] && date > cur[next[0]]) { toast("Date après « " + next[2].toLowerCase() + " » (" + dgDate(cur[next[0]]) + ")"); return false; }
   var old = DGS.orders[dk] || {}, o = {id:dk, dom:dk, domName:name, paid:old.paid || "", shipped:old.shipped || "", received:old.received || "",
     createdAt:old.createdAt || Date.now(), updatedAt:Date.now(), by:DGS.me};
   o[step] = date || "";
   dgPut("order", o);
+  return true;
 }
 function dgOrderHTML(dk, name){
   var o = dgOrder(dk), st = dgOrderState(dk);
   return '<div class="dg-order"><div class="dg-ordh"><b>Suivi de commande</b><span class="dg-ost'+(st ? ' on' : '')+'">'+
     (st ? st.icon+' '+esc(st.label)+' le '+dgDate(st.date) : '⏳ Pas encore commandé')+'</span></div><ol class="dg-steps">'+
-    DG_STEPS.map(function(sp){
+    DG_STEPS.map(function(sp, i){
       var v = o[sp[0]] || "", attrs = ' data-s="'+sp[0]+'" data-k="'+esc(dk)+'" data-n="'+esc(name)+'"';
-      return '<li class="'+(v ? 'done' : '')+'"><span class="dg-si">'+(v ? '✓' : sp[1])+'</span><span class="dg-sl">'+sp[2]+'</span>'+
-        '<input class="dg-inp dg-date" type="date" value="'+esc(v)+'" data-dgorder'+attrs+' aria-label="Date : '+sp[2]+' ('+esc(name)+')">'+
-        (v ? '<button type="button" class="dg-sx" data-dg="ordclear"'+attrs+' aria-label="Effacer : '+sp[2]+'">✕</button>'
-           : '<button type="button" class="dg-st" data-dg="ordset"'+attrs+'>Aujourd’hui</button>')+'</li>';
+      var prev = DG_STEPS[i - 1], next = DG_STEPS[i + 1];
+      var blocked = prev && !o[prev[0]], fixed = next && o[next[0]];   /* étape précédente manquante / étape suivante déjà saisie */
+      var lim = (prev && o[prev[0]] ? ' min="'+o[prev[0]]+'"' : '')+(next && o[next[0]] ? ' max="'+o[next[0]]+'"' : '');
+      return '<li class="'+(v ? 'done' : '')+(blocked ? ' off' : '')+'"><span class="dg-si">'+(v ? '✓' : sp[1])+'</span><span class="dg-sl">'+sp[2]+
+        (blocked ? '<small>après « '+prev[2].toLowerCase()+' »</small>' : '')+'</span>'+
+        '<input class="dg-inp dg-date" type="date" value="'+esc(v)+'"'+lim+(blocked ? ' disabled' : '')+' data-dgorder'+attrs+' aria-label="Date : '+sp[2]+' ('+esc(name)+')">'+
+        (v ? '<button type="button" class="dg-sx" data-dg="ordclear"'+attrs+(fixed ? ' disabled title="Efface d’abord l’étape suivante"' : '')+' aria-label="Effacer : '+sp[2]+'">✕</button>'
+           : '<button type="button" class="dg-st" data-dg="ordset"'+attrs+(blocked ? ' disabled' : '')+'>Aujourd’hui</button>')+'</li>';
     }).join("")+'</ol></div>';
 }
 /* Vue domaines : chaque domaine avec ses bouteilles, sa moyenne et ce qu’il y a au panier */
@@ -1895,7 +1916,7 @@ function dgCartEdit(){
     var bs = all.filter(function(b){ return b.dom === d.key; }); if (!bs.length) return;
     var n = 0, eur = 0, unk = false;
     bs.forEach(function(b){ var q = dgQty(b.id, who), pr = dgPrice(b); n += q; if (q) { if (pr == null) unk = true; else eur += pr * q; } });
-    h += '<section class="dg-sec"><h3>🍇 '+esc(d.name)+'</h3><p class="dg-sub">'+esc(who)+' : '+n+' bouteille'+(n > 1 ? 's' : '')+(n ? ' · '+dgEur(eur)+(unk ? ' + ?' : '') : '')+'</p>'+
+    h += '<section class="dg-sec"><h3>🍇 '+esc(d.name)+'</h3>'+(dgOrder(d.key).paid ? '<p class="dg-lock">'+dgLockNote(d.key)+'</p>' : '')+'<p class="dg-sub">'+esc(who)+' : '+n+' bouteille'+(n > 1 ? 's' : '')+(n ? ' · '+dgEur(eur)+(unk ? ' + ?' : '') : '')+'</p>'+
       bs.map(function(b){
         var pr = dgPrice(b);
         return '<div class="dg-line"><span class="dg-lt"><b>'+esc(dgTitle(b))+(b.millesime ? ' '+esc(b.millesime) : '')+'</b><small>'+(pr != null ? dgEur(pr) : 'prix ?')+'</small></span>'+dgStepper(b.id, who)+'</div>';
@@ -2120,7 +2141,7 @@ function dgBottle(){
   h += '<div class="dg-avg" style="--s:'+dgCol(avg)+'"><b>'+dgFmt(avg)+'<small>/20</small></b><span>'+(avg != null ? esc(dgLbl(avg))+' · moyenne de '+notes.length+' note'+(notes.length > 1 ? 's' : '') : 'Pas encore notée')+'</span></div>';
   h += '<div class="quick"><button class="bigbtn pri wide" type="button" data-dg="note">'+(mine ? '✏️ Modifier ma note ('+dgFmt(mine.score)+')' : '🍷 Noter ce vin')+'</button></div>';
   var pr = dgPrice(b), cq = DG_PEOPLE.reduce(function(s, p){ return s + dgQty(b.id, p); }, 0);
-  h += '<section class="dg-sec"><h3>🛒 Panier</h3><p class="dg-sub">'+(pr != null ? dgEur(pr)+' la bouteille' : 'Prix inconnu : ajoute-le dans la fiche pour les totaux')+(cq ? ' · '+cq+' au total' : '')+'</p>'+
+  h += '<section class="dg-sec"><h3>🛒 Panier</h3>'+(dgOrder(b.dom).paid ? '<p class="dg-lock">'+dgLockNote(b.dom)+'</p>' : '')+'<p class="dg-sub">'+(pr != null ? dgEur(pr)+' la bouteille' : 'Prix inconnu : ajoute-le dans la fiche pour les totaux')+(cq ? ' · '+cq+' au total' : '')+'</p>'+
     DG_PEOPLE.slice().sort(function(x, y){ return (y === DGS.me) - (x === DGS.me); }).map(function(p){
       var q = dgQty(b.id, p);
       return '<div class="dg-line'+(p === DGS.me ? ' me' : '')+'"><span class="dg-lt"><b>'+esc(p)+(p === DGS.me ? ' (moi)' : '')+'</b>'+(q && pr != null ? '<small>'+dgEur(pr * q)+'</small>' : '')+'</span>'+dgStepper(b.id, p)+'</div>';
@@ -2385,7 +2406,7 @@ $("dg").addEventListener("click", function(e){
   else if (act === "who") { DG.who = b.getAttribute("data-p"); dgRender(); }
   else if (act === "cartedit") { DG.cartEdit = true; DG.editWho = DG.who !== "all" ? DG.who : DG_PEOPLE.indexOf(DGS.me) >= 0 ? DGS.me : DG_PEOPLE[0]; dgRender(); $("dg").scrollTop = 0; }
   else if (act === "editwho") { DG.editWho = b.getAttribute("data-p"); dgRender(); }
-  else if (act === "ordset") { dgSetOrder(b.getAttribute("data-k"), b.getAttribute("data-n"), b.getAttribute("data-s"), todayKey()); dgRender(); toast("Statut enregistré"); }
+  else if (act === "ordset") { if (dgSetOrder(b.getAttribute("data-k"), b.getAttribute("data-n"), b.getAttribute("data-s"), todayKey())) { dgRender(); toast("Statut enregistré"); } }
   else if (act === "ordclear") { dgSetOrder(b.getAttribute("data-k"), b.getAttribute("data-n"), b.getAttribute("data-s"), ""); dgRender(); }
   else if (act === "cartdone") { DG.cartEdit = false; dgRender(); $("dg").scrollTop = 0; toast("Panier enregistré"); }
   else if (act === "qty") {
@@ -2435,7 +2456,10 @@ $("dg").addEventListener("change", function(e){
   if (t.matches(".dg-pills.one input") && t.checked) {
     Array.prototype.forEach.call(t.closest(".dg-pills").querySelectorAll("input"), function(i){ if (i !== t) i.checked = false; });
   }
-  if (t.hasAttribute("data-dgorder")) { dgSetOrder(t.getAttribute("data-k"), t.getAttribute("data-n"), t.getAttribute("data-s"), t.value); DG.redraw = true; return; }
+  if (t.hasAttribute("data-dgorder")) {
+    if (!dgSetOrder(t.getAttribute("data-k"), t.getAttribute("data-n"), t.getAttribute("data-s"), t.value)) t.value = (dgOrder(t.getAttribute("data-k"))[t.getAttribute("data-s")] || "");
+    DG.redraw = true; return;
+  }
   if (t.hasAttribute("data-dgphoto") && t.files && t.files[0]) {
     dgResize(t.files[0]).then(function(data){
       DG.photo = data; $("dgPhoto").innerHTML = '<img src="'+data+'" alt="Photo de la bouteille">';

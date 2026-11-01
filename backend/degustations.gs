@@ -7,7 +7,7 @@
  * Installation : voir backend/README.md
  */
 
-var TOKEN = "vinlo2026";               // doit être identique à DG_TOKEN dans index.html
+var TOKEN = "";   // mot de passe d’entrée du site : à renseigner uniquement dans l’éditeur Apps Script, jamais dans le dépôt
 var PHOTO_FOLDER = "Vinlo 2026 · Photos des bouteilles";
 
 var SHEETS = {

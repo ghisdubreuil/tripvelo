@@ -20,7 +20,7 @@ les mêmes notes et le même classement.
 6. Colle-la dans `index.html`, constante `DG_API` (tout le groupe en profite), ou dans
    l’app : **Dégust. > ⚙️ Réglages > Adresse du serveur** (pour ce téléphone seulement).
 
-Le jeton `TOKEN` du script doit rester identique à `DG_TOKEN` dans `index.html`.
+`TOKEN` est le mot de passe d’entrée du site : l’app l’envoie après connexion. Renseigne-le seulement dans l’éditeur Apps Script, pas dans le dépôt. Si tu changes le mot de passe, change aussi l’empreinte `PASS_HASH` dans `index.html` (SHA-256 du mot de passe).
 
 Après une modification du script : **Déployer > Gérer les déploiements > Modifier >
 Nouvelle version**, pour garder la même URL.

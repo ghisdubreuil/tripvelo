@@ -2579,26 +2579,38 @@ var PRO_ASPECT = {
   spiritueux:["Jambes lentes","Jambes rapides"]
 };
 var PRO_AROMES = [
-  ["fruite","🍓","Fruité",["Agrumes","Pomme","Poire","Pêche","Abricot","Fruits exotiques","Litchi","Fruits rouges","Fruits noirs","Fruits secs","Fruits confits"]],
-  ["floral","🌸","Floral",["Fleurs blanches","Acacia","Rose","Violette","Tilleul","Sureau"]],
-  ["vegetal","🌿","Végétal",["Herbe coupée","Foin","Poivron","Fougère","Menthe","Thé","Tabac"]],
-  ["epice","🌶️","Épicé",["Poivre","Cannelle","Clou de girofle","Vanille","Réglisse","Gingembre","Muscade"]],
-  ["boise","🪵","Boisé",["Chêne","Cèdre","Fumé","Toasté","Sous-bois","Résineux"]],
-  ["mineral","🪨","Minéral",["Pierre à fusil","Silex","Craie","Iodé","Hydrocarbure","Graphite"]],
-  ["fermentaire","🍞","Fermentaire",["Levure","Brioche","Pain","Beurre","Lacté","Fromage"]],
-  ["torrefie","☕","Torréfié",["Café","Cacao","Caramel","Grillé","Pain grillé","Moka"]],
-  ["cereale","🌾","Céréales et houblon",["Malt","Biscuit","Céréales","Houblon herbacé","Houblon résineux","Houblon agrumes"]],
-  ["gourmand","🍯","Gourmand",["Miel","Vanille","Nougat","Frangipane","Pâte d’amande"]],
-  ["animal","🐾","Animal",["Cuir","Musc","Gibier","Écurie"]],
-  ["chimique","⚗️","Chimique",["Soufre","Solvant","Vernis","Bouchonné","Oxydé","Acétique"]]
+  ["fruite","🍎","Fruité",["Agrumes","Pomme","Poire","Pêche","Abricot","Coing","Fruits exotiques","Litchi","Fruits rouges","Fruits noirs","Fruits secs","Fruits confits"]],
+  ["floral","🌸","Floral",["Fleurs blanches","Acacia","Rose","Violette","Tilleul","Sureau","Miel"]],
+  ["vegetal","🌿","Végétal",["Herbe coupée","Foin","Poivron","Fougère","Menthe","Thé","Houblon herbacé","Houblon résineux","Houblon agrumes"]],
+  ["mineral","💎","Minéral",["Pierre à fusil","Silex","Craie","Iodé","Hydrocarbure","Graphite"]],
+  ["lactique","🥛","Lactique",["Beurre","Crème","Lait","Yaourt","Fromage"]],
+  ["fermentaire","🍞","Fermentaire",["Levure","Brioche","Pain","Mie de pain","Malt","Céréales","Biscuit"]],
+  ["chimique","🧪","Chimique",["Soufre","Solvant","Vernis","Colle","Plastique","Médicinal"]],
+  ["boise","🪵","Boisé",["Chêne","Cèdre","Vanille","Toasté","Résineux","Fût neuf"]],
+  ["epice","🌶️","Épicé",["Poivre","Cannelle","Clou de girofle","Réglisse","Gingembre","Muscade","Anis"]],
+  ["empyreumatique","🔥","Empyreumatique",["Café","Cacao","Caramel","Grillé","Pain grillé","Fumé","Tabac"]],
+  ["animal","🦌","Animal",["Cuir","Musc","Gibier","Écurie","Fourrure"]],
+  ["sousbois","🍄","Sous-bois",["Champignon","Humus","Feuilles mortes","Truffe","Terre humide","Mousse"]],
+  ["oxydatif","🥜","Oxydatif",["Noix","Amande","Noisette","Pâte d’amande","Rancio","Curry","Pomme blette"]],
+  ["defauts","⚠️","Défauts",["Bouchonné","Moisi","Vinaigre","Œuf pourri","Oxydé","Brett"]]
 ];
+/* Anciennes familles de la première bêta, rangées dans les nouvelles pour ne rien perdre */
+var PRO_OLD_FAMS = {torrefie:"empyreumatique", cereale:"fermentaire", gourmand:"oxydatif"};
+function proFams(obj){
+  var out = {};
+  Object.keys(obj || {}).forEach(function(k){
+    var nk = PRO_OLD_FAMS[k] || k, c = obj[k], cur = out[nk];
+    out[nk] = cur ? {sub:cur.sub.concat(c.sub.filter(function(x){ return cur.sub.indexOf(x) < 0; })), p:Math.max(cur.p, c.p)} : {sub:(c.sub || []).slice(), p:c.p || 3};
+  });
+  return out;
+}
 var PRO_SAVEURS = [
   ["sucre","🍬","Sucré",["Léger","Mielleux","Sirupeux","Confit","Caramélisé"]],
   ["acide","🍋","Acide",["Frais","Vif","Citronné","Acidulé","Tranchant"]],
   ["amer","🌱","Amer",["Zeste","Houblon","Quinine","Cacao","Végétal"]],
   ["sale","🧂","Salé",["Salin","Iodé","Minéral"]],
-  ["umami","🍄","Umami",["Bouillon","Champignon","Sauce soja"]]
-].concat(PRO_AROMES.filter(function(f){ return ["fruite","floral","epice","boise","torrefie","gourmand"].indexOf(f[0]) >= 0; }));
+  ["umami","🍜","Umami",["Bouillon","Champignon","Sauce soja"]]
+].concat(PRO_AROMES.filter(function(f){ return ["fruite","floral","vegetal","mineral","lactique","boise","epice","empyreumatique"].indexOf(f[0]) >= 0; }));
 var PRO_POWER = ["Discret","Léger","Moyen","Marqué","Puissant"];
 var PRO_STRUCT = [
   ["acidite","Acidité","Molle","Tranchante"],["sucre","Sucre","Sec","Liquoreux"],["corps","Corps","Léger","Puissant"],
@@ -2648,9 +2660,9 @@ function proCollect(){
 
 /* Écrans de saisie */
 function proFam(pre, fam, cur){
-  var c = cur && cur[fam[0]], p = c ? c.p : 3;
+  var c = proFams(cur)[fam[0]], p = c ? c.p : 3;
   return '<div class="pf"><label class="pfh"><input type="checkbox" name="'+pre+'f_'+fam[0]+'" value="1"'+(c ? ' checked' : '')+'><span>'+fam[1]+' '+esc(fam[2])+'</span></label>'+
-    '<div class="pfp">'+dgPills(pre+'s_'+fam[0], fam[3], c ? c.sub : [], true)+
+    '<div class="pfp">'+dgPills(pre+'s_'+fam[0], fam[3].concat(c ? c.sub.filter(function(x){ return fam[3].indexOf(x) < 0; }) : []), c ? c.sub : [], true)+
     '<label class="pfr"><span>Puissance</span><input type="range" min="1" max="5" step="1" name="'+pre+'p_'+fam[0]+'" value="'+p+'" data-pw><output>'+PRO_POWER[p - 1]+'</output></label></div></div>';
 }
 function proStep(i){
@@ -2746,6 +2758,7 @@ function proHome(){
   return h;
 }
 function proFamText(obj, list){
+  obj = proFams(obj);
   return list.filter(function(f){ return obj && obj[f[0]]; }).map(function(f){
     var c = obj[f[0]];
     return '<p><b>'+f[1]+' '+esc(f[2])+'</b> '+PRO_POWER[(c.p || 3) - 1].toLowerCase()+(c.sub.length ? ' · '+esc(c.sub.join(", ")) : '')+'</p>';

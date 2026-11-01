@@ -55,7 +55,7 @@ var SHEETS = {
     cols: ["id", "updatedAt", "deleted", "type", "famille", "producteur", "nom", "millésime", "parcelle", "couleur",
            "arômes", "saveurs", "dégustateur", "date", "note /20", "commentaire", "photo", "json"],
     row: function (d) {
-      function fams(o) { return Object.keys(o || {}).map(function (k) { return k + " " + (o[k].p || "") + "/5" + (o[k].sub && o[k].sub.length ? " (" + o[k].sub.join(", ") + ")" : ""); }).join(" · "); }
+      function fams(o) { return Object.keys(o || {}).map(function (k) { var c = o[k]; return k + " " + (c.i != null ? c.i + "/10" : (c.p || "") + "/5") + (c.sub && c.sub.length ? " (" + c.sub.join(", ") + ")" : ""); }).join(" · "); }
       return [d.id, d.updatedAt, !!d.deleted, d.type || "", d.famille || "", d.domName || "", d.nom || "", d.millesime || "", d.parcelle || "",
               (d.couleur || "").split("|")[0], fams(d.aromes), fams(d.saveurs), d.author || "", d.date || "", d.score || "", d.txt || "", d.photo || ""];
     }

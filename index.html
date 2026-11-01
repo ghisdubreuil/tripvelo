@@ -554,6 +554,10 @@ html.dg-open .drunk{display:none!important}
 .dg-steps li.off .dg-sl{color:var(--muted)}
 .dg-sl small{display:block;font-weight:500;font-size:.78rem;color:var(--muted)}
 .dg-step.locked{gap:.4rem;padding:0 .4rem;color:var(--muted)}
+.dg-obadge{display:inline-block;margin:-.35rem 0 .6rem;padding:.35rem .7rem;border-radius:999px;font-size:.88rem;font-weight:800;background:var(--d1);color:var(--cave)}
+.dg-obadge.s-shipped{background:var(--d4)}
+.dg-obadge.s-received{background:var(--d2)}
+.dg-obadge+.dg-sub{margin-top:0}
 .dg-lock{margin:-.3rem 0 .6rem;padding:.45rem .65rem;border-radius:10px;background:var(--panel-2);color:var(--d2);font-size:.88rem;font-weight:700}
 @media (max-width:420px){ .dg-grid{grid-template-columns:minmax(0,1fr)} }
 
@@ -1861,6 +1865,13 @@ function dgOrderState(dk){
   DG_STEPS.forEach(function(st){ if (o[st[0]]) cur = st; });
   return cur ? {icon:cur[1], label:cur[2], date:o[cur[0]]} : null;
 }
+/* Statut de la commande affiché en tête de chaque domaine dans les vues panier */
+var DG_ORDER_LBL = {paid:"Commande payée", shipped:"Commande expédiée", received:"Commande réceptionnée"};
+function dgOrderBadge(dk){
+  var o = dgOrder(dk), k = null;
+  DG_STEPS.forEach(function(st){ if (o[st[0]]) k = st; });
+  return k ? '<p class="dg-obadge s-'+k[0]+'">'+k[1]+' '+DG_ORDER_LBL[k[0]]+' le '+dgDate(o[k[0]])+'</p>' : '';
+}
 function dgSetOrder(dk, name, step, date){
   var i = DG_STEPS.map(function(x){ return x[0]; }).indexOf(step), cur = dgOrder(dk);
   var prev = i > 0 ? DG_STEPS[i - 1] : null, next = DG_STEPS[i + 1];
@@ -1916,7 +1927,7 @@ function dgCartEdit(){
     var bs = all.filter(function(b){ return b.dom === d.key; }); if (!bs.length) return;
     var n = 0, eur = 0, unk = false;
     bs.forEach(function(b){ var q = dgQty(b.id, who), pr = dgPrice(b); n += q; if (q) { if (pr == null) unk = true; else eur += pr * q; } });
-    h += '<section class="dg-sec"><h3>🍇 '+esc(d.name)+'</h3>'+(dgOrder(d.key).paid ? '<p class="dg-lock">'+dgLockNote(d.key)+'</p>' : '')+'<p class="dg-sub">'+esc(who)+' : '+n+' bouteille'+(n > 1 ? 's' : '')+(n ? ' · '+dgEur(eur)+(unk ? ' + ?' : '') : '')+'</p>'+
+    h += '<section class="dg-sec"><h3>🍇 '+esc(d.name)+'</h3>'+dgOrderBadge(d.key)+(dgOrder(d.key).paid ? '<p class="dg-lock">🔒 Quantités figées</p>' : '')+'<p class="dg-sub">'+esc(who)+' : '+n+' bouteille'+(n > 1 ? 's' : '')+(n ? ' · '+dgEur(eur)+(unk ? ' + ?' : '') : '')+'</p>'+
       bs.map(function(b){
         var pr = dgPrice(b);
         return '<div class="dg-line"><span class="dg-lt"><b>'+esc(dgTitle(b))+(b.millesime ? ' '+esc(b.millesime) : '')+'</b><small>'+(pr != null ? dgEur(pr) : 'prix ?')+'</small></span>'+dgStepper(b.id, who)+'</div>';
@@ -1958,7 +1969,7 @@ function dgCart(){
   order.forEach(function(k){
     var d = doms[k], n = 0, eur = 0, unk = false;
     DG_PEOPLE.forEach(function(p){ var r = d.per[p]; if (r) { n += r.n; eur += r.eur; unk = unk || r.unk; } });
-    h += '<section class="dg-sec"><h3>🍇 '+esc(d.name)+'</h3><p class="dg-sub">'+n+' bouteille'+(n > 1 ? 's' : '')+' · '+money({eur:eur, unk:unk})+'</p>';
+    h += '<section class="dg-sec"><h3>🍇 '+esc(d.name)+'</h3>'+dgOrderBadge(k)+'<p class="dg-sub">'+n+' bouteille'+(n > 1 ? 's' : '')+' · '+money({eur:eur, unk:unk})+'</p>';
     h += d.ids.map(function(bid){
       var b = DGS.bottles[bid], pr = dgPrice(b), cs = d.bottles[bid], q = cs.reduce(function(s, c){ return s + c.qty; }, 0);
       return '<div class="dg-line"><button class="dg-lt" type="button" data-dg="bottle" data-id="'+esc(bid)+'"><b>'+esc(dgTitle(b))+(b.millesime ? ' '+esc(b.millesime) : '')+'</b>'+
